@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Narrador</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0b09;
+    --paper: #13110e;
+    --border: #2a2520;
+    --gold: #c8a96e;
+    --gold2: #8a6f3e;
+    --text: #e8e2d8;
+    --muted: #6a6258;
+    --red: #c0624a;
+    --green: #6a9e72;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  .app {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+  }
+
+  .header span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 24px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* API Key */
+  .key-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  input[type="password"], input[type="text"] {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input:focus { border-color: var(--gold2); }
+
+  .btn-sm {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-sm:hover { border-color: var(--gold2); color: var(--text); }
+  .btn-sm.saved { border-color: var(--green); color: var(--green); }
+
+  /* Voice selector */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .voice-wrap {
+    display: flex;
+    gap: 4px;
+  }
+
+  .voice-chip {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .voice-chip:hover { border-color: var(--gold2); color: var(--text); }
+  .voice-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(200,169,110,0.06); }
+
+  .preview-btn {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 8px 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .preview-btn:hover { border-color: var(--gold2); color: var(--gold); }
+  .preview-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Text area */
+  textarea {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 14px;
+    outline: none;
+    resize: vertical;
+    min-height: 200px;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus { border-color: var(--gold2); }
+  textarea::placeholder { color: var(--muted); font-style: italic; }
+
+  .char-count {
+    text-align: right;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* PDF upload */
+  .upload-zone {
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .upload-zone:hover { border-color: var(--gold2); color: var(--text); }
+  .upload-zone input { display: none; }
+
+  /* Generate button */
+  .btn-generate {
+    width: 100%;
+    background: var(--gold);
+    border: none;
+    border-radius: 8px;
+    color: #0c0b09;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .btn-generate:hover { opacity: 0.88; }
+  .btn-generate:active { transform: scale(0.99); }
+  .btn-generate:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* Progress */
+  .progress-wrap {
+    display: none;
+    margin-top: 16px;
+  }
+
+  .progress-bar-bg {
+    background: var(--border);
+    border-radius: 4px;
+    height: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-text {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* Player */
+  .player-wrap {
+    display: none;
+    margin-top: 20px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .player-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  audio {
+    width: 100%;
+    accent-color: var(--gold);
+    border-radius: 4px;
+  }
+
+  .download-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .download-btn:hover { border-color: var(--gold2); color: var(--text); }
+
+  /* Status */
+  .status {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    min-height: 16px;
+  }
+
+  .status.error { color: var(--red); }
+  .status.ok { color: var(--green); }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .tab {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .tab.active { border-color: var(--gold); color: var(--gold); }
+  .tab:hover:not(.active) { border-color: var(--gold2); color: var(--text); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Speed control */
+  .speed-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .speed-row label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  input[type="range"] {
+    flex: 1;
+    accent-color: var(--gold);
+    height: 3px;
+  }
+
+  .speed-val {
+    font-size: 11px;
+    color: var(--gold);
+    width: 30px;
+    text-align: right;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .generating { animation: pulse 1.5s ease infinite; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <h1>Narrador</h1>
+    <span>chirp 3 hd</span>
+  </div>
+
+  <!-- API Key -->
+  <div class="section">
+    <div class="section-label">API Key</div>
+    <div class="key-row">
+      <input type="password" id="apiKey" placeholder="AIzaSy..." autocomplete="off">
+      <button class="btn-sm" id="saveBtn" onclick="saveKey()">Guardar</button>
+    </div>
+  </div>
+
+  <!-- Voice -->
+  <div class="section">
+    <div class="section-label">Voz</div>
+    <div class="voice-grid" id="voiceGrid">
+      <!-- populated by JS -->
+    </div>
+    <div class="speed-row">
+      <label>Velocidad</label>
+      <input type="range" id="speedRange" min="0.7" max="1.4" step="0.05" value="1.0" oninput="document.getElementById('speedVal').textContent=this.value+'x'">
+      <span class="speed-val" id="speedVal">1.0x</span>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="section">
+    <div class="section-label">Contenido</div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('text', this)">Texto</button>
+      <button class="tab" onclick="switchTab('pdf', this)">PDF / TXT</button>
+    </div>
+
+    <div class="tab-content active" id="tab-text">
+      <textarea id="textInput" placeholder="Pegá acá el texto que querés escuchar..." oninput="updateCount()"></textarea>
+      <div class="char-count"><span id="charCount">0</span> caracteres</div>
+    </div>
+
+    <div class="tab-content" id="tab-pdf">
+      <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept=".txt,.md" onchange="loadFile(event)">
+        <div>📄 Tocá para cargar un archivo .txt o .md</div>
+        <div style="margin-top:6px;font-size:10px;opacity:0.6">(PDF próximamente)</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-generate" id="genBtn" onclick="generate()">▶ Generar Audio</button>
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">Preparando...</div>
+  </div>
+
+  <!-- Player -->
+  <div class="player-wrap" id="playerWrap">
+    <div class="player-title" id="playerTitle">—</div>
+    <audio id="audioPlayer" controls></audio>
+    <a class="download-btn" id="downloadBtn" href="#" download="narrador.mp3">⬇ Descargar MP3</a>
+  </div>
+
+  <div class="status" id="status"></div>
+
+</div>
+
+<script>
+// Voices
+const VOICES = [
+  'Achird','Achernar','Algenib','Algieba','Alnilam',
+  'Aoede','Callirrhoe','Charon','Despina','Enceladus',
+  'Fenrir','Gacrux','Iocaste','Kore','Laomedeia',
+  'Leda','Orus','Puck','Schedar','Sulafat',
+  'Umbriel','Vindemiatrix','Zubenelgenubi'
+];
+
+let selectedVoice = localStorage.getItem('voice') || 'Achird';
+
+const PREVIEW_TEXT = "Llegué tarde. Otra vez. Vi la luz apagada en su cuarto... y supe que se había dormido esperándome.";
+
+function buildVoiceGrid() {
+  const grid = document.getElementById('voiceGrid');
+  grid.innerHTML = '';
+  VOICES.forEach(v => {
+    const wrap = document.createElement('div');
+    wrap.className = 'voice-wrap';
+
+    const btn = document.createElement('button');
+    btn.className = 'voice-chip' + (v === selectedVoice ? ' active' : '');
+    btn.textContent = v;
+    btn.onclick = () => {
+      selectedVoice = v;
+      localStorage.setItem('voice', v);
+      document.querySelectorAll('.voice-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+
+    const prev = document.createElement('button');
+    prev.className = 'preview-btn';
+    prev.title = 'Escuchar preview';
+    prev.textContent = '▶';
+    prev.onclick = (e) => {
+      e.stopPropagation();
+      playPreview(v, prev);
+    };
+
+    wrap.appendChild(btn);
+    wrap.appendChild(prev);
+    grid.appendChild(wrap);
+  });
+}
+
+async function playPreview(voice, btnEl) {
+  const apiKey = document.getElementById('apiKey').value.trim() || localStorage.getItem('gcpKey');
+  if (!apiKey) { setStatus('Necesitás la API Key para escuchar previews', 'error'); return; }
+
+  const orig = btnEl.textContent;
+  btnEl.textContent = '…';
+  btnEl.disabled = true;
+
+  try {
+    const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${apiKey}`;
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: { text: PREVIEW_TEXT },
+        voice: { languageCode: 'es-US', name: `es-US-Chirp3-HD-${voice}` },
+        audioConfig: { audioEncoding: 'MP3', speakingRate: parseFloat(document.getElementById('speedRange').value) }
+      })
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json();
+      throw new Error(err.error?.message || `Error ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const binary = atob(data.audioContent);
+    const bytes = new Uint8Array(binary.length);
+    for (let j = 0; j < binary.length; j++) bytes[j] = binary.charCodeAt(j);
+    const blob = new Blob([bytes], { type: 'audio/mpeg' });
+    const audioUrl = URL.createObjectURL(blob);
+
+    if (window._previewAudio) { window._previewAudio.pause(); }
+    window._previewAudio = new Audio(audioUrl);
+    window._previewAudio.play();
+    setStatus(`Previewing: ${voice}`, 'ok');
+
+    window._previewAudio.onended = () => { btnEl.textContent = '▶'; btnEl.disabled = false; };
+  } catch(e) {
+    setStatus('Error: ' + e.message, 'error');
+    btnEl.textContent = '▶';
+    btnEl.disabled = false;
+  }
+}
+
+// Key persistence
+window.onload = () => {
+  buildVoiceGrid();
+  const saved = localStorage.getItem('gcpKey');
+  if (saved) {
+    document.getElementById('apiKey').value = saved;
+    document.getElementById('saveBtn').classList.add('saved');
+    document.getElementById('saveBtn').textContent = 'Guardada';
+  }
+};
+
+function saveKey() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) return;
+  localStorage.setItem('gcpKey', key);
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = 'Guardada';
+  btn.classList.add('saved');
+}
+
+function updateCount() {
+  document.getElementById('charCount').textContent = document.getElementById('textInput').value.length;
+}
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function loadFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    switchTab('text', document.querySelectorAll('.tab')[0]);
+    document.querySelectorAll('.tab')[0].classList.add('active');
+    document.getElementById('textInput').value = ev.target.result;
+    updateCount();
+    setStatus('Archivo cargado: ' + file.name, 'ok');
+  };
+  reader.readAsText(file);
+}
+
+function setStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + (type || '');
+}
+
+function setProgress(pct, msg) {
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = msg;
+}
+
+function cleanMarkdown(text) {
+  return text
+    .replace(/^#{1,6}\s+/gm, '')           // ## Títulos
+    .replace(/^---+$/gm, '')               // --- separadores
+    .replace(/^\*{3,}$/gm, '')             // *** separadores
+    .replace(/\*\*(.+?)\*\*/g, '$1')       // **negrita**
+    .replace(/\*(.+?)\*/g, '$1')           // *itálica*
+    .replace(/^>\s+/gm, '')               // > citas
+    .replace(/^[-*+]\s+/gm, '')           // - listas
+    .replace(/^\d+\.\s+/gm, '')           // 1. listas numeradas
+    .replace(/`{1,3}[^`]*`{1,3}/g, '')    // `código`
+    .replace(/\[(.+?)\]\(.+?\)/g, '$1')   // [links](url)
+    .replace(/\n{3,}/g, '\n\n')           // múltiples líneas vacías
+    .trim();
+}
+
+function splitText(text, maxBytes = 3800) {
+  const chunks = [];
+  const paragraphs = text.split(/\n\n+/);
+  let current = '';
+  for (const para of paragraphs) {
+    const candidate = current ? current + '\n\n' + para : para;
+    if (new TextEncoder().encode(candidate).length > maxBytes) {
+      if (current) chunks.push(current.trim());
+      current = para;
+    } else {
+      current = candidate;
+    }
+  }
+  if (current) chunks.push(current.trim());
+  return chunks;
+}
+
+async function generate() {
+  const apiKey = document.getElementById('apiKey').value.trim() || localStorage.getItem('gcpKey');
+  const text = document.getElementById('textInput').value.trim();
+  const speed = parseFloat(document.getElementById('speedRange').value);
+
+  if (!apiKey) { setStatus('Ingresá tu API Key de Google Cloud', 'error'); return; }
+  if (!text) { setStatus('Escribí o pegá algún texto', 'error'); return; }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.textContent = 'Generando...';
+  btn.classList.add('generating');
+
+  const progressWrap = document.getElementById('progressWrap');
+  progressWrap.style.display = 'block';
+  document.getElementById('playerWrap').style.display = 'none';
+  setStatus('');
+
+  const cleanText = cleanMarkdown(text);
+  const chunks = splitText(cleanText);
+  const audioParts = [];
+
+  const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${apiKey}`;
+  const voiceName = `es-US-Chirp3-HD-${selectedVoice}`;
+
+  for (let i = 0; i < chunks.length; i++) {
+    setProgress(Math.round((i / chunks.length) * 90), `Parte ${i+1} de ${chunks.length}...`);
+
+    try {
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          input: { text: chunks[i] },
+          voice: { languageCode: 'es-US', name: voiceName },
+          audioConfig: { audioEncoding: 'MP3', speakingRate: speed }
+        })
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json();
+        throw new Error(err.error?.message || `Error ${resp.status}`);
+      }
+
+      const data = await resp.json();
+      const binary = atob(data.audioContent);
+      const bytes = new Uint8Array(binary.length);
+      for (let j = 0; j < binary.length; j++) bytes[j] = binary.charCodeAt(j);
+      audioParts.push(bytes);
+
+    } catch(e) {
+      setStatus('Error: ' + e.message, 'error');
+      btn.disabled = false;
+      btn.textContent = '▶ Generar Audio';
+      btn.classList.remove('generating');
+      progressWrap.style.display = 'none';
+      return;
+    }
+  }
+
+  setProgress(95, 'Uniendo partes...');
+
+  // Concatenate all MP3 bytes
+  const totalLength = audioParts.reduce((acc, p) => acc + p.length, 0);
+  const combined = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const part of audioParts) {
+    combined.set(part, offset);
+    offset += part.length;
+  }
+
+  const blob = new Blob([combined], { type: 'audio/mpeg' });
+  const url2 = URL.createObjectURL(blob);
+
+  const audio = document.getElementById('audioPlayer');
+  audio.src = url2;
+
+  const dl = document.getElementById('downloadBtn');
+  dl.href = url2;
+
+  // Title from first line
+  const firstLine = text.split('\n')[0].substring(0, 50);
+  document.getElementById('playerTitle').textContent = firstLine || 'Audio generado';
+
+  setProgress(100, 'Listo');
+  setTimeout(() => { progressWrap.style.display = 'none'; }, 800);
+
+  document.getElementById('playerWrap').style.display = 'block';
+  audio.play();
+
+  btn.disabled = false;
+  btn.textContent = '▶ Generar Audio';
+  btn.classList.remove('generating');
+  setStatus(`✓ ${chunks.length} parte${chunks.length > 1 ? 's' : ''} generadas — voz: ${selectedVoice}`, 'ok');
+}
+</script>
+</body>
+</html>
