@@ -495,6 +495,12 @@
         </select>
         <button class="btn-claude" id="claudeBtn" onclick="generateWithClaude()">✦ Generar texto</button>
       </div>
+      <div class="progress-wrap" id="iaProgressWrap" style="display:none">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="iaProgressFill"></div>
+        </div>
+        <div class="progress-text" id="iaProgressText">Preparando...</div>
+      </div>
     </div>
 
     <div class="tab-content active" id="tab-text">
@@ -744,6 +750,20 @@ function splitText(text, maxBytes = 3800) {
   return chunks;
 }
 
+let _wakeLock = null;
+async function acquireWakeLock() {
+  try {
+    if ('wakeLock' in navigator) _wakeLock = await navigator.wakeLock.request('screen');
+  } catch(e) {}
+}
+async function releaseWakeLock() {
+  try { if (_wakeLock) { await _wakeLock.release(); _wakeLock = null; } } catch(e) {}
+}
+
+// Estimación de target: 1 token ≈ 3.5 chars. Apuntamos al 90% del max_tokens para tener margen.
+// Ese target se usa solo para dibujar la barra; si se pasa se cappea en 90%.
+const TARGET_CHARS = Math.round(16000 * 3.5 * 0.9);
+
 async function generateWithClaude() {
   const key = document.getElementById('anthropicKey').value.trim() || localStorage.getItem('anthropicKey');
   const prompt = document.getElementById('promptInput').value.trim();
@@ -757,13 +777,31 @@ async function generateWithClaude() {
   btn.textContent = '✦ Escribiendo...';
   btn.classList.add('generating');
 
-  const textTab = document.querySelector('.tab[data-tab="text"]');
-  if (textTab) switchTab('text', textTab);
+  const progWrap = document.getElementById('iaProgressWrap');
+  const progFill = document.getElementById('iaProgressFill');
+  const progText = document.getElementById('iaProgressText');
+  progWrap.style.display = 'block';
+  progFill.style.width = '0%';
+  progText.textContent = 'Conectando con Claude...';
+  setStatus('');
 
-  const textarea = document.getElementById('textInput');
-  textarea.value = '';
-  updateCount();
-  setStatus('Claude está escribiendo en tiempo real...', 'ok');
+  await acquireWakeLock();
+
+  // Buffer en memoria — no mostramos el texto hasta el final para evitar spoilers.
+  let fullText = '';
+  let charsWritten = 0;
+  const t0 = Date.now();
+  let lastChunkAt = Date.now();
+
+  // Watchdog: si pasan 45s sin recibir nada, cancelamos con mensaje claro.
+  const controller = new AbortController();
+  const watchdog = setInterval(() => {
+    const gap = Date.now() - lastChunkAt;
+    if (gap > 45000) {
+      clearInterval(watchdog);
+      controller.abort();
+    }
+  }, 3000);
 
   const body = {
     model: model,
@@ -776,6 +814,7 @@ async function generateWithClaude() {
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': key,
@@ -794,11 +833,11 @@ async function generateWithClaude() {
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
-    let charsWritten = 0;
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
+      lastChunkAt = Date.now();
       buffer += decoder.decode(value, { stream: true });
 
       const lines = buffer.split('\n');
@@ -811,12 +850,13 @@ async function generateWithClaude() {
         try {
           const evt = JSON.parse(data);
           if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
-            textarea.value += evt.delta.text;
+            fullText += evt.delta.text;
             charsWritten += evt.delta.text.length;
-            updateCount();
-            textarea.scrollTop = textarea.scrollHeight;
-          } else if (evt.type === 'message_stop') {
-            // fin
+            // Barra: pct = min(chars/TARGET, 0.9). Se remata al 100% cuando termina.
+            const pct = Math.min(charsWritten / TARGET_CHARS, 0.9);
+            progFill.style.width = (pct * 100).toFixed(1) + '%';
+            const elapsed = Math.round((Date.now() - t0) / 1000);
+            progText.textContent = `Generando… ${charsWritten.toLocaleString('es')} caracteres · ${elapsed}s`;
           } else if (evt.type === 'error') {
             throw new Error(evt.error?.message || 'Error de stream');
           }
@@ -826,10 +866,35 @@ async function generateWithClaude() {
       }
     }
 
-    setStatus(`✓ ${charsWritten.toLocaleString('es')} caracteres generados — revisá y tocá "Generar Audio"`, 'ok');
+    clearInterval(watchdog);
+    progFill.style.width = '100%';
+    progText.textContent = `Listo · ${charsWritten.toLocaleString('es')} caracteres en ${Math.round((Date.now()-t0)/1000)}s`;
+
+    // Recién acá mostramos el texto completo y cambiamos al tab Texto.
+    const textarea = document.getElementById('textInput');
+    textarea.value = fullText;
+    updateCount();
+    const textTab = document.querySelector('.tab[data-tab="text"]');
+    if (textTab) switchTab('text', textTab);
+
+    setStatus(`✓ Texto generado — revisá y tocá "Generar Audio"`, 'ok');
+    setTimeout(() => { progWrap.style.display = 'none'; }, 1200);
   } catch(e) {
-    setStatus('Error con Claude: ' + e.message, 'error');
+    clearInterval(watchdog);
+    const aborted = e.name === 'AbortError';
+    const msg = aborted
+      ? 'Claude dejó de responder (timeout 45s). Probá de nuevo y no cambies de pestaña mientras genera.'
+      : 'Error con Claude: ' + e.message;
+    setStatus(msg, 'error');
+    progText.textContent = aborted ? 'Timeout — reintentá' : 'Error';
+    if (fullText.length > 100) {
+      // Rescatamos lo que alcanzó a generar.
+      document.getElementById('textInput').value = fullText;
+      updateCount();
+      setStatus(msg + ' (texto parcial cargado)', 'error');
+    }
   } finally {
+    await releaseWakeLock();
     btn.disabled = false;
     btn.textContent = '✦ Generar texto';
     btn.classList.remove('generating');
