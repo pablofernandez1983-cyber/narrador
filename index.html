@@ -134,6 +134,52 @@
   .btn-sm:hover { border-color: var(--gold2); color: var(--text); }
   .btn-sm.saved { border-color: var(--green); color: var(--green); }
 
+  .key-row + .key-row { margin-top: 6px; }
+
+  .model-select {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  .model-select:focus { border-color: var(--gold2); }
+
+  .ia-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: stretch;
+  }
+  .ia-row .btn-sm { flex: 1; }
+
+  .btn-claude {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--gold2);
+    border-radius: 6px;
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-claude:hover { background: rgba(200,169,110,0.08); }
+  .btn-claude:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .player-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .player-buttons .download-btn { margin-top: 0; flex: 1; }
+
   /* Voice selector */
   .voice-grid {
     display: grid;
@@ -404,12 +450,16 @@
     <span>chirp 3 hd</span>
   </div>
 
-  <!-- API Key -->
+  <!-- Claves -->
   <div class="section">
-    <div class="section-label">API Key</div>
+    <div class="section-label">Claves</div>
     <div class="key-row">
-      <input type="password" id="apiKey" placeholder="AIzaSy..." autocomplete="off">
-      <button class="btn-sm" id="saveBtn" onclick="saveKey()">Guardar</button>
+      <input type="password" id="apiKey" placeholder="Google TTS: AIzaSy..." autocomplete="off">
+      <button class="btn-sm" id="saveBtn" onclick="saveKey()">TTS</button>
+    </div>
+    <div class="key-row">
+      <input type="password" id="anthropicKey" placeholder="Claude: sk-ant-..." autocomplete="off">
+      <button class="btn-sm" id="saveAnthropicBtn" onclick="saveAnthropicKey()">IA</button>
     </div>
   </div>
 
@@ -430,8 +480,21 @@
   <div class="section">
     <div class="section-label">Contenido</div>
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('text', this)">Texto</button>
-      <button class="tab" onclick="switchTab('pdf', this)">PDF / TXT</button>
+      <button class="tab" data-tab="ia" onclick="switchTab('ia', this)">✦ IA</button>
+      <button class="tab active" data-tab="text" onclick="switchTab('text', this)">Texto</button>
+      <button class="tab" data-tab="pdf" onclick="switchTab('pdf', this)">PDF / TXT</button>
+    </div>
+
+    <div class="tab-content" id="tab-ia">
+      <textarea id="promptInput" placeholder="Pedile a Claude lo que querés escuchar. Ej: haceme un podcast de 30 min sobre la historia del tango, con anécdotas y detalles de los barrios..." style="min-height:120px"></textarea>
+      <div class="ia-row">
+        <select class="model-select" id="modelSelect">
+          <option value="claude-haiku-4-5">Haiku 4.5 (rápido)</option>
+          <option value="claude-sonnet-4-6">Sonnet 4.6</option>
+          <option value="claude-opus-4-7">Opus 4.7</option>
+        </select>
+        <button class="btn-claude" id="claudeBtn" onclick="generateWithClaude()">✦ Generar texto</button>
+      </div>
     </div>
 
     <div class="tab-content active" id="tab-text">
@@ -462,7 +525,10 @@
   <div class="player-wrap" id="playerWrap">
     <div class="player-title" id="playerTitle">—</div>
     <audio id="audioPlayer" controls></audio>
-    <a class="download-btn" id="downloadBtn" href="#" download="narrador.mp3">⬇ Descargar MP3</a>
+    <div class="player-buttons">
+      <a class="download-btn" id="downloadBtn" href="#" download="narrador.mp3">⬇ Descargar</a>
+      <button class="download-btn" id="shareBtn" onclick="shareAudio()" style="display:none;cursor:pointer">⇪ Compartir</button>
+    </div>
   </div>
 
   <div class="status" id="status"></div>
@@ -563,11 +629,31 @@ async function playPreview(voice, btnEl) {
 // Key persistence
 window.onload = () => {
   buildVoiceGrid();
-  const saved = localStorage.getItem('gcpKey');
-  if (saved) {
-    document.getElementById('apiKey').value = saved;
-    document.getElementById('saveBtn').classList.add('saved');
-    document.getElementById('saveBtn').textContent = 'Guardada';
+
+  const savedGcp = localStorage.getItem('gcpKey');
+  if (savedGcp) {
+    document.getElementById('apiKey').value = savedGcp;
+    const btn = document.getElementById('saveBtn');
+    btn.classList.add('saved');
+    btn.textContent = '✓ TTS';
+  }
+
+  const savedAnt = localStorage.getItem('anthropicKey');
+  if (savedAnt) {
+    document.getElementById('anthropicKey').value = savedAnt;
+    const btn = document.getElementById('saveAnthropicBtn');
+    btn.classList.add('saved');
+    btn.textContent = '✓ IA';
+  }
+
+  const savedModel = localStorage.getItem('claudeModel');
+  if (savedModel) document.getElementById('modelSelect').value = savedModel;
+  document.getElementById('modelSelect').addEventListener('change', e => {
+    localStorage.setItem('claudeModel', e.target.value);
+  });
+
+  if (navigator.share) {
+    document.getElementById('shareBtn').style.display = 'block';
   }
 };
 
@@ -576,7 +662,16 @@ function saveKey() {
   if (!key) return;
   localStorage.setItem('gcpKey', key);
   const btn = document.getElementById('saveBtn');
-  btn.textContent = 'Guardada';
+  btn.textContent = '✓ TTS';
+  btn.classList.add('saved');
+}
+
+function saveAnthropicKey() {
+  const key = document.getElementById('anthropicKey').value.trim();
+  if (!key) return;
+  localStorage.setItem('anthropicKey', key);
+  const btn = document.getElementById('saveAnthropicBtn');
+  btn.textContent = '✓ IA';
   btn.classList.add('saved');
 }
 
@@ -647,6 +742,120 @@ function splitText(text, maxBytes = 3800) {
   }
   if (current) chunks.push(current.trim());
   return chunks;
+}
+
+async function generateWithClaude() {
+  const key = document.getElementById('anthropicKey').value.trim() || localStorage.getItem('anthropicKey');
+  const prompt = document.getElementById('promptInput').value.trim();
+  const model = document.getElementById('modelSelect').value;
+
+  if (!key) { setStatus('Ingresá tu API Key de Claude (sk-ant-...)', 'error'); return; }
+  if (!prompt) { setStatus('Escribí qué querés que Claude escriba', 'error'); return; }
+
+  const btn = document.getElementById('claudeBtn');
+  btn.disabled = true;
+  btn.textContent = '✦ Escribiendo...';
+  btn.classList.add('generating');
+
+  const textTab = document.querySelector('.tab[data-tab="text"]');
+  if (textTab) switchTab('text', textTab);
+
+  const textarea = document.getElementById('textInput');
+  textarea.value = '';
+  updateCount();
+  setStatus('Claude está escribiendo en tiempo real...', 'ok');
+
+  const body = {
+    model: model,
+    max_tokens: 16000,
+    stream: true,
+    system: 'Sos un guionista que escribe contenido para ser narrado en audio en español rioplatense. Respondé SIEMPRE con texto limpio listo para leer en voz alta: sin títulos, sin encabezados tipo "Introducción", sin markdown, sin listas con viñetas, sin meta-comentarios tipo "aquí tienes" o "espero que te guste". Solo párrafos naturales separados por líneas en blanco, con tono conversacional y fluido.',
+    messages: [{ role: 'user', content: prompt }]
+  };
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!resp.ok) {
+      let msg = `Error ${resp.status}`;
+      try { const err = await resp.json(); msg = err.error?.message || msg; } catch(e) {}
+      throw new Error(msg);
+    }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let charsWritten = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const evt = JSON.parse(data);
+          if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+            textarea.value += evt.delta.text;
+            charsWritten += evt.delta.text.length;
+            updateCount();
+            textarea.scrollTop = textarea.scrollHeight;
+          } else if (evt.type === 'message_stop') {
+            // fin
+          } else if (evt.type === 'error') {
+            throw new Error(evt.error?.message || 'Error de stream');
+          }
+        } catch(e) {
+          if (e.message && !e.message.includes('JSON')) throw e;
+        }
+      }
+    }
+
+    setStatus(`✓ ${charsWritten.toLocaleString('es')} caracteres generados — revisá y tocá "Generar Audio"`, 'ok');
+  } catch(e) {
+    setStatus('Error con Claude: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✦ Generar texto';
+    btn.classList.remove('generating');
+  }
+}
+
+async function shareAudio() {
+  const audio = document.getElementById('audioPlayer');
+  if (!audio.src) return;
+
+  try {
+    const blob = await (await fetch(audio.src)).blob();
+    const titleRaw = document.getElementById('playerTitle').textContent || 'narrador';
+    const filename = titleRaw.replace(/[^\w\s-]/g, '').trim().slice(0, 40).replace(/\s+/g, '_').toLowerCase() + '.mp3' || 'narrador.mp3';
+    const file = new File([blob], filename, { type: 'audio/mpeg' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename });
+    } else if (navigator.share) {
+      await navigator.share({ title: filename, text: 'Audio generado con Narrador' });
+    } else {
+      setStatus('Compartir no disponible en este navegador', 'error');
+    }
+  } catch(e) {
+    if (e.name !== 'AbortError') setStatus('Error al compartir: ' + e.message, 'error');
+  }
 }
 
 async function generate() {
