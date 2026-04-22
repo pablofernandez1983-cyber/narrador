@@ -180,6 +180,19 @@
   }
   .player-buttons .download-btn { margin-top: 0; flex: 1; }
 
+  .search-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .search-toggle input { accent-color: var(--gold); cursor: pointer; }
+  .search-toggle:hover { color: var(--text); }
+
   /* Voice selector */
   .voice-grid {
     display: grid;
@@ -487,6 +500,10 @@
 
     <div class="tab-content" id="tab-ia">
       <textarea id="promptInput" placeholder="Pedile a Claude lo que querés escuchar. Ej: haceme un podcast de 30 min sobre la historia del tango, con anécdotas y detalles de los barrios..." style="min-height:120px"></textarea>
+      <label class="search-toggle">
+        <input type="checkbox" id="webSearchToggle">
+        <span>🔎 Investigar en la web (temas de actualidad)</span>
+      </label>
       <div class="ia-row">
         <select class="model-select" id="modelSelect">
           <option value="claude-haiku-4-5">Haiku 4.5 (rápido)</option>
@@ -658,6 +675,12 @@ window.onload = () => {
     localStorage.setItem('claudeModel', e.target.value);
   });
 
+  const savedSearch = localStorage.getItem('webSearch') === '1';
+  document.getElementById('webSearchToggle').checked = savedSearch;
+  document.getElementById('webSearchToggle').addEventListener('change', e => {
+    localStorage.setItem('webSearch', e.target.checked ? '1' : '0');
+  });
+
   if (navigator.share) {
     document.getElementById('shareBtn').style.display = 'block';
   }
@@ -781,7 +804,9 @@ async function generateWithClaude() {
   const progText = document.getElementById('iaProgressText');
   progWrap.style.display = 'block';
   progFill.style.width = '0%';
-  progText.textContent = 'Conectando con Claude...';
+  progText.textContent = document.getElementById('webSearchToggle').checked
+    ? 'Investigando en la web...'
+    : 'Conectando con Claude...';
   setStatus('');
 
   await acquireWakeLock();
@@ -792,15 +817,19 @@ async function generateWithClaude() {
   const t0 = Date.now();
   let lastChunkAt = Date.now();
 
-  // Watchdog: si pasan 45s sin recibir nada, cancelamos con mensaje claro.
+  // Watchdog: si pasan N seg sin recibir nada, cancelamos con mensaje claro.
+  // Más tolerante con web search porque puede quedar silencioso mientras busca.
+  const watchdogTimeout = document.getElementById('webSearchToggle').checked ? 90000 : 45000;
   const controller = new AbortController();
   const watchdog = setInterval(() => {
     const gap = Date.now() - lastChunkAt;
-    if (gap > 45000) {
+    if (gap > watchdogTimeout) {
       clearInterval(watchdog);
       controller.abort();
     }
   }, 3000);
+
+  let searchCount = 0;
 
   // Detectar duración pedida y calcular target de palabras (155 wpm para Chirp 3 HD en español)
   const durMatch = prompt.match(/(\d+(?:[.,]\d+)?)\s*(h|hs|hora|horas|min|mins|minuto|minutos)\b/i);
@@ -819,13 +848,19 @@ async function generateWithClaude() {
   // Target de la barra: si hay duración pedida, apuntamos a ~6 chars por palabra target.
   const barTarget = wordTarget ? wordTarget * 6 : DEFAULT_TARGET_CHARS;
 
+  const webSearch = document.getElementById('webSearchToggle').checked;
+
   const body = {
     model: model,
     max_tokens: 32000,
     stream: true,
-    system: 'Sos un guionista que escribe contenido para ser narrado en audio en español rioplatense. Respondé SIEMPRE con texto limpio listo para leer en voz alta: sin títulos, sin encabezados tipo "Introducción", sin markdown, sin listas con viñetas, sin meta-comentarios tipo "aquí tienes" o "espero que te guste". Solo párrafos naturales separados por líneas en blanco, con tono conversacional y fluido. Cuando el usuario pida una duración específica en minutos u horas, calculá el largo a ~155 palabras por minuto narradas y cumplilo — es mejor pasarse un poco que quedar corto.',
+    system: 'Sos un guionista que escribe contenido para ser narrado en audio en español rioplatense. Respondé SIEMPRE con texto limpio listo para leer en voz alta: sin títulos, sin encabezados tipo "Introducción", sin markdown, sin listas con viñetas, sin meta-comentarios tipo "aquí tienes" o "espero que te guste", sin citas tipo "[1]" ni URLs pegadas en el medio del texto. Solo párrafos naturales separados por líneas en blanco, con tono conversacional y fluido. Cuando el usuario pida una duración específica en minutos u horas, calculá el largo a ~155 palabras por minuto narradas y cumplilo — es mejor pasarse un poco que quedar corto.',
     messages: [{ role: 'user', content: userContent }]
   };
+
+  if (webSearch) {
+    body.tools = [{ type: 'web_search_20250305', name: 'web_search', max_uses: 6 }];
+  }
 
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -865,7 +900,12 @@ async function generateWithClaude() {
         if (data === '[DONE]') continue;
         try {
           const evt = JSON.parse(data);
-          if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+          if (evt.type === 'content_block_start' && evt.content_block?.type === 'server_tool_use' && evt.content_block?.name === 'web_search') {
+            searchCount++;
+            progText.textContent = `🔎 Buscando en la web (${searchCount})...`;
+          } else if (evt.type === 'content_block_start' && evt.content_block?.type === 'web_search_tool_result') {
+            progText.textContent = `✓ ${searchCount} búsqueda${searchCount > 1 ? 's' : ''} · procesando resultados...`;
+          } else if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
             fullText += evt.delta.text;
             charsWritten += evt.delta.text.length;
             // Barra: pct = min(chars/barTarget, 0.95). Se remata al 100% cuando termina.
@@ -874,7 +914,8 @@ async function generateWithClaude() {
             const elapsed = Math.round((Date.now() - t0) / 1000);
             const words = Math.round(charsWritten / 6);
             const wordInfo = wordTarget ? ` / ${wordTarget.toLocaleString('es')}` : '';
-            progText.textContent = `Generando · ${words.toLocaleString('es')}${wordInfo} palabras · ${elapsed}s`;
+            const searchInfo = searchCount > 0 ? ` · 🔎${searchCount}` : '';
+            progText.textContent = `Generando · ${words.toLocaleString('es')}${wordInfo} palabras · ${elapsed}s${searchInfo}`;
           } else if (evt.type === 'error') {
             throw new Error(evt.error?.message || 'Error de stream');
           }
@@ -895,7 +936,8 @@ async function generateWithClaude() {
     const textTab = document.querySelector('.tab[data-tab="text"]');
     if (textTab) switchTab('text', textTab);
 
-    setStatus(`✓ Texto generado — revisá y tocá "Generar Audio"`, 'ok');
+    const searchMsg = searchCount > 0 ? ` (con ${searchCount} búsqueda${searchCount > 1 ? 's' : ''} web)` : '';
+    setStatus(`✓ Texto generado${searchMsg} — revisá y tocá "Generar Audio"`, 'ok');
     setTimeout(() => { progWrap.style.display = 'none'; }, 1200);
   } catch(e) {
     clearInterval(watchdog);
