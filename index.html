@@ -760,9 +760,8 @@ async function releaseWakeLock() {
   try { if (_wakeLock) { await _wakeLock.release(); _wakeLock = null; } } catch(e) {}
 }
 
-// Estimación de target: 1 token ≈ 3.5 chars. Apuntamos al 90% del max_tokens para tener margen.
-// Ese target se usa solo para dibujar la barra; si se pasa se cappea en 90%.
-const TARGET_CHARS = Math.round(16000 * 3.5 * 0.9);
+// Target por defecto (para cuando no hay duración pedida): ~4500 palabras × 6 chars/palabra
+const DEFAULT_TARGET_CHARS = 27000;
 
 async function generateWithClaude() {
   const key = document.getElementById('anthropicKey').value.trim() || localStorage.getItem('anthropicKey');
@@ -803,12 +802,29 @@ async function generateWithClaude() {
     }
   }, 3000);
 
+  // Detectar duración pedida y calcular target de palabras (155 wpm para Chirp 3 HD en español)
+  const durMatch = prompt.match(/(\d+(?:[.,]\d+)?)\s*(h|hs|hora|horas|min|mins|minuto|minutos)\b/i);
+  let wordTarget = null;
+  if (durMatch) {
+    const n = parseFloat(durMatch[1].replace(',', '.'));
+    const unit = durMatch[2].toLowerCase();
+    const minutes = unit.startsWith('h') ? n * 60 : n;
+    wordTarget = Math.round(minutes * 155);
+  }
+
+  const userContent = wordTarget
+    ? `${prompt}\n\n[Instrucción de largo — CRÍTICA: apuntá a aproximadamente ${wordTarget.toLocaleString('es')} palabras para que dure lo pedido a una velocidad de narración natural de ~155 palabras por minuto. Mejor pasarte un poco que quedar corto. No pares antes.]`
+    : prompt;
+
+  // Target de la barra: si hay duración pedida, apuntamos a ~6 chars por palabra target.
+  const barTarget = wordTarget ? wordTarget * 6 : DEFAULT_TARGET_CHARS;
+
   const body = {
     model: model,
-    max_tokens: 16000,
+    max_tokens: 32000,
     stream: true,
-    system: 'Sos un guionista que escribe contenido para ser narrado en audio en español rioplatense. Respondé SIEMPRE con texto limpio listo para leer en voz alta: sin títulos, sin encabezados tipo "Introducción", sin markdown, sin listas con viñetas, sin meta-comentarios tipo "aquí tienes" o "espero que te guste". Solo párrafos naturales separados por líneas en blanco, con tono conversacional y fluido.',
-    messages: [{ role: 'user', content: prompt }]
+    system: 'Sos un guionista que escribe contenido para ser narrado en audio en español rioplatense. Respondé SIEMPRE con texto limpio listo para leer en voz alta: sin títulos, sin encabezados tipo "Introducción", sin markdown, sin listas con viñetas, sin meta-comentarios tipo "aquí tienes" o "espero que te guste". Solo párrafos naturales separados por líneas en blanco, con tono conversacional y fluido. Cuando el usuario pida una duración específica en minutos u horas, calculá el largo a ~155 palabras por minuto narradas y cumplilo — es mejor pasarse un poco que quedar corto.',
+    messages: [{ role: 'user', content: userContent }]
   };
 
   try {
@@ -852,11 +868,13 @@ async function generateWithClaude() {
           if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
             fullText += evt.delta.text;
             charsWritten += evt.delta.text.length;
-            // Barra: pct = min(chars/TARGET, 0.9). Se remata al 100% cuando termina.
-            const pct = Math.min(charsWritten / TARGET_CHARS, 0.9);
+            // Barra: pct = min(chars/barTarget, 0.95). Se remata al 100% cuando termina.
+            const pct = Math.min(charsWritten / barTarget, 0.95);
             progFill.style.width = (pct * 100).toFixed(1) + '%';
             const elapsed = Math.round((Date.now() - t0) / 1000);
-            progText.textContent = `Generando… ${charsWritten.toLocaleString('es')} caracteres · ${elapsed}s`;
+            const words = Math.round(charsWritten / 6);
+            const wordInfo = wordTarget ? ` / ${wordTarget.toLocaleString('es')}` : '';
+            progText.textContent = `Generando · ${words.toLocaleString('es')}${wordInfo} palabras · ${elapsed}s`;
           } else if (evt.type === 'error') {
             throw new Error(evt.error?.message || 'Error de stream');
           }
