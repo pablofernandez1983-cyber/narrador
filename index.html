@@ -1003,44 +1003,46 @@ async function generate() {
 
   const cleanText = cleanMarkdown(text);
   const chunks = splitText(cleanText);
-  const audioParts = [];
 
   const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${apiKey}`;
   const voiceName = `es-US-Chirp3-HD-${selectedVoice}`;
 
-  for (let i = 0; i < chunks.length; i++) {
-    setProgress(Math.round((i / chunks.length) * 90), `Parte ${i+1} de ${chunks.length}...`);
+  let completed = 0;
+  setProgress(0, `Generando ${chunks.length} partes en paralelo...`);
 
-    try {
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          input: { text: chunks[i] },
-          voice: { languageCode: 'es-US', name: voiceName },
-          audioConfig: { audioEncoding: 'MP3', speakingRate: speed }
-        })
-      });
-
-      if (!resp.ok) {
-        const err = await resp.json();
-        throw new Error(err.error?.message || `Error ${resp.status}`);
-      }
-
-      const data = await resp.json();
-      const binary = atob(data.audioContent);
-      const bytes = new Uint8Array(binary.length);
-      for (let j = 0; j < binary.length; j++) bytes[j] = binary.charCodeAt(j);
-      audioParts.push(bytes);
-
-    } catch(e) {
-      setStatus('Error: ' + e.message, 'error');
-      btn.disabled = false;
-      btn.textContent = '▶ Generar Audio';
-      btn.classList.remove('generating');
-      progressWrap.style.display = 'none';
-      return;
+  const synthChunk = async (chunkText, idx) => {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: { text: chunkText },
+        voice: { languageCode: 'es-US', name: voiceName },
+        audioConfig: { audioEncoding: 'MP3', speakingRate: speed }
+      })
+    });
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Error ${resp.status} en parte ${idx+1}`);
     }
+    const data = await resp.json();
+    const binary = atob(data.audioContent);
+    const bytes = new Uint8Array(binary.length);
+    for (let j = 0; j < binary.length; j++) bytes[j] = binary.charCodeAt(j);
+    completed++;
+    setProgress(Math.round((completed / chunks.length) * 90), `${completed} / ${chunks.length} partes listas...`);
+    return bytes;
+  };
+
+  let audioParts;
+  try {
+    audioParts = await Promise.all(chunks.map((c, i) => synthChunk(c, i)));
+  } catch(e) {
+    setStatus('Error: ' + e.message, 'error');
+    btn.disabled = false;
+    btn.textContent = '▶ Generar Audio';
+    btn.classList.remove('generating');
+    progressWrap.style.display = 'none';
+    return;
   }
 
   setProgress(95, 'Uniendo partes...');
