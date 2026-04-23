@@ -30,7 +30,6 @@
     overflow-x: hidden;
   }
 
-  /* grain overlay */
   body::before {
     content: '';
     position: fixed;
@@ -48,7 +47,6 @@
     min-height: 100vh;
   }
 
-  /* Header */
   .header {
     display: flex;
     align-items: baseline;
@@ -74,10 +72,7 @@
     text-transform: uppercase;
   }
 
-  /* Sections */
-  .section {
-    margin-bottom: 24px;
-  }
+  .section { margin-bottom: 24px; }
 
   .section-label {
     font-size: 10px;
@@ -97,11 +92,8 @@
     background: var(--border);
   }
 
-  /* API Key */
-  .key-row {
-    display: flex;
-    gap: 8px;
-  }
+  .key-row { display: flex; gap: 8px; }
+  .key-row + .key-row { margin-top: 6px; }
 
   input[type="password"], input[type="text"] {
     flex: 1;
@@ -134,76 +126,13 @@
   .btn-sm:hover { border-color: var(--gold2); color: var(--text); }
   .btn-sm.saved { border-color: var(--green); color: var(--green); }
 
-  .key-row + .key-row { margin-top: 6px; }
-
-  .model-select {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    padding: 8px 10px;
-    outline: none;
-    cursor: pointer;
-  }
-  .model-select:focus { border-color: var(--gold2); }
-
-  .ia-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    align-items: stretch;
-  }
-  .ia-row .btn-sm { flex: 1; }
-
-  .btn-claude {
-    flex: 1;
-    background: var(--paper);
-    border: 1px solid var(--gold2);
-    border-radius: 6px;
-    color: var(--gold);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    padding: 8px 14px;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.5px;
-  }
-  .btn-claude:hover { background: rgba(200,169,110,0.08); }
-  .btn-claude:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .player-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .player-buttons .download-btn { margin-top: 0; flex: 1; }
-
-  .search-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    font-size: 11px;
-    color: var(--muted);
-    cursor: pointer;
-    user-select: none;
-  }
-  .search-toggle input { accent-color: var(--gold); cursor: pointer; }
-  .search-toggle:hover { color: var(--text); }
-
-  /* Voice selector */
   .voice-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
   }
 
-  .voice-wrap {
-    display: flex;
-    gap: 4px;
-  }
+  .voice-wrap { display: flex; gap: 4px; }
 
   .voice-chip {
     flex: 1;
@@ -238,7 +167,6 @@
   .preview-btn:hover { border-color: var(--gold2); color: var(--gold); }
   .preview-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* Text area */
   textarea {
     width: 100%;
     background: var(--paper);
@@ -266,7 +194,6 @@
     margin-top: 4px;
   }
 
-  /* PDF upload */
   .upload-zone {
     border: 1px dashed var(--border);
     border-radius: 6px;
@@ -281,7 +208,6 @@
   .upload-zone:hover { border-color: var(--gold2); color: var(--text); }
   .upload-zone input { display: none; }
 
-  /* Generate button */
   .btn-generate {
     width: 100%;
     background: var(--gold);
@@ -303,11 +229,7 @@
   .btn-generate:active { transform: scale(0.99); }
   .btn-generate:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  /* Progress */
-  .progress-wrap {
-    display: none;
-    margin-top: 16px;
-  }
+  .progress-wrap { display: none; margin-top: 16px; }
 
   .progress-bar-bg {
     background: var(--border);
@@ -331,7 +253,6 @@
     text-align: center;
   }
 
-  /* Player */
   .player-wrap {
     display: none;
     margin-top: 20px;
@@ -359,11 +280,12 @@
     border-radius: 4px;
   }
 
+  .player-buttons { display: flex; gap: 8px; margin-top: 12px; }
+
   .download-btn {
+    flex: 1;
     display: block;
-    width: 100%;
     text-align: center;
-    margin-top: 12px;
     padding: 10px;
     background: transparent;
     border: 1px solid var(--border);
@@ -380,7 +302,6 @@
 
   .download-btn:hover { border-color: var(--gold2); color: var(--text); }
 
-  /* Status */
   .status {
     margin-top: 12px;
     font-size: 11px;
@@ -392,12 +313,7 @@
   .status.error { color: var(--red); }
   .status.ok { color: var(--green); }
 
-  /* Tabs */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 12px;
-  }
+  .tabs { display: flex; gap: 4px; margin-bottom: 12px; }
 
   .tab {
     background: var(--paper);
@@ -418,7 +334,6 @@
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  /* Speed control */
   .speed-row {
     display: flex;
     align-items: center;
@@ -440,19 +355,125 @@
     height: 3px;
   }
 
-  .speed-val {
+  .speed-val { font-size: 11px; color: var(--gold); width: 30px; text-align: right; }
+
+  .model-select {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
     font-size: 11px;
-    color: var(--gold);
-    width: 30px;
-    text-align: right;
+    padding: 8px 10px;
+    outline: none;
+    cursor: pointer;
   }
+  .model-select:focus { border-color: var(--gold2); }
+
+  .ia-row { display: flex; gap: 8px; margin-top: 8px; align-items: stretch; }
+
+  .btn-claude {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--gold2);
+    border-radius: 6px;
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-claude:hover { background: rgba(200,169,110,0.08); }
+  .btn-claude:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .search-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .search-toggle input { accent-color: var(--gold); cursor: pointer; }
+  .search-toggle:hover { color: var(--text); }
+
+  /* Jobs queue */
+  .jobs-section { margin-top: 28px; }
+
+  .job-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s;
+  }
+  .job-card.status-done    { border-color: var(--green); }
+  .job-card.status-error   { border-color: var(--red); }
+  .job-card.status-writing,
+  .job-card.status-recording,
+  .job-card.status-pending { border-color: var(--gold2); }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .job-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .job-meta {
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .job-progress { margin-bottom: 12px; }
+
+  .job-actions { display: flex; gap: 6px; }
+
+  .job-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .job-btn:hover { border-color: var(--gold2); color: var(--text); }
+  .job-btn.play { border-color: var(--gold); color: var(--gold); }
+  .job-btn.play:hover { background: rgba(200,169,110,0.08); }
+  .job-btn.del:hover { border-color: var(--red); color: var(--red); }
+  .job-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
   }
-
   .generating { animation: pulse 1.5s ease infinite; }
+  .pulsing .progress-bar-fill { animation: pulse 1.5s ease infinite; }
 </style>
 </head>
 <body>
@@ -471,25 +492,24 @@
       <button class="btn-sm" id="saveBtn" onclick="saveKey()">TTS</button>
     </div>
     <div class="key-row">
-      <input type="password" id="anthropicKey" placeholder="Claude: sk-ant-..." autocomplete="off">
-      <button class="btn-sm" id="saveAnthropicBtn" onclick="saveAnthropicKey()">IA</button>
+      <input type="password" id="backendKey" placeholder="Narrador API key..." autocomplete="off">
+      <button class="btn-sm" id="saveBackendBtn" onclick="saveBackendKey()">API</button>
     </div>
   </div>
 
   <!-- Voice -->
   <div class="section">
     <div class="section-label">Voz</div>
-    <div class="voice-grid" id="voiceGrid">
-      <!-- populated by JS -->
-    </div>
+    <div class="voice-grid" id="voiceGrid"></div>
     <div class="speed-row">
       <label>Velocidad</label>
-      <input type="range" id="speedRange" min="0.7" max="1.4" step="0.05" value="1.0" oninput="document.getElementById('speedVal').textContent=this.value+'x'">
+      <input type="range" id="speedRange" min="0.7" max="1.4" step="0.05" value="1.0"
+             oninput="document.getElementById('speedVal').textContent=this.value+'x'">
       <span class="speed-val" id="speedVal">1.0x</span>
     </div>
   </div>
 
-  <!-- Input -->
+  <!-- Contenido -->
   <div class="section">
     <div class="section-label">Contenido</div>
     <div class="tabs">
@@ -499,7 +519,8 @@
     </div>
 
     <div class="tab-content" id="tab-ia">
-      <textarea id="promptInput" placeholder="Pedile a Claude lo que querés escuchar. Ej: haceme un podcast de 30 min sobre la historia del tango, con anécdotas y detalles de los barrios..." style="min-height:120px"></textarea>
+      <textarea id="promptInput" style="min-height:120px"
+        placeholder="Pedile a Claude lo que querés escuchar. Ej: haceme un podcast de 30 min sobre la historia del tango, con anécdotas y detalles de los barrios..."></textarea>
       <label class="search-toggle">
         <input type="checkbox" id="webSearchToggle">
         <span>🔎 Investigar en la web (temas de actualidad)</span>
@@ -510,13 +531,7 @@
           <option value="claude-sonnet-4-6">Sonnet 4.6</option>
           <option value="claude-opus-4-7">Opus 4.7</option>
         </select>
-        <button class="btn-claude" id="claudeBtn" onclick="generateWithClaude()">✦ Generar texto</button>
-      </div>
-      <div class="progress-wrap" id="iaProgressWrap" style="display:none">
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="iaProgressFill"></div>
-        </div>
-        <div class="progress-text" id="iaProgressText">Preparando...</div>
+        <button class="btn-claude" id="claudeBtn" onclick="submitJob()">✦ Generar podcast</button>
       </div>
     </div>
 
@@ -534,9 +549,16 @@
     </div>
   </div>
 
+  <!-- Jobs queue (solo visible cuando hay jobs) -->
+  <div class="jobs-section" id="jobsSection" style="display:none">
+    <div class="section-label">Cola de podcasts</div>
+    <div id="jobsList"></div>
+  </div>
+
+  <!-- Botón Generar Audio (solo para tabs Texto y PDF) -->
   <button class="btn-generate" id="genBtn" onclick="generate()">▶ Generar Audio</button>
 
-  <!-- Progress -->
+  <!-- Progress TTS -->
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-bar-bg">
       <div class="progress-bar-fill" id="progressFill"></div>
@@ -544,13 +566,14 @@
     <div class="progress-text" id="progressText">Preparando...</div>
   </div>
 
-  <!-- Player -->
+  <!-- Player directo (Texto / PDF) -->
   <div class="player-wrap" id="playerWrap">
     <div class="player-title" id="playerTitle">—</div>
     <audio id="audioPlayer" controls></audio>
     <div class="player-buttons">
       <a class="download-btn" id="downloadBtn" href="#" download="narrador.mp3">⬇ Descargar</a>
-      <button class="download-btn" id="shareBtn" onclick="shareAudio()" style="display:none;cursor:pointer">⇪ Compartir</button>
+      <button class="download-btn" id="shareBtn" onclick="shareBlob(window._currentBlob, 'narrador.mp3')"
+              style="display:none;cursor:pointer">⇪ Compartir</button>
     </div>
   </div>
 
@@ -559,7 +582,8 @@
 </div>
 
 <script>
-// Voices
+const BACKEND_URL = 'https://narrador-api-production.up.railway.app';
+
 const VOICES = [
   'Achird','Achernar','Algenib','Algieba','Alnilam',
   'Aoede','Callirrhoe','Charon','Despina','Enceladus',
@@ -569,9 +593,70 @@ const VOICES = [
 ];
 
 let selectedVoice = localStorage.getItem('voice') || 'Achird';
-
 const PREVIEW_TEXT = "Llegué tarde. Otra vez. Vi la luz apagada en su cuarto... y supe que se había dormido esperándome.";
 
+// ─── Boot ──────────────────────────────────────────────────────
+window.onload = () => {
+  buildVoiceGrid();
+
+  const savedGcp = localStorage.getItem('gcpKey');
+  if (savedGcp) {
+    document.getElementById('apiKey').value = savedGcp;
+    markSaved('saveBtn', '✓ TTS');
+  }
+
+  const savedBk = localStorage.getItem('backendKey');
+  if (savedBk) {
+    document.getElementById('backendKey').value = savedBk;
+    markSaved('saveBackendBtn', '✓ API');
+  }
+
+  const savedModel = localStorage.getItem('claudeModel');
+  if (savedModel) document.getElementById('modelSelect').value = savedModel;
+  document.getElementById('modelSelect').addEventListener('change', e =>
+    localStorage.setItem('claudeModel', e.target.value)
+  );
+
+  const savedSearch = localStorage.getItem('webSearch') === '1';
+  document.getElementById('webSearchToggle').checked = savedSearch;
+  document.getElementById('webSearchToggle').addEventListener('change', e =>
+    localStorage.setItem('webSearch', e.target.checked ? '1' : '0')
+  );
+
+  if (navigator.share) document.getElementById('shareBtn').style.display = 'block';
+
+  // Mostrar/ocultar botón de audio según tab activo
+  updateGenBtn();
+  loadJobs();
+  startPolling();
+};
+
+function markSaved(btnId, text) {
+  const b = document.getElementById(btnId);
+  b.textContent = text;
+  b.classList.add('saved');
+}
+
+// ─── Keys ──────────────────────────────────────────────────────
+function saveKey() {
+  const k = document.getElementById('apiKey').value.trim();
+  if (!k) return;
+  localStorage.setItem('gcpKey', k);
+  markSaved('saveBtn', '✓ TTS');
+}
+
+function saveBackendKey() {
+  const k = document.getElementById('backendKey').value.trim();
+  if (!k) return;
+  localStorage.setItem('backendKey', k);
+  markSaved('saveBackendBtn', '✓ API');
+}
+
+function getBackendKey() {
+  return document.getElementById('backendKey').value.trim() || localStorage.getItem('backendKey') || '';
+}
+
+// ─── Voice grid ────────────────────────────────────────────────
 function buildVoiceGrid() {
   const grid = document.getElementById('voiceGrid');
   grid.innerHTML = '';
@@ -593,10 +678,7 @@ function buildVoiceGrid() {
     prev.className = 'preview-btn';
     prev.title = 'Escuchar preview';
     prev.textContent = '▶';
-    prev.onclick = (e) => {
-      e.stopPropagation();
-      playPreview(v, prev);
-    };
+    prev.onclick = e => { e.stopPropagation(); playPreview(v, prev); };
 
     wrap.appendChild(btn);
     wrap.appendChild(prev);
@@ -606,9 +688,8 @@ function buildVoiceGrid() {
 
 async function playPreview(voice, btnEl) {
   const apiKey = document.getElementById('apiKey').value.trim() || localStorage.getItem('gcpKey');
-  if (!apiKey) { setStatus('Necesitás la API Key para escuchar previews', 'error'); return; }
+  if (!apiKey) { setStatus('Necesitás la API Key de Google TTS para escuchar previews', 'error'); return; }
 
-  const orig = btnEl.textContent;
   btnEl.textContent = '…';
   btnEl.disabled = true;
 
@@ -623,24 +704,16 @@ async function playPreview(voice, btnEl) {
         audioConfig: { audioEncoding: 'MP3', speakingRate: parseFloat(document.getElementById('speedRange').value) }
       })
     });
-
-    if (!resp.ok) {
-      const err = await resp.json();
-      throw new Error(err.error?.message || `Error ${resp.status}`);
-    }
-
+    if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || `Error ${resp.status}`); }
     const data = await resp.json();
     const binary = atob(data.audioContent);
     const bytes = new Uint8Array(binary.length);
     for (let j = 0; j < binary.length; j++) bytes[j] = binary.charCodeAt(j);
-    const blob = new Blob([bytes], { type: 'audio/mpeg' });
-    const audioUrl = URL.createObjectURL(blob);
-
-    if (window._previewAudio) { window._previewAudio.pause(); }
+    const audioUrl = URL.createObjectURL(new Blob([bytes], { type: 'audio/mpeg' }));
+    if (window._previewAudio) window._previewAudio.pause();
     window._previewAudio = new Audio(audioUrl);
     window._previewAudio.play();
-    setStatus(`Previewing: ${voice}`, 'ok');
-
+    setStatus(`Preview: ${voice}`, 'ok');
     window._previewAudio.onended = () => { btnEl.textContent = '▶'; btnEl.disabled = false; };
   } catch(e) {
     setStatus('Error: ' + e.message, 'error');
@@ -649,70 +722,22 @@ async function playPreview(voice, btnEl) {
   }
 }
 
-// Key persistence
-window.onload = () => {
-  buildVoiceGrid();
-
-  const savedGcp = localStorage.getItem('gcpKey');
-  if (savedGcp) {
-    document.getElementById('apiKey').value = savedGcp;
-    const btn = document.getElementById('saveBtn');
-    btn.classList.add('saved');
-    btn.textContent = '✓ TTS';
-  }
-
-  const savedAnt = localStorage.getItem('anthropicKey');
-  if (savedAnt) {
-    document.getElementById('anthropicKey').value = savedAnt;
-    const btn = document.getElementById('saveAnthropicBtn');
-    btn.classList.add('saved');
-    btn.textContent = '✓ IA';
-  }
-
-  const savedModel = localStorage.getItem('claudeModel');
-  if (savedModel) document.getElementById('modelSelect').value = savedModel;
-  document.getElementById('modelSelect').addEventListener('change', e => {
-    localStorage.setItem('claudeModel', e.target.value);
-  });
-
-  const savedSearch = localStorage.getItem('webSearch') === '1';
-  document.getElementById('webSearchToggle').checked = savedSearch;
-  document.getElementById('webSearchToggle').addEventListener('change', e => {
-    localStorage.setItem('webSearch', e.target.checked ? '1' : '0');
-  });
-
-  if (navigator.share) {
-    document.getElementById('shareBtn').style.display = 'block';
-  }
-};
-
-function saveKey() {
-  const key = document.getElementById('apiKey').value.trim();
-  if (!key) return;
-  localStorage.setItem('gcpKey', key);
-  const btn = document.getElementById('saveBtn');
-  btn.textContent = '✓ TTS';
-  btn.classList.add('saved');
-}
-
-function saveAnthropicKey() {
-  const key = document.getElementById('anthropicKey').value.trim();
-  if (!key) return;
-  localStorage.setItem('anthropicKey', key);
-  const btn = document.getElementById('saveAnthropicBtn');
-  btn.textContent = '✓ IA';
-  btn.classList.add('saved');
-}
-
-function updateCount() {
-  document.getElementById('charCount').textContent = document.getElementById('textInput').value.length;
-}
-
+// ─── Tabs ──────────────────────────────────────────────────────
 function switchTab(name, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
+  updateGenBtn();
+}
+
+function updateGenBtn() {
+  const activeTab = document.querySelector('.tab.active')?.dataset?.tab;
+  document.getElementById('genBtn').style.display = activeTab === 'ia' ? 'none' : 'block';
+}
+
+function updateCount() {
+  document.getElementById('charCount').textContent = document.getElementById('textInput').value.length;
 }
 
 function loadFile(e) {
@@ -720,8 +745,8 @@ function loadFile(e) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
-    switchTab('text', document.querySelectorAll('.tab')[0]);
-    document.querySelectorAll('.tab')[0].classList.add('active');
+    const textTab = document.querySelector('.tab[data-tab="text"]');
+    switchTab('text', textTab);
     document.getElementById('textInput').value = ev.target.result;
     updateCount();
     setStatus('Archivo cargado: ' + file.name, 'ok');
@@ -740,19 +765,208 @@ function setProgress(pct, msg) {
   document.getElementById('progressText').textContent = msg;
 }
 
+// ─── Backend: submit job ───────────────────────────────────────
+async function submitJob() {
+  const bkey = getBackendKey();
+  const prompt = document.getElementById('promptInput').value.trim();
+  if (!bkey) { setStatus('Ingresá tu Narrador API key para usar el backend', 'error'); return; }
+  if (!prompt) { setStatus('Escribí el prompt antes de generar', 'error'); return; }
+
+  const btn = document.getElementById('claudeBtn');
+  btn.disabled = true;
+  btn.textContent = '✦ Enviando...';
+
+  try {
+    const resp = await fetch(`${BACKEND_URL}/jobs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': bkey },
+      body: JSON.stringify({
+        prompt,
+        model:      document.getElementById('modelSelect').value,
+        voice:      selectedVoice,
+        speed:      parseFloat(document.getElementById('speedRange').value),
+        web_search: document.getElementById('webSearchToggle').checked,
+      })
+    });
+    if (!resp.ok) {
+      const e = await resp.json().catch(() => ({}));
+      throw new Error(e.error || `Error ${resp.status}`);
+    }
+    const job = await resp.json();
+    _jobs = [job, ..._jobs.filter(j => j.id !== job.id)];
+    renderJobs();
+    document.getElementById('promptInput').value = '';
+    setStatus('✓ Podcast encolado — podés cerrar la app y volver cuando esté listo', 'ok');
+  } catch(e) {
+    setStatus('Error al enviar: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✦ Generar podcast';
+  }
+}
+
+// ─── Backend: jobs list & polling ─────────────────────────────
+let _jobs = [];
+let _pollTimer = null;
+
+async function loadJobs() {
+  const bkey = getBackendKey();
+  if (!bkey) return;
+  try {
+    const resp = await fetch(`${BACKEND_URL}/jobs`, { headers: { 'X-API-Key': bkey } });
+    if (!resp.ok) return;
+    _jobs = await resp.json();
+    renderJobs();
+  } catch(e) {}
+}
+
+function startPolling() {
+  if (_pollTimer) return;
+  _pollTimer = setInterval(async () => {
+    const active = _jobs.some(j => ['pending','writing','recording'].includes(j.status));
+    if (!active) return;
+    const bkey = getBackendKey();
+    if (!bkey) return;
+    try {
+      const resp = await fetch(`${BACKEND_URL}/jobs`, { headers: { 'X-API-Key': bkey } });
+      if (!resp.ok) return;
+      _jobs = await resp.json();
+      renderJobs();
+    } catch(e) {}
+  }, 3000);
+}
+
+function timeAgo(iso) {
+  const diff = Math.round((Date.now() - new Date(iso)) / 1000);
+  if (diff < 60) return `${diff}s`;
+  if (diff < 3600) return `${Math.round(diff/60)}min`;
+  return `${Math.round(diff/3600)}h`;
+}
+
+function renderJobs() {
+  const section = document.getElementById('jobsSection');
+  const list = document.getElementById('jobsList');
+  if (!_jobs.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  list.innerHTML = '';
+  _jobs.forEach(job => {
+    const card = document.createElement('div');
+    card.className = `job-card status-${job.status}`;
+    card.id = `job-${job.id}`;
+
+    const isActive = ['pending','writing','recording'].includes(job.status);
+    const isDone = job.status === 'done';
+    const isError = job.status === 'error';
+
+    const title = job.title || job.prompt.slice(0, 60) + (job.prompt.length > 60 ? '...' : '');
+    const modelShort = job.model.replace('claude-','').replace('-latest','');
+    const searchBadge = job.search_count > 0 ? ` · 🔎${job.search_count}` : '';
+    const meta = isDone
+      ? `${modelShort}${searchBadge}`
+      : isError ? 'error' : timeAgo(job.updated_at);
+
+    card.innerHTML = `
+      <div class="job-header">
+        <span class="job-title">${escHtml(title)}</span>
+        <span class="job-meta">${escHtml(meta)}</span>
+      </div>
+      ${isActive ? `
+        <div class="job-progress ${isActive ? 'pulsing' : ''}">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width:${job.progress_pct || 0}%"></div>
+          </div>
+          <div class="progress-text">${escHtml(job.progress_text || 'Preparando...')}</div>
+        </div>` : ''}
+      ${isError ? `<div class="progress-text" style="color:var(--red);margin-bottom:10px">${escHtml(job.error || 'Error desconocido')}</div>` : ''}
+      <div class="job-actions">
+        ${isDone ? `
+          <button class="job-btn play" onclick="playJob('${job.id}')">▶ Escuchar</button>
+          ${navigator.share ? `<button class="job-btn" onclick="shareJob('${job.id}')">⇪ Compartir</button>` : ''}
+        ` : ''}
+        <button class="job-btn del" onclick="deleteJob('${job.id}')">✕ Borrar</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function playJob(jid) {
+  const bkey = getBackendKey();
+  const btn = document.querySelector(`#job-${jid} .job-btn.play`);
+  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+
+  try {
+    const resp = await fetch(`${BACKEND_URL}/jobs/${jid}/audio`, { headers: { 'X-API-Key': bkey } });
+    if (!resp.ok) throw new Error('No se pudo descargar el audio');
+    const blob = await resp.blob();
+    window._currentBlob = blob;
+    const url = URL.createObjectURL(blob);
+
+    const job = _jobs.find(j => j.id === jid);
+    document.getElementById('playerTitle').textContent = job?.title || 'Podcast';
+    const audio = document.getElementById('audioPlayer');
+    audio.src = url;
+    document.getElementById('downloadBtn').href = url;
+    document.getElementById('downloadBtn').download = (job?.title || 'narrador').slice(0,40).replace(/\s+/g,'_').toLowerCase() + '.mp3';
+    document.getElementById('playerWrap').style.display = 'block';
+    audio.play();
+    audio.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } catch(e) {
+    setStatus('Error al cargar audio: ' + e.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '▶ Escuchar'; }
+  }
+}
+
+async function shareJob(jid) {
+  const bkey = getBackendKey();
+  const job = _jobs.find(j => j.id === jid);
+  try {
+    const resp = await fetch(`${BACKEND_URL}/jobs/${jid}/audio`, { headers: { 'X-API-Key': bkey } });
+    if (!resp.ok) throw new Error();
+    const blob = await resp.blob();
+    const filename = (job?.title || 'narrador').slice(0,40).replace(/[^\w\s-]/g,'').replace(/\s+/g,'_').toLowerCase() + '.mp3';
+    const file = new File([blob], filename, { type: 'audio/mpeg' });
+    if (navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename });
+    } else if (navigator.share) {
+      await navigator.share({ title: filename });
+    }
+  } catch(e) {
+    if (e.name !== 'AbortError') setStatus('Error al compartir: ' + e.message, 'error');
+  }
+}
+
+async function deleteJob(jid) {
+  const bkey = getBackendKey();
+  try {
+    await fetch(`${BACKEND_URL}/jobs/${jid}`, { method: 'DELETE', headers: { 'X-API-Key': bkey } });
+    _jobs = _jobs.filter(j => j.id !== jid);
+    renderJobs();
+  } catch(e) {
+    setStatus('Error al borrar: ' + e.message, 'error');
+  }
+}
+
+// ─── Direct TTS (tabs Texto y PDF) ────────────────────────────
 function cleanMarkdown(text) {
   return text
-    .replace(/^#{1,6}\s+/gm, '')           // ## Títulos
-    .replace(/^---+$/gm, '')               // --- separadores
-    .replace(/^\*{3,}$/gm, '')             // *** separadores
-    .replace(/\*\*(.+?)\*\*/g, '$1')       // **negrita**
-    .replace(/\*(.+?)\*/g, '$1')           // *itálica*
-    .replace(/^>\s+/gm, '')               // > citas
-    .replace(/^[-*+]\s+/gm, '')           // - listas
-    .replace(/^\d+\.\s+/gm, '')           // 1. listas numeradas
-    .replace(/`{1,3}[^`]*`{1,3}/g, '')    // `código`
-    .replace(/\[(.+?)\]\(.+?\)/g, '$1')   // [links](url)
-    .replace(/\n{3,}/g, '\n\n')           // múltiples líneas vacías
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/^---+$/gm, '')
+    .replace(/^\*{3,}$/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^>\s+/gm, '')
+    .replace(/^[-*+]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/`{1,3}[^`]*`{1,3}/g, '')
+    .replace(/\[(.+?)\]\(.+?\)/g, '$1')
+    .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
@@ -773,223 +987,13 @@ function splitText(text, maxBytes = 3800) {
   return chunks;
 }
 
-let _wakeLock = null;
-async function acquireWakeLock() {
-  try {
-    if ('wakeLock' in navigator) _wakeLock = await navigator.wakeLock.request('screen');
-  } catch(e) {}
-}
-async function releaseWakeLock() {
-  try { if (_wakeLock) { await _wakeLock.release(); _wakeLock = null; } } catch(e) {}
-}
-
-// Target por defecto (para cuando no hay duración pedida): ~4500 palabras × 6 chars/palabra
-const DEFAULT_TARGET_CHARS = 27000;
-
-async function generateWithClaude() {
-  const key = document.getElementById('anthropicKey').value.trim() || localStorage.getItem('anthropicKey');
-  const prompt = document.getElementById('promptInput').value.trim();
-  const model = document.getElementById('modelSelect').value;
-
-  if (!key) { setStatus('Ingresá tu API Key de Claude (sk-ant-...)', 'error'); return; }
-  if (!prompt) { setStatus('Escribí qué querés que Claude escriba', 'error'); return; }
-
-  const btn = document.getElementById('claudeBtn');
-  btn.disabled = true;
-  btn.textContent = '✦ Escribiendo...';
-  btn.classList.add('generating');
-
-  const progWrap = document.getElementById('iaProgressWrap');
-  const progFill = document.getElementById('iaProgressFill');
-  const progText = document.getElementById('iaProgressText');
-  progWrap.style.display = 'block';
-  progFill.style.width = '0%';
-  progText.textContent = document.getElementById('webSearchToggle').checked
-    ? 'Investigando en la web...'
-    : 'Conectando con Claude...';
-  setStatus('');
-
-  await acquireWakeLock();
-
-  // Buffer en memoria — no mostramos el texto hasta el final para evitar spoilers.
-  let fullText = '';
-  let charsWritten = 0;
-  const t0 = Date.now();
-  let lastChunkAt = Date.now();
-
-  // Watchdog: si pasan N seg sin recibir nada, cancelamos con mensaje claro.
-  // Más tolerante con web search porque puede quedar silencioso mientras busca.
-  const watchdogTimeout = document.getElementById('webSearchToggle').checked ? 90000 : 45000;
-  const controller = new AbortController();
-  const watchdog = setInterval(() => {
-    const gap = Date.now() - lastChunkAt;
-    if (gap > watchdogTimeout) {
-      clearInterval(watchdog);
-      controller.abort();
-    }
-  }, 3000);
-
-  let searchCount = 0;
-
-  // Detectar duración pedida y calcular target de palabras (155 wpm para Chirp 3 HD en español)
-  const durMatch = prompt.match(/(\d+(?:[.,]\d+)?)\s*(h|hs|hora|horas|min|mins|minuto|minutos)\b/i);
-  let wordTarget = null;
-  if (durMatch) {
-    const n = parseFloat(durMatch[1].replace(',', '.'));
-    const unit = durMatch[2].toLowerCase();
-    const minutes = unit.startsWith('h') ? n * 60 : n;
-    wordTarget = Math.round(minutes * 155);
-  }
-
-  const userContent = wordTarget
-    ? `${prompt}\n\n[Instrucción de largo — CRÍTICA: apuntá a aproximadamente ${wordTarget.toLocaleString('es')} palabras para que dure lo pedido a una velocidad de narración natural de ~155 palabras por minuto. Mejor pasarte un poco que quedar corto. No pares antes.]`
-    : prompt;
-
-  // Target de la barra: si hay duración pedida, apuntamos a ~6 chars por palabra target.
-  const barTarget = wordTarget ? wordTarget * 6 : DEFAULT_TARGET_CHARS;
-
-  const webSearch = document.getElementById('webSearchToggle').checked;
-
-  const body = {
-    model: model,
-    max_tokens: 32000,
-    stream: true,
-    system: 'Sos un guionista que escribe contenido para ser narrado en audio en español rioplatense. Respondé SIEMPRE con texto limpio listo para leer en voz alta: sin títulos, sin encabezados tipo "Introducción", sin markdown, sin listas con viñetas, sin meta-comentarios tipo "aquí tienes" o "espero que te guste", sin citas tipo "[1]" ni URLs pegadas en el medio del texto. Solo párrafos naturales separados por líneas en blanco, con tono conversacional y fluido. Cuando el usuario pida una duración específica en minutos u horas, calculá el largo a ~155 palabras por minuto narradas y cumplilo — es mejor pasarse un poco que quedar corto.',
-    messages: [{ role: 'user', content: userContent }]
-  };
-
-  if (webSearch) {
-    body.tools = [{ type: 'web_search_20250305', name: 'web_search', max_uses: 6 }];
-  }
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      signal: controller.signal,
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify(body)
-    });
-
-    if (!resp.ok) {
-      let msg = `Error ${resp.status}`;
-      try { const err = await resp.json(); msg = err.error?.message || msg; } catch(e) {}
-      throw new Error(msg);
-    }
-
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      lastChunkAt = Date.now();
-      buffer += decoder.decode(value, { stream: true });
-
-      const lines = buffer.split('\n');
-      buffer = lines.pop();
-
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const data = line.slice(6);
-        if (data === '[DONE]') continue;
-        try {
-          const evt = JSON.parse(data);
-          if (evt.type === 'content_block_start' && evt.content_block?.type === 'server_tool_use' && evt.content_block?.name === 'web_search') {
-            searchCount++;
-            progText.textContent = `🔎 Buscando en la web (${searchCount})...`;
-          } else if (evt.type === 'content_block_start' && evt.content_block?.type === 'web_search_tool_result') {
-            progText.textContent = `✓ ${searchCount} búsqueda${searchCount > 1 ? 's' : ''} · procesando resultados...`;
-          } else if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
-            fullText += evt.delta.text;
-            charsWritten += evt.delta.text.length;
-            // Barra: pct = min(chars/barTarget, 0.95). Se remata al 100% cuando termina.
-            const pct = Math.min(charsWritten / barTarget, 0.95);
-            progFill.style.width = (pct * 100).toFixed(1) + '%';
-            const elapsed = Math.round((Date.now() - t0) / 1000);
-            const words = Math.round(charsWritten / 6);
-            const wordInfo = wordTarget ? ` / ${wordTarget.toLocaleString('es')}` : '';
-            const searchInfo = searchCount > 0 ? ` · 🔎${searchCount}` : '';
-            progText.textContent = `Generando · ${words.toLocaleString('es')}${wordInfo} palabras · ${elapsed}s${searchInfo}`;
-          } else if (evt.type === 'error') {
-            throw new Error(evt.error?.message || 'Error de stream');
-          }
-        } catch(e) {
-          if (e.message && !e.message.includes('JSON')) throw e;
-        }
-      }
-    }
-
-    clearInterval(watchdog);
-    progFill.style.width = '100%';
-    progText.textContent = `Listo · ${charsWritten.toLocaleString('es')} caracteres en ${Math.round((Date.now()-t0)/1000)}s`;
-
-    // Recién acá mostramos el texto completo y cambiamos al tab Texto.
-    const textarea = document.getElementById('textInput');
-    textarea.value = fullText;
-    updateCount();
-    const textTab = document.querySelector('.tab[data-tab="text"]');
-    if (textTab) switchTab('text', textTab);
-
-    const searchMsg = searchCount > 0 ? ` (con ${searchCount} búsqueda${searchCount > 1 ? 's' : ''} web)` : '';
-    setStatus(`✓ Texto generado${searchMsg} — revisá y tocá "Generar Audio"`, 'ok');
-    setTimeout(() => { progWrap.style.display = 'none'; }, 1200);
-  } catch(e) {
-    clearInterval(watchdog);
-    const aborted = e.name === 'AbortError';
-    const msg = aborted
-      ? 'Claude dejó de responder (timeout 45s). Probá de nuevo y no cambies de pestaña mientras genera.'
-      : 'Error con Claude: ' + e.message;
-    setStatus(msg, 'error');
-    progText.textContent = aborted ? 'Timeout — reintentá' : 'Error';
-    if (fullText.length > 100) {
-      // Rescatamos lo que alcanzó a generar.
-      document.getElementById('textInput').value = fullText;
-      updateCount();
-      setStatus(msg + ' (texto parcial cargado)', 'error');
-    }
-  } finally {
-    await releaseWakeLock();
-    btn.disabled = false;
-    btn.textContent = '✦ Generar texto';
-    btn.classList.remove('generating');
-  }
-}
-
-async function shareAudio() {
-  const audio = document.getElementById('audioPlayer');
-  if (!audio.src) return;
-
-  try {
-    const blob = await (await fetch(audio.src)).blob();
-    const titleRaw = document.getElementById('playerTitle').textContent || 'narrador';
-    const filename = titleRaw.replace(/[^\w\s-]/g, '').trim().slice(0, 40).replace(/\s+/g, '_').toLowerCase() + '.mp3' || 'narrador.mp3';
-    const file = new File([blob], filename, { type: 'audio/mpeg' });
-
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: filename });
-    } else if (navigator.share) {
-      await navigator.share({ title: filename, text: 'Audio generado con Narrador' });
-    } else {
-      setStatus('Compartir no disponible en este navegador', 'error');
-    }
-  } catch(e) {
-    if (e.name !== 'AbortError') setStatus('Error al compartir: ' + e.message, 'error');
-  }
-}
-
 async function generate() {
   const apiKey = document.getElementById('apiKey').value.trim() || localStorage.getItem('gcpKey');
   const text = document.getElementById('textInput').value.trim();
   const speed = parseFloat(document.getElementById('speedRange').value);
 
-  if (!apiKey) { setStatus('Ingresá tu API Key de Google Cloud', 'error'); return; }
-  if (!text) { setStatus('Escribí o pegá algún texto', 'error'); return; }
+  if (!apiKey) { setStatus('Ingresá tu API Key de Google TTS', 'error'); return; }
+  if (!text)   { setStatus('Escribí o pegá algún texto', 'error'); return; }
 
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
@@ -1001,12 +1005,9 @@ async function generate() {
   document.getElementById('playerWrap').style.display = 'none';
   setStatus('');
 
-  const cleanText = cleanMarkdown(text);
-  const chunks = splitText(cleanText);
-
+  const chunks = splitText(cleanMarkdown(text));
   const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${apiKey}`;
   const voiceName = `es-US-Chirp3-HD-${selectedVoice}`;
-
   let completed = 0;
   setProgress(0, `Generando ${chunks.length} partes en paralelo...`);
 
@@ -1047,27 +1048,19 @@ async function generate() {
 
   setProgress(95, 'Uniendo partes...');
 
-  // Concatenate all MP3 bytes
   const totalLength = audioParts.reduce((acc, p) => acc + p.length, 0);
   const combined = new Uint8Array(totalLength);
   let offset = 0;
-  for (const part of audioParts) {
-    combined.set(part, offset);
-    offset += part.length;
-  }
+  for (const part of audioParts) { combined.set(part, offset); offset += part.length; }
 
   const blob = new Blob([combined], { type: 'audio/mpeg' });
-  const url2 = URL.createObjectURL(blob);
+  window._currentBlob = blob;
+  const blobUrl = URL.createObjectURL(blob);
 
   const audio = document.getElementById('audioPlayer');
-  audio.src = url2;
-
-  const dl = document.getElementById('downloadBtn');
-  dl.href = url2;
-
-  // Title from first line
-  const firstLine = text.split('\n')[0].substring(0, 50);
-  document.getElementById('playerTitle').textContent = firstLine || 'Audio generado';
+  audio.src = blobUrl;
+  document.getElementById('downloadBtn').href = blobUrl;
+  document.getElementById('playerTitle').textContent = text.split('\n')[0].substring(0, 50) || 'Audio generado';
 
   setProgress(100, 'Listo');
   setTimeout(() => { progressWrap.style.display = 'none'; }, 800);
@@ -1079,6 +1072,20 @@ async function generate() {
   btn.textContent = '▶ Generar Audio';
   btn.classList.remove('generating');
   setStatus(`✓ ${chunks.length} parte${chunks.length > 1 ? 's' : ''} generadas — voz: ${selectedVoice}`, 'ok');
+}
+
+async function shareBlob(blob, filename) {
+  if (!blob) return;
+  try {
+    const file = new File([blob], filename, { type: 'audio/mpeg' });
+    if (navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename });
+    } else if (navigator.share) {
+      await navigator.share({ title: filename });
+    }
+  } catch(e) {
+    if (e.name !== 'AbortError') setStatus('Error al compartir: ' + e.message, 'error');
+  }
 }
 </script>
 </body>
