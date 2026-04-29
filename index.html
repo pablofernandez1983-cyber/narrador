@@ -570,6 +570,9 @@
 <script>
 const BACKEND_URL = 'https://narrador-api-production.up.railway.app';
 
+function lsGet(k)    { try { return lsGet(k); }    catch(e) { return null; } }
+function lsSet(k, v) { try { lsSet(k, v); }        catch(e) {} }
+
 // Voces visibles por defecto (las que el usuario usa)
 const VOICES_MAIN  = ['Charon','Schedar','Achernar','Zubenelgenubi'];
 // Resto de voces
@@ -581,13 +584,13 @@ const VOICES_EXTRA = [
   'Umbriel','Vindemiatrix'
 ];
 
-let selectedVoice = localStorage.getItem('voice') || 'Charon';
+let selectedVoice = lsGet('voice') || 'Charon';
 let _voicesExpanded = false;
 const PREVIEW_TEXT = "Llegué tarde. Otra vez. Vi la luz apagada en su cuarto... y supe que se había dormido esperándome.";
 
 // ─── Boot ─────────────────────────────────────────────────────
 window.onload = () => {
-  const key = localStorage.getItem('backendKey');
+  const key = lsGet('backendKey');
   if (!key) {
     document.getElementById('setupBanner').style.display = 'block';
   } else {
@@ -598,7 +601,7 @@ window.onload = () => {
 function setupSave() {
   const k = document.getElementById('setupKeyInput').value.trim();
   if (!k) return;
-  localStorage.setItem('backendKey', k);
+  lsSet('backendKey', k);
   document.getElementById('setupBanner').style.display = 'none';
   showMain(k);
 }
@@ -609,16 +612,16 @@ function showMain(key) {
 
   buildVoiceGrid();
 
-  const savedModel = localStorage.getItem('claudeModel');
+  const savedModel = lsGet('claudeModel');
   if (savedModel) document.getElementById('modelSelect').value = savedModel;
   document.getElementById('modelSelect').addEventListener('change', e =>
-    localStorage.setItem('claudeModel', e.target.value)
+    lsSet('claudeModel', e.target.value)
   );
 
-  const savedSearch = localStorage.getItem('webSearch') === '1';
+  const savedSearch = lsGet('webSearch') === '1';
   document.getElementById('webSearchToggle').checked = savedSearch;
   document.getElementById('webSearchToggle').addEventListener('change', e =>
-    localStorage.setItem('webSearch', e.target.checked ? '1' : '0')
+    lsSet('webSearch', e.target.checked ? '1' : '0')
   );
 
   if (navigator.share) document.getElementById('shareBtn').style.display = 'block';
@@ -636,13 +639,13 @@ function toggleSettings() {
 function changeKey() {
   const k = document.getElementById('backendKey').value.trim();
   if (!k) return;
-  localStorage.setItem('backendKey', k);
+  lsSet('backendKey', k);
   document.getElementById('settingsSection').style.display = 'none';
   setStatus('Clave actualizada', 'ok');
 }
 
 function getBackendKey() {
-  return localStorage.getItem('backendKey') || '';
+  return lsGet('backendKey') || '';
 }
 
 // ─── Voices ───────────────────────────────────────────────────
@@ -651,7 +654,7 @@ function buildVoiceGrid() {
   renderVoiceSection('voiceGridExtra', VOICES_EXTRA);
   if (!VOICES_MAIN.includes(selectedVoice)) {
     selectedVoice = VOICES_MAIN[0];
-    localStorage.setItem('voice', selectedVoice);
+    lsSet('voice', selectedVoice);
   }
 }
 
@@ -667,7 +670,7 @@ function renderVoiceSection(gridId, voices) {
     btn.textContent = v;
     btn.onclick = () => {
       selectedVoice = v;
-      localStorage.setItem('voice', v);
+      lsSet('voice', v);
       document.querySelectorAll('.voice-chip').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     };
