@@ -6,7 +6,7 @@
 <title>Narrador</title>
 <meta name="theme-color" content="#c8a96e">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Narrador">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon.svg">
@@ -454,11 +454,11 @@
   <!-- Setup banner (solo cuando no hay key) -->
   <div class="setup-banner" id="setupBanner" style="display:none">
     <h2>Bienvenido a Narrador</h2>
-    <p>Ingresá tu clave de acceso para empezar. La guardamos en el dispositivo y no volvés a verla.</p>
+    <p>Ingresá la contraseña para empezar. La guardamos en el dispositivo y no volvés a ingresarla.</p>
     <div class="setup-row">
-      <input type="password" id="setupKeyInput" placeholder="Narrador API key..." autocomplete="off"
+      <input type="password" id="setupKeyInput" placeholder="Contraseña..." autocomplete="off"
              onkeydown="if(event.key==='Enter') setupSave()">
-      <button class="btn-sm" onclick="setupSave()">Guardar</button>
+      <button class="btn-sm" onclick="setupSave()">Entrar</button>
     </div>
   </div>
 
@@ -468,15 +468,15 @@
       <h1>Narrador</h1>
       <span>chirp 3 hd</span>
       <div class="header-right">
-        <button class="settings-link" onclick="toggleSettings()">⚙ clave</button>
+        <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
     </div>
 
     <!-- Settings (oculto por defecto) -->
     <div class="section" id="settingsSection" style="display:none">
-      <div class="section-label">Configuración</div>
+      <div class="section-label">Acceso</div>
       <div style="display:flex;gap:8px">
-        <input type="password" id="backendKey" placeholder="Narrador API key..." autocomplete="off">
+        <input type="password" id="backendKey" placeholder="Contraseña..." autocomplete="off">
         <button class="btn-sm" onclick="changeKey()">Cambiar</button>
       </div>
     </div>

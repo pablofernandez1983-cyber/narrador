@@ -3,7 +3,7 @@
   "short_name": "Narrador",
   "description": "Podcasts narrados con Chirp 3 HD",
   "start_url": ".",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#0c0b09",
   "theme_color": "#c8a96e",
   "icons": [
