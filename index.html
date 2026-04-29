@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Narrador</title>
+<meta name="theme-color" content="#c8a96e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Narrador">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -434,6 +441,11 @@
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
   .generating { animation: pulse 1.5s ease infinite; }
   .pulsing .progress-bar-fill { animation: pulse 1.5s ease infinite; }
+
+  /* ── Jobs collapsible ── */
+  .jobs-toggle { cursor: pointer; user-select: none; }
+  .jobs-toggle:hover { color: var(--text); }
+  .jobs-toggle-icon { font-style: normal; font-size: 11px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -495,6 +507,7 @@
       <div class="tab-content" id="tab-ia">
         <textarea id="promptInput" style="min-height:120px"
           placeholder="Pedile a Claude lo que querés escuchar. Ej: haceme un podcast de 30 min sobre la historia del tango, con anécdotas y detalles de los barrios..."></textarea>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:0.5px">ref: ~4.000 palabras = 30 min · ~2.500 = 18 min · ~6.000 = 45 min</div>
         <label class="search-toggle">
           <input type="checkbox" id="webSearchToggle">
           <span>🔎 Investigar en la web (temas de actualidad)</span>
@@ -525,7 +538,7 @@
 
     <!-- Jobs queue -->
     <div class="jobs-section" id="jobsSection" style="display:none">
-      <div class="section-label">Cola de podcasts</div>
+      <div class="section-label jobs-toggle" onclick="toggleJobsList()">Cola de podcasts <span id="jobsToggleIcon" class="jobs-toggle-icon">▾</span></div>
       <div id="jobsList"></div>
     </div>
 
@@ -544,7 +557,7 @@
       <audio id="audioPlayer" controls></audio>
       <div class="player-buttons">
         <a class="download-btn" id="downloadBtn" href="#" download="narrador.mp3">⬇ Descargar</a>
-        <button class="download-btn" id="shareBtn" onclick="shareBlob(window._currentBlob,'narrador.mp3')"
+        <button class="download-btn" id="shareBtn" onclick="shareBlob(window._currentBlob, window._currentFilename||'narrador.mp3')"
                 style="display:none;cursor:pointer">⇪ Compartir</button>
       </div>
     </div>
@@ -669,6 +682,13 @@ function renderVoiceSection(gridId, voices) {
     wrap.appendChild(prev);
     grid.appendChild(wrap);
   });
+}
+
+let _jobsCollapsed = false;
+function toggleJobsList() {
+  _jobsCollapsed = !_jobsCollapsed;
+  document.getElementById('jobsList').style.display = _jobsCollapsed ? 'none' : '';
+  document.getElementById('jobsToggleIcon').textContent = _jobsCollapsed ? '▸' : '▾';
 }
 
 function toggleMoreVoices() {
@@ -888,6 +908,7 @@ async function playJob(jid) {
     const audio = document.getElementById('audioPlayer');
     audio.src = url;
     const fname = safeFilename(job?.title) + '.mp3';
+    window._currentFilename = fname;
     document.getElementById('downloadBtn').href = url;
     document.getElementById('downloadBtn').download = fname;
     document.getElementById('playerWrap').style.display = 'block';
@@ -988,6 +1009,7 @@ async function generate() {
     const audio = document.getElementById('audioPlayer');
     audio.src = url;
     const fname = safeFilename(text.split('\n')[0].slice(0,40)) + '.mp3';
+    window._currentFilename = fname;
     document.getElementById('downloadBtn').href = url;
     document.getElementById('downloadBtn').download = fname;
     document.getElementById('playerTitle').textContent = text.split('\n')[0].slice(0,50) || 'Audio generado';
