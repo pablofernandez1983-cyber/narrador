@@ -1057,6 +1057,8 @@ async function generate() {
   }
 }
 
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+
 async function shareBlob(blob, filename) {
   if (!blob) return;
   try {
