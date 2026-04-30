@@ -458,15 +458,16 @@
     <div class="setup-row">
       <input type="password" id="setupKeyInput" placeholder="Contraseña..." autocomplete="off"
              onkeydown="if(event.key==='Enter') setupSave()">
-      <button class="btn-sm" onclick="setupSave()">Entrar</button>
+      <button class="btn-sm" id="setupBtn" onclick="setupSave()">Entrar</button>
     </div>
+    <div id="setupError" style="color:var(--red);font-size:11px;margin-top:8px;min-height:14px"></div>
   </div>
 
   <div id="mainContent" style="display:none">
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd</span>
+      <span>chirp 3 hd · v5</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -600,12 +601,31 @@ window.onload = () => {
   }
 };
 
-function setupSave() {
+async function setupSave() {
   const k = document.getElementById('setupKeyInput').value.trim();
   if (!k) return;
-  lsSet('backendKey', k);
-  document.getElementById('setupBanner').style.display = 'none';
-  showMain(k);
+  const btn = document.getElementById('setupBtn');
+  const err = document.getElementById('setupError');
+  btn.disabled = true; btn.textContent = '...'; err.textContent = '';
+  try {
+    const resp = await fetch(`${BACKEND_URL}/jobs`, { headers: { 'X-API-Key': k } });
+    if (resp.status === 401 || resp.status === 403) {
+      err.textContent = 'Contraseña incorrecta';
+      return;
+    }
+    _sessionKey = k;
+    lsSet('backendKey', k);
+    document.getElementById('setupBanner').style.display = 'none';
+    showMain(k);
+  } catch(e) {
+    // sin conexión al backend — aceptar igual
+    _sessionKey = k;
+    lsSet('backendKey', k);
+    document.getElementById('setupBanner').style.display = 'none';
+    showMain(k);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
 }
 
 function showMain(key) {
