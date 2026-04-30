@@ -1014,14 +1014,26 @@ async function generate() {
   progressWrap.style.display = 'block';
   document.getElementById('playerWrap').style.display = 'none';
   setStatus('');
-  setProgress(10, 'Enviando al servidor...');
+  setProgress(10, 'Quedáte en Chrome mientras genera...');
+
+  // Wake lock: evita que el sistema suspenda Chrome
+  let wakeLock = null;
+  if ('wakeLock' in navigator) {
+    try { wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {}
+  }
+
+  // Detectar si el usuario sale de Chrome
+  const controller = new AbortController();
+  const onHide = () => { if (document.visibilityState === 'hidden') controller.abort(); };
+  document.addEventListener('visibilitychange', onHide);
 
   try {
     setProgress(20, 'Sintetizando audio...');
     const resp = await fetch(`${BACKEND_URL}/synth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-API-Key': bkey },
-      body: JSON.stringify({ text, voice: selectedVoice, speed })
+      body: JSON.stringify({ text, voice: selectedVoice, speed }),
+      signal: controller.signal,
     });
     if (!resp.ok) {
       const e = await resp.json().catch(() => ({}));
@@ -1048,9 +1060,15 @@ async function generate() {
     audio.play();
     setStatus(`✓ Audio generado — voz: ${selectedVoice}`, 'ok');
   } catch(e) {
-    setStatus('Error: ' + e.message, 'error');
     progressWrap.style.display = 'none';
+    if (e.name === 'AbortError') {
+      setStatus('Se cortó al salir de Chrome — volvé a intentarlo', 'error');
+    } else {
+      setStatus('Error: ' + e.message, 'error');
+    }
   } finally {
+    document.removeEventListener('visibilitychange', onHide);
+    if (wakeLock) wakeLock.release().catch(() => {});
     btn.disabled = false;
     btn.textContent = '▶ Generar Audio';
     btn.classList.remove('generating');
