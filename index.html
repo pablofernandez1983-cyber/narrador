@@ -467,7 +467,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.2</span>
+      <span>chirp 3 hd · v5.3</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -996,7 +996,7 @@ function safeFilename(title) {
   return (title || 'narrador').replace(/[^\w\s-]/g,'').trim().slice(0,50).replace(/\s+/g,'_').toLowerCase() || 'narrador';
 }
 
-// ─── Direct TTS via backend /synth ────────────────────────────
+// ─── Text/PDF → job queue ─────────────────────────────────────
 async function generate() {
   const bkey = getBackendKey();
   const text  = document.getElementById('textInput').value.trim();
@@ -1007,71 +1007,27 @@ async function generate() {
 
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
-  btn.textContent = 'Generando...';
-  btn.classList.add('generating');
-
-  const progressWrap = document.getElementById('progressWrap');
-  progressWrap.style.display = 'block';
-  document.getElementById('playerWrap').style.display = 'none';
-  setStatus('');
-  setProgress(10, 'Quedáte en Chrome mientras genera...');
-
-  // Wake lock: evita que el sistema suspenda Chrome
-  let wakeLock = null;
-  if ('wakeLock' in navigator) {
-    try { wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {}
-  }
-
-  // Detectar si el usuario sale de Chrome
-  const controller = new AbortController();
-  const onHide = () => { if (document.visibilityState === 'hidden') controller.abort(); };
-  document.addEventListener('visibilitychange', onHide);
+  btn.textContent = 'Enviando...';
 
   try {
-    setProgress(20, 'Sintetizando audio...');
-    const resp = await fetch(`${BACKEND_URL}/synth`, {
+    const resp = await fetch(`${BACKEND_URL}/jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-API-Key': bkey },
       body: JSON.stringify({ text, voice: selectedVoice, speed }),
-      signal: controller.signal,
     });
     if (!resp.ok) {
       const e = await resp.json().catch(() => ({}));
       throw new Error(e.error || `Error ${resp.status}`);
     }
-
-    setProgress(85, 'Descargando MP3...');
-    const blob = await resp.blob();
-    window._currentBlob = blob;
-    const url = URL.createObjectURL(blob);
-
-    const audio = document.getElementById('audioPlayer');
-    audio.src = url;
-    const fname = safeFilename(text.split('\n')[0].slice(0,40)) + '.mp3';
-    window._currentFilename = fname;
-    document.getElementById('downloadBtn').href = url;
-    document.getElementById('downloadBtn').download = fname;
-    document.getElementById('playerTitle').textContent = text.split('\n')[0].slice(0,50) || 'Audio generado';
-
-    setProgress(100, 'Listo');
-    setTimeout(() => { progressWrap.style.display = 'none'; }, 800);
-
-    document.getElementById('playerWrap').style.display = 'block';
-    audio.play();
-    setStatus(`✓ Audio generado — voz: ${selectedVoice}`, 'ok');
+    const job = await resp.json();
+    _jobs = [job, ..._jobs.filter(j => j.id !== job.id)];
+    renderJobs();
+    setStatus('✓ Encolado — podés cerrar Chrome y volver cuando esté listo', 'ok');
   } catch(e) {
-    progressWrap.style.display = 'none';
-    if (e.name === 'AbortError') {
-      setStatus('Se cortó al salir de Chrome — volvé a intentarlo', 'error');
-    } else {
-      setStatus('Error: ' + e.message, 'error');
-    }
+    setStatus('Error: ' + e.message, 'error');
   } finally {
-    document.removeEventListener('visibilitychange', onHide);
-    if (wakeLock) wakeLock.release().catch(() => {});
     btn.disabled = false;
     btn.textContent = '▶ Generar Audio';
-    btn.classList.remove('generating');
   }
 }
 
