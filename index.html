@@ -570,8 +570,10 @@
 <script>
 const BACKEND_URL = 'https://narrador-api-production.up.railway.app';
 
-function lsGet(k)    { try { return lsGet(k); }    catch(e) { return null; } }
-function lsSet(k, v) { try { lsSet(k, v); }        catch(e) {} }
+function lsGet(k)    { try { return localStorage.getItem(k); }    catch(e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); }        catch(e) {} }
+
+let _sessionKey = '';
 
 // Voces visibles por defecto (las que el usuario usa)
 const VOICES_MAIN  = ['Charon','Schedar','Achernar','Zubenelgenubi'];
@@ -607,6 +609,7 @@ function setupSave() {
 }
 
 function showMain(key) {
+  _sessionKey = key;
   document.getElementById('mainContent').style.display = 'block';
   document.getElementById('backendKey').value = key;
 
@@ -639,13 +642,14 @@ function toggleSettings() {
 function changeKey() {
   const k = document.getElementById('backendKey').value.trim();
   if (!k) return;
+  _sessionKey = k;
   lsSet('backendKey', k);
   document.getElementById('settingsSection').style.display = 'none';
   setStatus('Clave actualizada', 'ok');
 }
 
 function getBackendKey() {
-  return lsGet('backendKey') || '';
+  return _sessionKey || lsGet('backendKey') || '';
 }
 
 // ─── Voices ───────────────────────────────────────────────────
