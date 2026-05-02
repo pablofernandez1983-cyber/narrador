@@ -88,7 +88,17 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(15, 42, 82, 0.05);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
   }
+  .sum-card.active-summary {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(15, 42, 82, 0.14);
+  }
+  .sum-card.active-summary.sum-value { border-color: var(--value); }
+  .sum-card.active-summary.sum-moderate { border-color: var(--moderate); }
+  .sum-card.active-summary.sum-deluxe { border-color: var(--deluxe); }
   .sum-card::before {
     content: '';
     position: absolute;
@@ -203,6 +213,32 @@
   .tab[data-cat="value"].active { background: var(--value); }
   .tab[data-cat="moderate"].active { background: var(--moderate); }
   .tab[data-cat="deluxe"].active { background: var(--deluxe); }
+  .tab[data-cat="cronograma"].active { background: var(--disney-blue); }
+
+  .view-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: -12px 0 24px;
+  }
+  .view-toggle button {
+    padding: 11px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .view-toggle button.active {
+    background: var(--disney-blue);
+    border-color: var(--disney-blue);
+    color: white;
+    box-shadow: 0 4px 12px rgba(15, 42, 82, 0.14);
+  }
 
   /* SECTIONS */
   section { margin-bottom: 36px; }
@@ -236,6 +272,7 @@
   .cat-header.value { background: linear-gradient(135deg, #D17A22, #b86919); }
   .cat-header.moderate { background: linear-gradient(135deg, #2C7A7B, #1f5f60); }
   .cat-header.deluxe { background: linear-gradient(135deg, #8B1F4D, #6f1840); }
+  .cat-header.cronograma { background: linear-gradient(135deg, #0F2A52, #1d4b86); }
 
   .cat-label {
     font-family: 'Inter', sans-serif;
@@ -267,6 +304,8 @@
     border-bottom: 1px solid var(--border);
   }
   .scenario:last-child { border-bottom: none; }
+  body.view-lpf .scenario-moni { display: none; }
+  body.view-moni .scenario-lpf { display: none; }
 
   .scenario-header {
     display: flex;
@@ -350,6 +389,57 @@
   .breakdown-row:last-child { border-bottom: none; }
   .breakdown-row span:first-child { color: var(--muted); }
   .breakdown-row span:last-child { font-weight: 600; }
+
+  .timeline {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+  }
+  .day-card {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 14px;
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--day-color);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(15, 42, 82, 0.04);
+  }
+  .day-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--disney-blue);
+    background: var(--light-bg);
+    border-radius: 12px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .day-body strong {
+    display: block;
+    color: var(--disney-blue);
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+  .day-body span {
+    display: block;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .day-body em {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    background: #f7f5ee;
+    padding: 4px 8px;
+    border-radius: 100px;
+    font-style: normal;
+  }
 
   /* PROS/CONS */
   .proscons {
@@ -482,9 +572,20 @@
     .scenario { padding: 22px 28px; }
     .cat-header { padding: 28px 32px; }
   }
+  @media (max-width: 420px) {
+    .day-card {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .day-number {
+      min-height: auto;
+      justify-content: flex-start;
+      padding: 8px 10px;
+    }
+  }
 </style>
 </head>
-<body>
+<body class="view-lpf">
 
 <div class="container">
 
@@ -499,14 +600,14 @@
     <h2 class="summary-title">Comparación rápida</h2>
     <div class="summary-grid">
 
-      <div class="sum-card sum-value">
+      <div class="sum-card sum-value active-summary" data-cat="value" role="button" tabindex="0" aria-pressed="true">
         <div class="sum-label">Value</div>
         <div class="sum-name">Pop Century</div>
         <div class="sum-range"><span class="from">desde</span> <strong>USD 11.510</strong></div>
         <div class="sum-tag">El más económico · Skyliner a 2 parques</div>
       </div>
 
-      <div class="sum-card sum-moderate">
+      <div class="sum-card sum-moderate" data-cat="moderate" role="button" tabindex="0" aria-pressed="false">
         <div class="sum-star">⭐</div>
         <div class="sum-label">Moderate</div>
         <div class="sum-name">Coronado Springs</div>
@@ -514,7 +615,7 @@
         <div class="sum-tag">Sweet spot · Calidad cercana a Deluxe</div>
       </div>
 
-      <div class="sum-card sum-deluxe">
+      <div class="sum-card sum-deluxe" data-cat="deluxe" role="button" tabindex="0" aria-pressed="false">
         <div class="sum-label">Deluxe</div>
         <div class="sum-name">Polynesian</div>
         <div class="sum-range"><span class="from">desde</span> <strong>USD 15.910</strong></div>
@@ -531,6 +632,11 @@
     <button class="tab active" data-cat="value" onclick="showCat('value')">Value</button>
     <button class="tab" data-cat="moderate" onclick="showCat('moderate')">Moderate ⭐</button>
     <button class="tab" data-cat="deluxe" onclick="showCat('deluxe')">Deluxe</button>
+    <button class="tab" data-cat="cronograma" onclick="showCat('cronograma')">📅 Cronograma</button>
+  </div>
+  <div class="view-toggle" id="viewToggle" aria-label="Vista de costos">
+    <button type="button" class="active" data-view="lpf">Lore, Pablo y Franco</button>
+    <button type="button" data-view="moni">Adicional Moni</button>
   </div>
 
   <!-- VALUE -->
@@ -542,7 +648,7 @@
     </div>
     <div class="scenarios">
 
-      <div class="scenario">
+      <div class="scenario scenario-lpf">
         <div class="scenario-header">
           <div class="scenario-name">Lore, Pablo y Franco</div>
           <div class="scenario-total"><span class="currency">USD</span>11.510</div>
@@ -564,7 +670,7 @@
         </details>
       </div>
 
-      <div class="scenario">
+      <div class="scenario scenario-moni">
         <div class="scenario-header">
           <div class="scenario-name">+ Moni · habitación compartida</div>
           <div class="scenario-total"><span class="currency">USD</span>14.910</div>
@@ -586,7 +692,7 @@
         </details>
       </div>
 
-      <div class="scenario">
+      <div class="scenario scenario-moni">
         <div class="scenario-header">
           <div class="scenario-name">+ Moni · 2 habitaciones</div>
           <div class="scenario-total"><span class="currency">USD</span>16.390</div>
@@ -620,7 +726,7 @@
     </div>
     <div class="scenarios">
 
-      <div class="scenario">
+      <div class="scenario scenario-lpf">
         <div class="scenario-header">
           <div class="scenario-name">Lore, Pablo y Franco</div>
           <div class="scenario-total"><span class="currency">USD</span>13.270</div>
@@ -642,7 +748,7 @@
         </details>
       </div>
 
-      <div class="scenario">
+      <div class="scenario scenario-moni">
         <div class="scenario-header">
           <div class="scenario-name">+ Moni · habitación compartida</div>
           <div class="scenario-total"><span class="currency">USD</span>16.670</div>
@@ -664,7 +770,7 @@
         </details>
       </div>
 
-      <div class="scenario">
+      <div class="scenario scenario-moni">
         <div class="scenario-header">
           <div class="scenario-name">+ Moni · 2 habitaciones</div>
           <div class="scenario-total"><span class="currency">USD</span>19.910</div>
@@ -698,7 +804,7 @@
     </div>
     <div class="scenarios">
 
-      <div class="scenario">
+      <div class="scenario scenario-lpf">
         <div class="scenario-header">
           <div class="scenario-name">Lore, Pablo y Franco</div>
           <div class="scenario-total"><span class="currency">USD</span>15.910</div>
@@ -720,7 +826,7 @@
         </details>
       </div>
 
-      <div class="scenario">
+      <div class="scenario scenario-moni">
         <div class="scenario-header">
           <div class="scenario-name">+ Moni · habitación compartida</div>
           <div class="scenario-total"><span class="currency">USD</span>19.750</div>
@@ -742,7 +848,7 @@
         </details>
       </div>
 
-      <div class="scenario">
+      <div class="scenario scenario-moni">
         <div class="scenario-header">
           <div class="scenario-name">+ Moni · 2 habitaciones</div>
           <div class="scenario-total"><span class="currency">USD</span>25.190</div>
@@ -764,6 +870,53 @@
         </details>
       </div>
 
+    </div>
+  </article>
+
+  <!-- CRONOGRAMA -->
+  <article class="category-card" id="cat-cronograma">
+    <div class="cat-header cronograma">
+      <div class="cat-label">9 días tranquilos</div>
+      <div class="cat-name">Cronograma sugerido</div>
+      <div class="cat-hotel">Ritmo pensado para disfrutar sin correr todos los días</div>
+    </div>
+    <div class="timeline">
+      <div class="day-card" style="--day-color:#86a873">
+        <div class="day-number">Día 1</div>
+        <div class="day-body"><strong>Llegada y hotel</strong><span>MCO, check-in, descanso y pileta.</span><em>Tranqui</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#8B1F4D">
+        <div class="day-number">Día 2</div>
+        <div class="day-body"><strong>Magic Kingdom</strong><span>Día completo, ideal llegar para opening.</span><em>Intenso</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#86a873">
+        <div class="day-number">Día 3</div>
+        <div class="day-body"><strong>Disney Springs</strong><span>Cena, paseo y pileta sin correr.</span><em>Tranqui</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#D17A22">
+        <div class="day-number">Día 4</div>
+        <div class="day-body"><strong>EPCOT</strong><span>Frozen, Nemo y recorrido más liviano con Franco.</span><em>Medio</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#D17A22">
+        <div class="day-number">Día 5</div>
+        <div class="day-body"><strong>Compras 1</strong><span>Premium Outlets y Mall at Millenia.</span><em>Medio</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#D17A22">
+        <div class="day-number">Día 6</div>
+        <div class="day-body"><strong>Animal Kingdom</strong><span>Mucha sombra, conviene hacerlo por la mañana.</span><em>Medio</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#8B1F4D">
+        <div class="day-number">Día 7</div>
+        <div class="day-body"><strong>Legoland Florida</strong><span>Uber de aproximadamente 1 hora y día completo.</span><em>Intenso</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#8B1F4D">
+        <div class="day-number">Día 8</div>
+        <div class="day-body"><strong>Magic Kingdom repe</strong><span>Repetir favoritos y cerrar con cena temática.</span><em>Intenso</em></div>
+      </div>
+      <div class="day-card" style="--day-color:#D17A22">
+        <div class="day-number">Día 9</div>
+        <div class="day-body"><strong>Compras 2 y vuelo</strong><span>Souvenirs Disney Springs, Walmart o Target y vuelo nocturno.</span><em>Medio</em></div>
+      </div>
     </div>
   </article>
 
@@ -884,15 +1037,57 @@
 </div>
 
 <script>
-  function showCat(cat) {
+  function showCat(cat, shouldScroll = true) {
     document.querySelectorAll('.tab').forEach(t => {
       t.classList.toggle('active', t.dataset.cat === cat);
+    });
+    document.querySelectorAll('.sum-card').forEach(card => {
+      const isActive = card.dataset.cat === cat;
+      card.classList.toggle('active-summary', isActive);
+      card.setAttribute('aria-pressed', String(isActive));
     });
     document.querySelectorAll('.category-card').forEach(c => {
       c.classList.toggle('active', c.id === 'cat-' + cat);
     });
-    window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 16, behavior: 'smooth' });
+
+    const viewToggle = document.getElementById('viewToggle');
+    viewToggle.style.display = cat === 'cronograma' ? 'none' : 'grid';
+
+    if (shouldScroll) {
+      window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 16, behavior: 'smooth' });
+    }
   }
+
+  function setView(view) {
+    document.body.classList.toggle('view-lpf', view === 'lpf');
+    document.body.classList.toggle('view-moni', view === 'moni');
+    document.querySelectorAll('#viewToggle button').forEach(button => {
+      button.classList.toggle('active', button.dataset.view === view);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.sum-card').forEach(card => {
+      card.addEventListener('click', function () {
+        showCat(this.dataset.cat);
+      });
+      card.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          showCat(this.dataset.cat);
+        }
+      });
+    });
+
+    document.querySelectorAll('#viewToggle button').forEach(button => {
+      button.addEventListener('click', function () {
+        setView(this.dataset.view);
+      });
+    });
+
+    showCat('value', false);
+    setView('lpf');
+  });
 </script>
 
 </body>
