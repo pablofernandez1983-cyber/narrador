@@ -2,497 +2,898 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Disney Feb 2027 - Presupuesto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disney Feb 2027 · Presupuesto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,750&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --blue: #102b52;
-    --blue-soft: #eaf0f7;
-    --gold: #b8893e;
-    --bg: #f8f4eb;
-    --card: #fffdf9;
-    --ink: #1d1c1a;
-    --muted: #68645d;
-    --border: #e4dccd;
-    --value: #d17a22;
-    --moderate: #2f7d7a;
-    --deluxe: #8b1f4d;
-    --schedule: #28558a;
-    --shadow: 0 10px 30px rgba(16, 43, 82, .09);
+    --disney-blue: #0F2A52;
+    --disney-gold: #B8893E;
+    --light-bg: #F4F1E8;
+    --accent: #8B1F4D;
+    --value: #D17A22;
+    --moderate: #2C7A7B;
+    --deluxe: #8B1F4D;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e5e2d8;
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
   html { scroll-behavior: smooth; }
+
   body {
-    margin: 0;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: var(--ink);
-    background: linear-gradient(180deg, #fffaf2 0%, var(--bg) 38%, #f2eadc 100%);
-    line-height: 1.5;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(180deg, #faf8f3 0%, #f4f1e8 100%);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
     -webkit-font-smoothing: antialiased;
   }
 
-  button { font: inherit; }
-  .wrap { max-width: 820px; margin: 0 auto; padding: 22px 16px 88px; }
-  .hero { padding: 18px 0 22px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
-  .eyebrow { color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+  .container { max-width: 700px; margin: 0 auto; padding: 24px 16px 80px; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 24px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
   h1 {
-    margin: 6px 0 6px;
-    color: var(--blue);
-    font-family: Fraunces, serif;
-    font-size: clamp(34px, 9vw, 56px);
-    line-height: .96;
-    letter-spacing: 0;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 7vw, 38px);
+    color: var(--disney-blue);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 8px;
   }
-  .subtitle { margin: 0; color: var(--muted); font-size: 14px; }
-  h2 { margin: 0 0 12px; color: var(--blue); font-family: Fraunces, serif; font-size: 25px; letter-spacing: 0; }
-  h3 { margin: 0; color: var(--blue); font-size: 16px; }
-  .section { margin-bottom: 26px; }
-  .hint { margin: -4px 0 12px; color: var(--muted); font-size: 12px; }
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--disney-gold);
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .pax {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
 
-  .summary-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  .hotel-card {
-    position: relative;
-    width: 100%;
-    min-height: 168px;
-    text-align: left;
-    color: inherit;
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    padding: 17px 17px 15px 19px;
-    box-shadow: 0 4px 14px rgba(16, 43, 82, .05);
-    cursor: pointer;
-    touch-action: manipulation;
+  /* SUMMARY (vista inicial) */
+  .summary { margin-bottom: 28px; }
+  .summary-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--disney-blue);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
   }
-  .hotel-card::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    background: var(--cat-color);
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  .hotel-card[aria-pressed="true"] { border-color: var(--cat-color); box-shadow: var(--shadow); transform: translateY(-1px); }
-  .hotel-card .tag { color: var(--cat-color); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-  .hotel-card .name { margin-top: 4px; color: var(--blue); font-family: Fraunces, serif; font-size: 25px; font-weight: 750; line-height: 1.05; }
-  .hotel-card .price { margin-top: 10px; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
-  .hotel-card .price strong { color: var(--blue); font-family: Fraunces, serif; font-size: 28px; line-height: 1; }
-  .hotel-card .price span { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; }
-  .hotel-card .desc { margin-top: 8px; color: var(--muted); font-size: 12px; }
-  .hotel-card .pick { position: absolute; top: 12px; right: 13px; color: var(--cat-color); font-size: 12px; font-weight: 800; opacity: 0; }
-  .hotel-card[aria-pressed="true"] .pick { opacity: 1; }
-
-  .sticky-controls {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    margin: 0 -16px 22px;
-    padding: 10px 16px;
-    background: rgba(248, 244, 235, .95);
-    border-bottom: 1px solid rgba(228, 220, 205, .85);
-    backdrop-filter: blur(12px);
-  }
-  .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
-  .tabs button,
-  .view-toggle button {
-    min-height: 44px;
+  .sum-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px 20px;
     border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #fff;
-    color: #2b2925;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(15, 42, 82, 0.05);
+  }
+  .sum-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+  }
+  .sum-value::before { background: var(--value); }
+  .sum-moderate::before { background: var(--moderate); }
+  .sum-deluxe::before { background: var(--deluxe); }
+  .sum-moderate {
+    border-color: var(--moderate);
+    box-shadow: 0 4px 14px rgba(44, 122, 123, 0.12);
+  }
+  .sum-star {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 18px;
+  }
+  .sum-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .sum-value .sum-label { color: var(--value); }
+  .sum-moderate .sum-label { color: var(--moderate); }
+  .sum-deluxe .sum-label { color: var(--deluxe); }
+  .sum-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--disney-blue);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .sum-range {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .sum-range .from {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .sum-range strong {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--disney-blue);
+  }
+  .sum-tag {
     font-size: 12px;
-    font-weight: 800;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .summary-note {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 14px;
+    font-style: italic;
+  }
+  .tabs-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  /* DESKTOP: cards en fila */
+  @media (min-width: 640px) {
+    .summary-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* TABS NAVEGACION */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 1;
+    min-width: max-content;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
     cursor: pointer;
-    touch-action: manipulation;
+    transition: all 0.2s;
+    text-align: center;
   }
-  .tabs button.active { color: #fff; background: var(--active-color); border-color: var(--active-color); box-shadow: 0 5px 14px rgba(16, 43, 82, .16); }
-  .view-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-  .view-toggle button.active { color: #fff; background: var(--blue); border-color: var(--blue); }
+  .tab.active { color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+  .tab[data-cat="value"].active { background: var(--value); }
+  .tab[data-cat="moderate"].active { background: var(--moderate); }
+  .tab[data-cat="deluxe"].active { background: var(--deluxe); }
 
-  .panel { overflow: hidden; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
-  .panel-head { padding: 20px; color: #fff; background: linear-gradient(135deg, var(--active-color), color-mix(in srgb, var(--active-color) 76%, #111)); }
-  .panel-head .label { font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; opacity: .9; }
-  .panel-head .title { margin-top: 4px; font-family: Fraunces, serif; font-size: 30px; font-weight: 750; line-height: 1.04; }
-  .panel-head .sub { margin-top: 6px; font-size: 13px; opacity: .95; }
-  .content { padding: 17px; }
-  .total-card { margin-bottom: 14px; padding: 16px; background: #faf7f0; border: 1px solid var(--border); border-radius: 8px; }
-  .total-title { color: var(--blue); font-size: 14px; font-weight: 800; }
-  .total-price { margin-top: 5px; color: var(--blue); font-family: Fraunces, serif; font-size: 36px; font-weight: 750; line-height: 1; }
-  .total-note { margin-top: 7px; color: var(--muted); font-size: 12px; }
-  .option { margin-top: 12px; padding: 15px; background: #fff; border: 1px solid var(--border); border-radius: 8px; }
-  .option.recommended { border-color: var(--active-color); box-shadow: 0 5px 16px rgba(16, 43, 82, .08); }
-  .option-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
-  .amount { color: var(--blue); font-family: Fraunces, serif; font-size: 27px; font-weight: 750; white-space: nowrap; }
-  .option p { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
-  .pill { display: inline-block; margin-top: 8px; padding: 4px 9px; color: #fff; background: var(--active-color); border-radius: 999px; font-size: 11px; font-weight: 800; }
-  details { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
-  summary { color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 800; list-style: none; }
+  /* SECTIONS */
+  section { margin-bottom: 36px; }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--disney-blue);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  /* CATEGORY CARDS - lo central del mobile */
+  .category-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(15, 42, 82, 0.06);
+    border: 1px solid var(--border);
+    display: none;
+  }
+  .category-card.active { display: block; }
+
+  .cat-header {
+    padding: 20px 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .cat-header.value { background: linear-gradient(135deg, #D17A22, #b86919); }
+  .cat-header.moderate { background: linear-gradient(135deg, #2C7A7B, #1f5f60); }
+  .cat-header.deluxe { background: linear-gradient(135deg, #8B1F4D, #6f1840); }
+
+  .cat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .cat-name {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 4px;
+    line-height: 1.1;
+  }
+  .cat-hotel {
+    font-size: 13px;
+    margin-top: 6px;
+    opacity: 0.9;
+  }
+
+  /* SCENARIOS */
+  .scenarios {
+    padding: 8px 0;
+  }
+  .scenario {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .scenario:last-child { border-bottom: none; }
+
+  .scenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    gap: 12px;
+  }
+  .scenario-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--disney-blue);
+  }
+  .scenario-total {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--disney-blue);
+    white-space: nowrap;
+  }
+  .scenario-total .currency {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-right: 2px;
+  }
+  .scenario-detail {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .scenario-extra {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .scenario-extra.empty {
+    background: transparent;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+  }
+
+  /* DESGLOSE TOGGLE */
+  details {
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  summary {
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
   summary::-webkit-details-marker { display: none; }
-  summary::before { content: ">"; margin-right: 6px; font-size: 11px; }
-  details[open] summary::before { content: "v"; }
-  .rows { margin-top: 8px; }
-  .row { display: flex; justify-content: space-between; gap: 18px; padding: 7px 0; border-bottom: 1px dotted var(--border); font-size: 12px; }
-  .row:last-child { border-bottom: 0; }
-  .row span:first-child { color: var(--muted); }
-  .row span:last-child { font-weight: 800; text-align: right; }
-  .row.total { margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--border); border-bottom: 0; font-size: 13px; }
-  .row.total span { color: var(--blue); }
-
-  .bullets { display: grid; gap: 10px; margin-top: 14px; }
-  .mini { padding: 15px; background: #fff; border: 1px solid var(--border); border-radius: 8px; }
-  .mini ul { margin: 8px 0 0; padding-left: 18px; }
-  .mini li { margin: 5px 0; font-size: 13px; }
-
-  .timeline { display: grid; gap: 12px; }
-  .day-card { display: grid; grid-template-columns: 72px 1fr; gap: 13px; padding: 14px; background: #fff; border: 1px solid var(--border); border-left: 5px solid var(--day-color); border-radius: 8px; }
-  .day-number { min-height: 56px; display: flex; align-items: center; justify-content: center; color: var(--blue); background: var(--blue-soft); border-radius: 8px; font-family: Fraunces, serif; font-weight: 750; text-align: center; }
-  .day-body strong { display: block; color: var(--blue); font-size: 15px; }
-  .day-body span { display: block; margin-top: 3px; color: #312f2b; font-size: 13px; }
-  .badge { display: inline-block; margin-top: 8px; padding: 4px 8px; color: var(--muted); background: #f5f1e8; border-radius: 999px; font-size: 11px; font-weight: 700; }
-
-  .reco { margin-top: 20px; padding: 19px; background: linear-gradient(135deg, #f6efdf, #ede2cc); border: 1px solid var(--gold); border-radius: 8px; }
-  .reco .label { color: #8a672d; font-family: Fraunces, serif; font-size: 18px; font-weight: 650; }
-  .reco p { margin: 8px 0 0; font-size: 14px; }
-  .note { margin: 24px auto 0; max-width: 680px; color: var(--muted); font-size: 11px; font-style: italic; text-align: center; }
-
-  @media (min-width: 720px) {
-    .summary-grid, .bullets { grid-template-columns: repeat(3, 1fr); }
+  summary::before {
+    content: '▸';
+    font-size: 10px;
+    transition: transform 0.2s;
   }
-  @media (max-width: 420px) {
-    .wrap { padding-inline: 14px; }
-    .tabs button { font-size: 11px; padding-inline: 4px; }
-    .day-card { grid-template-columns: 1fr; }
-    .day-number { min-height: auto; justify-content: flex-start; padding: 8px 10px; }
-    .option-top { display: block; }
-    .amount { margin-top: 4px; }
+  details[open] summary::before { transform: rotate(90deg); }
+
+  .breakdown {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--border);
+  }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-row span:first-child { color: var(--muted); }
+  .breakdown-row span:last-child { font-weight: 600; }
+
+  /* PROS/CONS */
+  .proscons {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+  }
+  .proscons h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--disney-blue);
+  }
+  .proscons h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 14px 0 8px;
+    color: var(--muted);
+  }
+  .proscons h4:first-of-type { margin-top: 0; }
+  .proscons ul { list-style: none; padding: 0; }
+  .proscons li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .proscons li.pro::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: var(--moderate);
+    font-weight: 700;
+  }
+  .proscons li.con::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* RECOMENDACION */
+  .reco {
+    background: linear-gradient(135deg, var(--light-bg), #ebe6d5);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid var(--disney-gold);
+    margin-bottom: 24px;
+  }
+  .reco-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--disney-gold);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .reco h2 {
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
+  .reco p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #2a2a2a;
+  }
+  .reco strong { color: var(--moderate); }
+
+  /* TODOS */
+  .todo-list {
+    background: white;
+    border-radius: 16px;
+    padding: 8px 0;
+    border: 1px solid var(--border);
+  }
+  .todo-item {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--light-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .todo-content { flex: 1; }
+  .todo-content strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+    color: var(--disney-blue);
+  }
+  .todo-content span {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* FOOTER NOTE */
+  .note {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    margin-top: 24px;
+    padding: 0 16px;
+    line-height: 1.5;
+  }
+
+  /* DESKTOP REFINEMENTS */
+  @media (min-width: 768px) {
+    .container { padding: 48px 32px 80px; }
+    .scenario { padding: 22px 28px; }
+    .cat-header { padding: 28px 32px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
-    <div class="eyebrow">Presupuesto familiar</div>
+
+<div class="container">
+
+  <header>
     <h1>Disney World</h1>
-    <p class="subtitle">Febrero 2027 - 9 días tranquilos para Pablo, Lore, Franco y posible Moni.</p>
+    <div class="subtitle">Febrero 2027 · 9 días</div>
+    <div class="pax">Pablo, Lore, Franco (8) + posible Moni</div>
   </header>
 
-  <section class="section" aria-labelledby="hotelTitle">
-    <h2 id="hotelTitle">Elegí el hotel</h2>
-    <p class="hint">Tocá una tarjeta: el resumen, el tab y el detalle quedan sincronizados.</p>
-    <div class="summary-grid" id="hotelCards"></div>
+  <!-- RESUMEN GENERAL -->
+  <section class="summary">
+    <h2 class="summary-title">Comparación rápida</h2>
+    <div class="summary-grid">
+
+      <div class="sum-card sum-value">
+        <div class="sum-label">Value</div>
+        <div class="sum-name">Pop Century</div>
+        <div class="sum-range"><span class="from">desde</span> <strong>USD 11.510</strong></div>
+        <div class="sum-tag">El más económico · Skyliner a 2 parques</div>
+      </div>
+
+      <div class="sum-card sum-moderate">
+        <div class="sum-star">⭐</div>
+        <div class="sum-label">Moderate</div>
+        <div class="sum-name">Coronado Springs</div>
+        <div class="sum-range"><span class="from">desde</span> <strong>USD 13.270</strong></div>
+        <div class="sum-tag">Sweet spot · Calidad cercana a Deluxe</div>
+      </div>
+
+      <div class="sum-card sum-deluxe">
+        <div class="sum-label">Deluxe</div>
+        <div class="sum-name">Polynesian</div>
+        <div class="sum-range"><span class="from">desde</span> <strong>USD 15.910</strong></div>
+        <div class="sum-tag">Premium · Monorriel a Magic Kingdom</div>
+      </div>
+
+    </div>
+    <p class="summary-note">Precios para Lore, Pablo y Franco. Sumar Moni va de +USD 3.400 a +USD 9.280 según opción.</p>
   </section>
 
-  <div class="sticky-controls">
-    <div class="tabs" id="hotelTabs" aria-label="Opciones de viaje"></div>
-    <div class="view-toggle" id="viewTabs" aria-label="Vista de costos">
-      <button type="button" data-view="lpf" class="active">Lore, Pablo y Franco</button>
-      <button type="button" data-view="moni">Adicional Moni</button>
-    </div>
+  <!-- TABS -->
+  <div class="tabs-label">Ver detalle por categoría</div>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-cat="value" onclick="showCat('value')">Value</button>
+    <button class="tab" data-cat="moderate" onclick="showCat('moderate')">Moderate ⭐</button>
+    <button class="tab" data-cat="deluxe" onclick="showCat('deluxe')">Deluxe</button>
   </div>
 
-  <main id="mainPanel"></main>
-
-  <section class="section">
-    <h2>Diferencias rápidas</h2>
-    <div class="bullets">
-      <article class="mini">
-        <h3>Pop Century</h3>
-        <ul>
-          <li>Más visual y divertido para Franco.</li>
-          <li>Skyliner a EPCOT y Hollywood Studios.</li>
-          <li>Habitación más chica y solo food court.</li>
-        </ul>
-      </article>
-      <article class="mini">
-        <h3>Coronado Springs</h3>
-        <ul>
-          <li>Mejor equilibrio costo / calidad.</li>
-          <li>Gran Destino se siente más adulto y cómodo.</li>
-          <li>Sin Skyliner ni monorriel: todo bus.</li>
-        </ul>
-      </article>
-      <article class="mini">
-        <h3>Polynesian</h3>
-        <ul>
-          <li>Más experiencia Disney premium.</li>
-          <li>Monorriel a Magic Kingdom.</li>
-          <li>Mucho más caro, sobre todo con dos habitaciones.</li>
-        </ul>
-      </article>
+  <!-- VALUE -->
+  <article class="category-card active" id="cat-value">
+    <div class="cat-header value">
+      <div class="cat-label">Value</div>
+      <div class="cat-name">Pop Century</div>
+      <div class="cat-hotel">Skyliner directo a Epcot y Hollywood Studios</div>
     </div>
-  </section>
+    <div class="scenarios">
 
-  <section class="section">
-    <h2>Cosas a hacer ya</h2>
-    <div class="bullets">
-      <article class="mini"><h3>Definir hotel</h3><p>Elegir si priorizan precio, equilibrio o experiencia premium.</p></article>
-      <article class="mini"><h3>Separar Moni</h3><p>Mostrarle cuánto suma ella sin mezclarlo con el total base.</p></article>
-      <article class="mini"><h3>Revisar tarifas</h3><p>Actualizar números cuando Disney publique paquetes y vuelos más cercanos.</p></article>
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">Lore, Pablo y Franco</div>
+          <div class="scenario-total"><span class="currency">USD</span>11.510</div>
+        </div>
+        <div class="scenario-detail">Habitación standard (los 3)</div>
+        <span class="scenario-extra empty">— sin Moni</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>4.500</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>1.600</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.220</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.000</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>420</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>250</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>270</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>250</span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">+ Moni · habitación compartida</div>
+          <div class="scenario-total"><span class="currency">USD</span>14.910</div>
+        </div>
+        <div class="scenario-detail">1 habitación standard, los 4 juntos</div>
+        <span class="scenario-extra">Moni paga +3.400</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>1.720</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">+ Moni · 2 habitaciones</div>
+          <div class="scenario-total"><span class="currency">USD</span>16.390</div>
+        </div>
+        <div class="scenario-detail">2 habitaciones standard separadas</div>
+        <span class="scenario-extra">Moni paga +4.880</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>3.200</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+          </div>
+        </details>
+      </div>
+
     </div>
-  </section>
+  </article>
 
+  <!-- MODERATE -->
+  <article class="category-card" id="cat-moderate">
+    <div class="cat-header moderate">
+      <div class="cat-label">Moderate · Recomendado ⭐</div>
+      <div class="cat-name">Coronado Springs</div>
+      <div class="cat-hotel">Gran Destino Tower — calidad cercana a Deluxe</div>
+    </div>
+    <div class="scenarios">
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">Lore, Pablo y Franco</div>
+          <div class="scenario-total"><span class="currency">USD</span>13.270</div>
+        </div>
+        <div class="scenario-detail">Habitación standard (los 3)</div>
+        <span class="scenario-extra empty">— sin Moni</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>4.500</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>3.360</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.220</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.000</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>420</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>250</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>270</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>250</span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">+ Moni · habitación compartida</div>
+          <div class="scenario-total"><span class="currency">USD</span>16.670</div>
+        </div>
+        <div class="scenario-detail">1 habitación Gran Destino, los 4 juntos</div>
+        <span class="scenario-extra">Moni paga +3.400</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>3.480</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">+ Moni · 2 habitaciones</div>
+          <div class="scenario-total"><span class="currency">USD</span>19.910</div>
+        </div>
+        <div class="scenario-detail">2 habitaciones conectadas con puerta interna</div>
+        <span class="scenario-extra">Moni paga +6.640</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>6.720</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- DELUXE -->
+  <article class="category-card" id="cat-deluxe">
+    <div class="cat-header deluxe">
+      <div class="cat-label">Deluxe</div>
+      <div class="cat-name">Polynesian</div>
+      <div class="cat-hotel">Monorriel directo a Magic Kingdom</div>
+    </div>
+    <div class="scenarios">
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">Lore, Pablo y Franco</div>
+          <div class="scenario-total"><span class="currency">USD</span>15.910</div>
+        </div>
+        <div class="scenario-detail">Habitación standard (los 3)</div>
+        <span class="scenario-extra empty">— sin Moni</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>4.500</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.220</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.000</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>420</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>250</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>270</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>250</span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">+ Moni · habitación compartida</div>
+          <div class="scenario-total"><span class="currency">USD</span>19.750</div>
+        </div>
+        <div class="scenario-detail">1 habitación Resort View (5 personas)</div>
+        <span class="scenario-extra">Moni paga +3.840</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>6.560</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-name">+ Moni · 2 habitaciones</div>
+          <div class="scenario-total"><span class="currency">USD</span>25.190</div>
+        </div>
+        <div class="scenario-detail">2 habitaciones standard separadas</div>
+        <span class="scenario-extra">Moni paga +9.280</span>
+        <details>
+          <summary>Ver desglose</summary>
+          <div class="breakdown">
+            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>12.000</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- RECO -->
   <section class="reco">
-    <div class="label">Mi lectura</div>
-    <p><strong>Para mostrarle a Moni conviene separar los números:</strong> por un lado lo que les cuesta a Lore, Pablo y Franco; por otro, cuánto suma ella si comparte habitación o si tiene cuarto propio.</p>
+    <div class="reco-label">Mi sugerencia</div>
+    <h2>Coronado Gran Destino Tower</h2>
+    <p>Es el <strong>sweet spot</strong> entre las tres categorías. Pop Century ahorra ~USD 1.800 pero con habitación más chica y solo food court. Coronado tiene calidad cercana a Deluxe a la mitad del precio del Polynesian, con Toledo Tapas en el piso 16 con vista a los fuegos del Magic Kingdom. Para 9 días con cronograma activo, el upgrade a Deluxe se aprovecha poco — el hotel es básicamente para dormir.</p>
   </section>
 
-  <p class="note">Valores en USD netos. No incluye compras. Sumar aproximadamente 30% si se paga en pesos argentinos. Estimaciones basadas en tarifas de abril/mayo 2026; ajustar con cotización final.</p>
+  <!-- PROS Y CONTRAS -->
+  <section>
+    <h2>Pros y contras</h2>
+
+    <div class="proscons">
+      <h3 style="color: var(--value);">Value · Pop Century</h3>
+      <h4>Pros</h4>
+      <ul>
+        <li class="pro">El más barato dentro de Disney</li>
+        <li class="pro"><strong>Skyliner directo</strong> a Epcot y Hollywood Studios</li>
+        <li class="pro">Tematización pop divertida (Franco va a flashear)</li>
+        <li class="pro">3 piletas grandes con tobogán</li>
+        <li class="pro">Mismas perks Disney (Early Entry, MagicBands)</li>
+      </ul>
+      <h4>Contras</h4>
+      <ul>
+        <li class="con">Habitación más chica (260 sqft)</li>
+        <li class="con">Solo food court (sin restaurante a la mesa)</li>
+        <li class="con">A Magic Kingdom y Animal Kingdom solo por bus</li>
+        <li class="con">Más ruidoso (familias, grupos escolares)</li>
+      </ul>
+    </div>
+
+    <div class="proscons">
+      <h3 style="color: var(--moderate);">Moderate · Coronado Springs ⭐</h3>
+      <h4>Pros</h4>
+      <ul>
+        <li class="pro">Mejor relación costo / beneficio</li>
+        <li class="pro">Gran Destino Tower: calidad cercana a Deluxe</li>
+        <li class="pro">Toledo (piso 16) con vista a fuegos del Magic Kingdom</li>
+        <li class="pro">Pool con tobogán maya, ideal para Franco</li>
+        <li class="pro">4 restaurantes a la mesa, ambiente más adulto</li>
+      </ul>
+      <h4>Contras</h4>
+      <ul>
+        <li class="con">Sin Skyliner ni monorriel (todo por bus)</li>
+        <li class="con">A Magic Kingdom toma 20-25 min en bus</li>
+        <li class="con">Sin Extended Evening Hours</li>
+      </ul>
+    </div>
+
+    <div class="proscons">
+      <h3 style="color: var(--deluxe);">Deluxe · Polynesian</h3>
+      <h4>Pros</h4>
+      <ul>
+        <li class="pro">Ubicación monorriel a Magic Kingdom</li>
+        <li class="pro">Habitaciones más grandes (~410 sqft)</li>
+        <li class="pro">Atmósfera tropical y tematización superior</li>
+        <li class="pro">Restaurantes top: 'Ohana, Kona Café</li>
+        <li class="pro">Extended Evening Hours en parques selectos</li>
+      </ul>
+      <h4>Contras</h4>
+      <ul>
+        <li class="con">Costo: USD 750/noche vs USD 200-420</li>
+        <li class="con">Para 9 días activos, hotel se aprovecha poco</li>
+        <li class="con">Diferencia se amplía mucho con 2 habitaciones</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TODO LIST -->
+  <section>
+    <h2>Cosas a hacer ya</h2>
+    <div class="todo-list">
+      <div class="todo-item">
+        <div class="todo-icon">🛂</div>
+        <div class="todo-content">
+          <strong>Visa USA de Moni</strong>
+          <span>Si no tiene, empezar el trámite ya. Demora 4-6 meses en Argentina.</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-icon">📅</div>
+        <div class="todo-content">
+          <strong>Reservar pronto</strong>
+          <span>Depósito USD 200 reembolsable hasta 31 días antes. Si sale promo después, se aplica automáticamente.</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-icon">⚠️</div>
+        <div class="todo-content">
+          <strong>Evitar Presidents Day</strong>
+          <span>13-24 feb 2027 son fechas de mucha gente. Apuntar a 1-12 feb o 25 feb-7 mar.</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-icon">✈️</div>
+        <div class="todo-content">
+          <strong>Vuelos</strong>
+          <span>Comprar entre octubre y noviembre 2026 (4-6 meses antes del viaje).</span>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-icon">🎫</div>
+        <div class="todo-content">
+          <strong>Agente Disney</strong>
+          <span>Verificar que sea EarMarked / Authorized Disney Vacation Planner. Cobra a Disney, no a vos.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="note">
+    Valores en USD netos. No incluye compras (discrecional de cada uno). Sumar ~30% si se paga en pesos argentinos.<br>
+    Estimaciones basadas en tarifas de abril/mayo 2026.
+  </p>
+
 </div>
 
 <script>
-  const hotels = {
-    value: {
-      label: "Value",
-      name: "Pop Century",
-      color: "var(--value)",
-      short: "Skyliner, precio más bajo y estética más Disney para Franco.",
-      lpfTotal: 11510,
-      lpfNote: "Base estimada para Lore, Pablo y Franco.",
-      lpfRows: [
-        ["Vuelos", 4500],
-        ["Hotel (8 noches)", 1600],
-        ["Park Hopper 5 días", 2220],
-        ["Comidas", 2000],
-        ["Lightning Lane", 420],
-        ["Transporte / Uber", 250],
-        ["Legoland", 270],
-        ["Seguro de viaje", 250]
-      ],
-      moniOptions: [
-        { title: "Habitación compartida", amount: 3400, total: 14910, note: "Total viaje con Moni: USD 14.910. 1 habitación standard, los 4 juntos.", recommended: true },
-        { title: "2 habitaciones", amount: 4880, total: 16390, note: "Total viaje con Moni: USD 16.390. 2 habitaciones standard separadas.", recommended: false }
-      ],
-      pros: ["Más económico.", "Skyliner a EPCOT y Hollywood Studios.", "Muy visual para Franco."],
-      cons: ["Habitación más chica.", "Menos opciones de comida.", "Puede sentirse más básico."]
-    },
-    moderate: {
-      label: "Moderate",
-      name: "Coronado Springs",
-      color: "var(--moderate)",
-      short: "Sweet spot entre costo, comodidad y sensación de hotel más adulto.",
-      lpfTotal: 13270,
-      lpfNote: "Base estimada para Lore, Pablo y Franco.",
-      lpfRows: [
-        ["Vuelos", 4500],
-        ["Hotel (8 noches)", 3360],
-        ["Park Hopper 5 días", 2220],
-        ["Comidas", 2000],
-        ["Lightning Lane", 420],
-        ["Transporte / Uber", 250],
-        ["Legoland", 270],
-        ["Seguro de viaje", 250]
-      ],
-      moniOptions: [
-        { title: "Habitación compartida", amount: 3400, total: 16670, note: "Total viaje con Moni: USD 16.670. 1 habitación Gran Destino, los 4 juntos.", recommended: true },
-        { title: "2 habitaciones", amount: 6640, total: 19910, note: "Total viaje con Moni: USD 19.910. 2 habitaciones conectadas con puerta interna.", recommended: false }
-      ],
-      pros: ["Mejor equilibrio general.", "Gran Destino se siente más premium.", "Más cómodo para adultos."],
-      cons: ["Todo se mueve en bus.", "Menos infantil para Franco.", "Costo medio más alto que Pop."]
-    },
-    deluxe: {
-      label: "Deluxe",
-      name: "Polynesian",
-      color: "var(--deluxe)",
-      short: "La experiencia más mágica y premium, con monorriel a Magic Kingdom.",
-      lpfTotal: 15910,
-      lpfNote: "Base estimada para Lore, Pablo y Franco.",
-      lpfRows: [
-        ["Vuelos", 4500],
-        ["Hotel (8 noches)", 6000],
-        ["Park Hopper 5 días", 2220],
-        ["Comidas", 2000],
-        ["Lightning Lane", 420],
-        ["Transporte / Uber", 250],
-        ["Legoland", 270],
-        ["Seguro de viaje", 250]
-      ],
-      moniOptions: [
-        { title: "Habitación compartida", amount: 3840, total: 19750, note: "Total viaje con Moni: USD 19.750. 1 habitación Resort View (5 personas).", recommended: true },
-        { title: "2 habitaciones", amount: 9280, total: 25190, note: "Total viaje con Moni: USD 25.190. 2 habitaciones standard separadas.", recommended: false }
-      ],
-      pros: ["Monorriel a Magic Kingdom.", "Extended Evening Hours en días selectos.", "Experiencia Disney premium."],
-      cons: ["Mucho más caro.", "EPCOT requiere combinación vía TTC.", "Hollywood Studios va por bus o Uber."]
-    }
-  };
-
-  const schedule = [
-    ["Día 1", "Llegada y hotel", "MCO, check-in, descanso y pileta.", "Tranqui", "#86a873"],
-    ["Día 2", "Magic Kingdom", "Día completo, ideal llegar para apertura.", "Intenso", "#8b1f4d"],
-    ["Día 3", "Disney Springs", "Cena, paseo y pileta sin correr.", "Tranqui", "#86a873"],
-    ["Día 4", "EPCOT", "Frozen, Nemo y recorrido más liviano con Franco.", "Medio", "#d17a22"],
-    ["Día 5", "Compras 1", "Premium Outlets y Mall at Millenia.", "Medio", "#d17a22"],
-    ["Día 6", "Animal Kingdom", "Mucha sombra, conviene hacerlo por la mañana.", "Medio", "#d17a22"],
-    ["Día 7", "Legoland Florida", "Uber de aproximadamente 1 hora y día completo.", "Intenso", "#8b1f4d"],
-    ["Día 8", "Magic Kingdom repe", "Repetir favoritos y cerrar con cena temática.", "Intenso", "#8b1f4d"],
-    ["Día 9", "Compras 2 y vuelo", "Souvenirs, Walmart o Target y vuelo nocturno.", "Medio", "#d17a22"]
-  ];
-
-  let activeHotel = "value";
-  let activeView = "lpf";
-
-  const money = value => `USD ${value.toLocaleString("es-AR")}`;
-
-  function renderCards() {
-    const cards = document.getElementById("hotelCards");
-    cards.innerHTML = Object.entries(hotels).map(([key, hotel]) => `
-      <button class="hotel-card" type="button" data-hotel="${key}" aria-pressed="${key === activeHotel}" style="--cat-color:${hotel.color}">
-        <span class="pick">Elegido</span>
-        <div class="tag">${hotel.label}</div>
-        <div class="name">${hotel.name}</div>
-        <div class="price"><strong>${money(hotel.lpfTotal)}</strong><span>base LPF</span></div>
-        <div class="desc">${hotel.short}</div>
-      </button>
-    `).join("");
-
-    cards.querySelectorAll("button").forEach(button => {
-      button.addEventListener("click", () => setHotel(button.dataset.hotel, true));
+  function showCat(cat) {
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.cat === cat);
     });
-  }
-
-  function renderTabs() {
-    const tabs = document.getElementById("hotelTabs");
-    tabs.innerHTML = `
-      ${Object.entries(hotels).map(([key, hotel]) => `
-        <button type="button" data-hotel="${key}" class="${key === activeHotel ? "active" : ""}" style="--active-color:${hotel.color}">${hotel.label}</button>
-      `).join("")}
-      <button type="button" data-hotel="schedule" class="${activeHotel === "schedule" ? "active" : ""}" style="--active-color:var(--schedule)">Cronograma</button>
-    `;
-
-    tabs.querySelectorAll("button").forEach(button => {
-      button.addEventListener("click", () => setHotel(button.dataset.hotel, true));
+    document.querySelectorAll('.category-card').forEach(c => {
+      c.classList.toggle('active', c.id === 'cat-' + cat);
     });
+    window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 16, behavior: 'smooth' });
   }
-
-  function renderPanel() {
-    const panel = document.getElementById("mainPanel");
-    if (activeHotel === "schedule") {
-      panel.innerHTML = renderSchedule();
-      return;
-    }
-
-    const hotel = hotels[activeHotel];
-    panel.innerHTML = `
-      <section class="panel" style="--active-color:${hotel.color}">
-        <div class="panel-head">
-          <div class="label">${hotel.label}</div>
-          <div class="title">${hotel.name}</div>
-          <div class="sub">${hotel.short}</div>
-        </div>
-        <div class="content">
-          ${activeView === "lpf" ? renderLpf(hotel) : renderMoni(hotel)}
-          <div class="bullets">
-            <article class="mini"><h3>Pros</h3><ul>${hotel.pros.map(item => `<li>${item}</li>`).join("")}</ul></article>
-            <article class="mini"><h3>Contras</h3><ul>${hotel.cons.map(item => `<li>${item}</li>`).join("")}</ul></article>
-            <article class="mini"><h3>Para decidir</h3><p>${decisionCopy(activeHotel)}</p></article>
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  function renderLpf(hotel) {
-    return `
-      <div class="total-card">
-        <div class="total-title">Vista Lore, Pablo y Franco</div>
-        <div class="total-price">${money(hotel.lpfTotal)}</div>
-        <div class="total-note">${hotel.lpfNote}</div>
-      </div>
-      <details>
-        <summary>Ver composición estimada</summary>
-        <div class="rows">
-          ${hotel.lpfRows.map(([label, amount]) => `<div class="row"><span>${label}</span><span>${money(amount)}</span></div>`).join("")}
-          <div class="row total"><span>Total base</span><span>${money(hotel.lpfTotal)}</span></div>
-        </div>
-      </details>
-    `;
-  }
-
-  function renderMoni(hotel) {
-    return `
-      <div class="total-card">
-        <div class="total-title">Adicional Moni</div>
-        <div class="total-price">${money(hotel.moniOptions[0].amount)}</div>
-        <div class="total-note">Mostramos lo que tendría que pagar Moni, separado del costo base de Lore, Pablo y Franco.</div>
-      </div>
-      ${hotel.moniOptions.map(option => `
-        <article class="option ${option.recommended ? "recommended" : ""}">
-          <div class="option-top">
-            <div>
-              <h3>${option.title}</h3>
-              ${option.recommended ? `<span class="pill">Más simple</span>` : ""}
-            </div>
-            <div class="amount">${money(option.amount)}</div>
-          </div>
-          <p>${option.note}</p>
-        </article>
-      `).join("")}
-    `;
-  }
-
-  function renderSchedule() {
-    return `
-      <section class="panel" style="--active-color:var(--schedule)">
-        <div class="panel-head">
-          <div class="label">9 días tranquilos</div>
-          <div class="title">Cronograma sugerido</div>
-          <div class="sub">Ritmo pensado para disfrutar sin correr todos los días.</div>
-        </div>
-        <div class="content">
-          <div class="timeline">
-            ${schedule.map(([day, title, text, badge, color]) => `
-              <article class="day-card" style="--day-color:${color}">
-                <div class="day-number">${day}</div>
-                <div class="day-body">
-                  <strong>${title}</strong>
-                  <span>${text}</span>
-                  <span class="badge">${badge}</span>
-                </div>
-              </article>
-            `).join("")}
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  function decisionCopy(key) {
-    const copy = {
-      value: "Conviene si quieren cuidar presupuesto y Franco va a disfrutar mucho el hotel.",
-      moderate: "Conviene si buscan el mejor punto medio entre comodidad y costo total.",
-      deluxe: "Conviene si la prioridad es que el hotel sea parte fuerte de la experiencia."
-    };
-    return copy[key];
-  }
-
-  function setHotel(key, shouldScroll) {
-    activeHotel = key;
-    if (key === "schedule") {
-      document.getElementById("viewTabs").style.display = "none";
-    } else {
-      document.getElementById("viewTabs").style.display = "grid";
-    }
-    renderCards();
-    renderTabs();
-    renderPanel();
-    if (shouldScroll) {
-      document.querySelector(".sticky-controls").scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-
-  document.getElementById("viewTabs").addEventListener("click", event => {
-    const button = event.target.closest("button");
-    if (!button) return;
-    activeView = button.dataset.view;
-    document.querySelectorAll("#viewTabs button").forEach(tab => tab.classList.toggle("active", tab.dataset.view === activeView));
-    renderPanel();
-  });
-
-  renderCards();
-  renderTabs();
-  renderPanel();
 </script>
+
 </body>
 </html>
