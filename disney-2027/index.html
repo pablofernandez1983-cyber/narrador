@@ -213,8 +213,6 @@
   .tab[data-cat="value"].active { background: var(--value); }
   .tab[data-cat="moderate"].active { background: var(--moderate); }
   .tab[data-cat="deluxe"].active { background: var(--deluxe); }
-  .tab[data-cat="cronograma"].active { background: var(--disney-blue); }
-
   .view-toggle {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -262,6 +260,14 @@
     display: none;
   }
   .category-card.active { display: block; }
+  .schedule-section {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 36px;
+    box-shadow: 0 2px 12px rgba(15, 42, 82, 0.06);
+    border: 1px solid var(--border);
+  }
 
   .cat-header {
     padding: 20px 24px;
@@ -632,7 +638,6 @@
     <button class="tab active" data-cat="value" onclick="showCat('value')">Value</button>
     <button class="tab" data-cat="moderate" onclick="showCat('moderate')">Moderate ⭐</button>
     <button class="tab" data-cat="deluxe" onclick="showCat('deluxe')">Deluxe</button>
-    <button class="tab" data-cat="cronograma" onclick="showCat('cronograma')">📅 Cronograma</button>
   </div>
   <div class="view-toggle" id="viewToggle" aria-label="Vista de costos">
     <button type="button" class="active" data-view="lpf">Lore, Pablo y Franco</button>
@@ -672,44 +677,44 @@
 
       <div class="scenario scenario-moni">
         <div class="scenario-header">
-          <div class="scenario-name">+ Moni · habitación compartida</div>
-          <div class="scenario-total"><span class="currency">USD</span>14.910</div>
+          <div class="scenario-name">Moni · habitación compartida</div>
+          <div class="scenario-total"><span class="currency">USD</span>3.400</div>
         </div>
-        <div class="scenario-detail">1 habitación standard, los 4 juntos</div>
-        <span class="scenario-extra">Moni paga +3.400</span>
+        <div class="scenario-detail">Esto es lo que pagaría Moni si comparte habitación standard con los 3.</div>
+        <span class="scenario-extra">Total viaje con Moni: USD 14.910</span>
         <details>
-          <summary>Ver desglose</summary>
+          <summary>Ver desglose de lo que paga Moni</summary>
           <div class="breakdown">
-            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
-            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>1.720</span></div>
-            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
-            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
-            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
-            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
-            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
-            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+            <div class="breakdown-row"><span>Vuelo Moni</span><span>1.500</span></div>
+            <div class="breakdown-row"><span>Hotel adicional</span><span>120</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>750</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>140</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>30</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>90</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>70</span></div>
           </div>
         </details>
       </div>
 
       <div class="scenario scenario-moni">
         <div class="scenario-header">
-          <div class="scenario-name">+ Moni · 2 habitaciones</div>
-          <div class="scenario-total"><span class="currency">USD</span>16.390</div>
+          <div class="scenario-name">Moni · 2 habitaciones</div>
+          <div class="scenario-total"><span class="currency">USD</span>4.880</div>
         </div>
-        <div class="scenario-detail">2 habitaciones standard separadas</div>
-        <span class="scenario-extra">Moni paga +4.880</span>
+        <div class="scenario-detail">Esto es lo que pagaría Moni con 2 habitaciones standard separadas.</div>
+        <span class="scenario-extra">Total viaje con Moni: USD 16.390</span>
         <details>
-          <summary>Ver desglose</summary>
+          <summary>Ver desglose de lo que paga Moni</summary>
           <div class="breakdown">
-            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
-            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>3.200</span></div>
-            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
-            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
-            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
-            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
-            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
-            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+            <div class="breakdown-row"><span>Vuelo Moni</span><span>1.500</span></div>
+            <div class="breakdown-row"><span>Hotel adicional</span><span>1.600</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>750</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>140</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>30</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>90</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>70</span></div>
           </div>
         </details>
       </div>
@@ -750,44 +755,44 @@
 
       <div class="scenario scenario-moni">
         <div class="scenario-header">
-          <div class="scenario-name">+ Moni · habitación compartida</div>
-          <div class="scenario-total"><span class="currency">USD</span>16.670</div>
+          <div class="scenario-name">Moni · habitación compartida</div>
+          <div class="scenario-total"><span class="currency">USD</span>3.400</div>
         </div>
-        <div class="scenario-detail">1 habitación Gran Destino, los 4 juntos</div>
-        <span class="scenario-extra">Moni paga +3.400</span>
+        <div class="scenario-detail">Esto es lo que pagaría Moni si comparte habitación Gran Destino con los 3.</div>
+        <span class="scenario-extra">Total viaje con Moni: USD 16.670</span>
         <details>
-          <summary>Ver desglose</summary>
+          <summary>Ver desglose de lo que paga Moni</summary>
           <div class="breakdown">
-            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
-            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>3.480</span></div>
-            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
-            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
-            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
-            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
-            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
-            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+            <div class="breakdown-row"><span>Vuelo Moni</span><span>1.500</span></div>
+            <div class="breakdown-row"><span>Hotel adicional</span><span>120</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>750</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>140</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>30</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>90</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>70</span></div>
           </div>
         </details>
       </div>
 
       <div class="scenario scenario-moni">
         <div class="scenario-header">
-          <div class="scenario-name">+ Moni · 2 habitaciones</div>
-          <div class="scenario-total"><span class="currency">USD</span>19.910</div>
+          <div class="scenario-name">Moni · 2 habitaciones</div>
+          <div class="scenario-total"><span class="currency">USD</span>6.640</div>
         </div>
-        <div class="scenario-detail">2 habitaciones conectadas con puerta interna</div>
-        <span class="scenario-extra">Moni paga +6.640</span>
+        <div class="scenario-detail">Esto es lo que pagaría Moni con 2 habitaciones conectadas con puerta interna.</div>
+        <span class="scenario-extra">Total viaje con Moni: USD 19.910</span>
         <details>
-          <summary>Ver desglose</summary>
+          <summary>Ver desglose de lo que paga Moni</summary>
           <div class="breakdown">
-            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
-            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>6.720</span></div>
-            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
-            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
-            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
-            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
-            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
-            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+            <div class="breakdown-row"><span>Vuelo Moni</span><span>1.500</span></div>
+            <div class="breakdown-row"><span>Hotel adicional</span><span>3.360</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>750</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>140</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>30</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>90</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>70</span></div>
           </div>
         </details>
       </div>
@@ -828,44 +833,44 @@
 
       <div class="scenario scenario-moni">
         <div class="scenario-header">
-          <div class="scenario-name">+ Moni · habitación compartida</div>
-          <div class="scenario-total"><span class="currency">USD</span>19.750</div>
+          <div class="scenario-name">Moni · habitación compartida</div>
+          <div class="scenario-total"><span class="currency">USD</span>3.840</div>
         </div>
-        <div class="scenario-detail">1 habitación Resort View (5 personas)</div>
-        <span class="scenario-extra">Moni paga +3.840</span>
+        <div class="scenario-detail">Esto es lo que pagaría Moni si comparte una habitación Resort View.</div>
+        <span class="scenario-extra">Total viaje con Moni: USD 19.750</span>
         <details>
-          <summary>Ver desglose</summary>
+          <summary>Ver desglose de lo que paga Moni</summary>
           <div class="breakdown">
-            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
-            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>6.560</span></div>
-            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
-            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
-            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
-            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
-            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
-            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+            <div class="breakdown-row"><span>Vuelo Moni</span><span>1.500</span></div>
+            <div class="breakdown-row"><span>Hotel adicional</span><span>560</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>750</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>140</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>30</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>90</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>70</span></div>
           </div>
         </details>
       </div>
 
       <div class="scenario scenario-moni">
         <div class="scenario-header">
-          <div class="scenario-name">+ Moni · 2 habitaciones</div>
-          <div class="scenario-total"><span class="currency">USD</span>25.190</div>
+          <div class="scenario-name">Moni · 2 habitaciones</div>
+          <div class="scenario-total"><span class="currency">USD</span>9.280</div>
         </div>
-        <div class="scenario-detail">2 habitaciones standard separadas</div>
-        <span class="scenario-extra">Moni paga +9.280</span>
+        <div class="scenario-detail">Esto es lo que pagaría Moni con 2 habitaciones standard separadas.</div>
+        <span class="scenario-extra">Total viaje con Moni: USD 25.190</span>
         <details>
-          <summary>Ver desglose</summary>
+          <summary>Ver desglose de lo que paga Moni</summary>
           <div class="breakdown">
-            <div class="breakdown-row"><span>Vuelos</span><span>6.000</span></div>
-            <div class="breakdown-row"><span>Hotel (8 noches)</span><span>12.000</span></div>
-            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>2.970</span></div>
-            <div class="breakdown-row"><span>Comidas</span><span>2.700</span></div>
-            <div class="breakdown-row"><span>Lightning Lane</span><span>560</span></div>
-            <div class="breakdown-row"><span>Transporte / Uber</span><span>280</span></div>
-            <div class="breakdown-row"><span>Legoland</span><span>360</span></div>
-            <div class="breakdown-row"><span>Seguro de viaje</span><span>320</span></div>
+            <div class="breakdown-row"><span>Vuelo Moni</span><span>1.500</span></div>
+            <div class="breakdown-row"><span>Hotel adicional</span><span>6.000</span></div>
+            <div class="breakdown-row"><span>Park Hopper 5 días</span><span>750</span></div>
+            <div class="breakdown-row"><span>Comidas</span><span>700</span></div>
+            <div class="breakdown-row"><span>Lightning Lane</span><span>140</span></div>
+            <div class="breakdown-row"><span>Transporte / Uber</span><span>30</span></div>
+            <div class="breakdown-row"><span>Legoland</span><span>90</span></div>
+            <div class="breakdown-row"><span>Seguro de viaje</span><span>70</span></div>
           </div>
         </details>
       </div>
@@ -874,7 +879,7 @@
   </article>
 
   <!-- CRONOGRAMA -->
-  <article class="category-card" id="cat-cronograma">
+  <section class="schedule-section" id="cronograma">
     <div class="cat-header cronograma">
       <div class="cat-label">9 días tranquilos</div>
       <div class="cat-name">Cronograma sugerido</div>
@@ -918,7 +923,7 @@
         <div class="day-body"><strong>Compras 2 y vuelo</strong><span>Souvenirs Disney Springs, Walmart o Target y vuelo nocturno.</span><em>Medio</em></div>
       </div>
     </div>
-  </article>
+  </section>
 
   <!-- RECO -->
   <section class="reco">
@@ -1049,9 +1054,6 @@
     document.querySelectorAll('.category-card').forEach(c => {
       c.classList.toggle('active', c.id === 'cat-' + cat);
     });
-
-    const viewToggle = document.getElementById('viewToggle');
-    viewToggle.style.display = cat === 'cronograma' ? 'none' : 'grid';
 
     if (shouldScroll) {
       window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 16, behavior: 'smooth' });
