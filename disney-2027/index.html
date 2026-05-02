@@ -249,17 +249,21 @@
       name: "Pop Century",
       color: "var(--value)",
       short: "Skyliner, precio más bajo y estética más Disney para Franco.",
-      lpfTotal: 9650,
+      lpfTotal: 11510,
       lpfNote: "Base estimada para Lore, Pablo y Franco.",
       lpfRows: [
-        ["Hotel 8 noches", 2480],
-        ["Tickets parques", 3550],
-        ["Comidas", 2050],
-        ["Vuelos y traslados", 1570]
+        ["Vuelos", 4500],
+        ["Hotel (8 noches)", 1600],
+        ["Park Hopper 5 días", 2220],
+        ["Comidas", 2000],
+        ["Lightning Lane", 420],
+        ["Transporte / Uber", 250],
+        ["Legoland", 270],
+        ["Seguro de viaje", 250]
       ],
       moniOptions: [
-        { title: "Compartiendo habitación", amount: 2550, note: "Suma tickets, comidas y parte proporcional; es la opción más simple.", recommended: true },
-        { title: "Habitación propia", amount: 5030, note: "Más privacidad, pero duplica gran parte del costo hotelero.", recommended: false }
+        { title: "Habitación compartida", amount: 3400, total: 14910, note: "Total viaje con Moni: USD 14.910. 1 habitación standard, los 4 juntos.", recommended: true },
+        { title: "2 habitaciones", amount: 4880, total: 16390, note: "Total viaje con Moni: USD 16.390. 2 habitaciones standard separadas.", recommended: false }
       ],
       pros: ["Más económico.", "Skyliner a EPCOT y Hollywood Studios.", "Muy visual para Franco."],
       cons: ["Habitación más chica.", "Menos opciones de comida.", "Puede sentirse más básico."]
@@ -269,17 +273,21 @@
       name: "Coronado Springs",
       color: "var(--moderate)",
       short: "Sweet spot entre costo, comodidad y sensación de hotel más adulto.",
-      lpfTotal: 11250,
+      lpfTotal: 13270,
       lpfNote: "Base estimada para Lore, Pablo y Franco.",
       lpfRows: [
-        ["Hotel 8 noches", 3980],
-        ["Tickets parques", 3550],
-        ["Comidas", 2150],
-        ["Vuelos y traslados", 1570]
+        ["Vuelos", 4500],
+        ["Hotel (8 noches)", 3360],
+        ["Park Hopper 5 días", 2220],
+        ["Comidas", 2000],
+        ["Lightning Lane", 420],
+        ["Transporte / Uber", 250],
+        ["Legoland", 270],
+        ["Seguro de viaje", 250]
       ],
       moniOptions: [
-        { title: "Compartiendo habitación", amount: 2700, note: "Buena relación costo/calidad si se suma al cuarto base.", recommended: true },
-        { title: "Habitación propia", amount: 6680, note: "Más cómodo, pero el salto de hotel pesa bastante.", recommended: false }
+        { title: "Habitación compartida", amount: 3400, total: 16670, note: "Total viaje con Moni: USD 16.670. 1 habitación Gran Destino, los 4 juntos.", recommended: true },
+        { title: "2 habitaciones", amount: 6640, total: 19910, note: "Total viaje con Moni: USD 19.910. 2 habitaciones conectadas con puerta interna.", recommended: false }
       ],
       pros: ["Mejor equilibrio general.", "Gran Destino se siente más premium.", "Más cómodo para adultos."],
       cons: ["Todo se mueve en bus.", "Menos infantil para Franco.", "Costo medio más alto que Pop."]
@@ -289,17 +297,21 @@
       name: "Polynesian",
       color: "var(--deluxe)",
       short: "La experiencia más mágica y premium, con monorriel a Magic Kingdom.",
-      lpfTotal: 18900,
+      lpfTotal: 15910,
       lpfNote: "Base estimada para Lore, Pablo y Franco.",
       lpfRows: [
-        ["Hotel 8 noches", 11200],
-        ["Tickets parques", 3550],
-        ["Comidas", 2580],
-        ["Vuelos y traslados", 1570]
+        ["Vuelos", 4500],
+        ["Hotel (8 noches)", 6000],
+        ["Park Hopper 5 días", 2220],
+        ["Comidas", 2000],
+        ["Lightning Lane", 420],
+        ["Transporte / Uber", 250],
+        ["Legoland", 270],
+        ["Seguro de viaje", 250]
       ],
       moniOptions: [
-        { title: "Compartiendo habitación", amount: 3150, note: "Suma menos que un cuarto propio, pero el hotel ya es caro.", recommended: true },
-        { title: "Habitación propia", amount: 14350, note: "Opción premium total; conviene verla como viaje aparte.", recommended: false }
+        { title: "Habitación compartida", amount: 3840, total: 19750, note: "Total viaje con Moni: USD 19.750. 1 habitación Resort View (5 personas).", recommended: true },
+        { title: "2 habitaciones", amount: 9280, total: 25190, note: "Total viaje con Moni: USD 25.190. 2 habitaciones standard separadas.", recommended: false }
       ],
       pros: ["Monorriel a Magic Kingdom.", "Extended Evening Hours en días selectos.", "Experiencia Disney premium."],
       cons: ["Mucho más caro.", "EPCOT requiere combinación vía TTC.", "Hollywood Studios va por bus o Uber."]
@@ -321,7 +333,7 @@
   let activeHotel = "value";
   let activeView = "lpf";
 
-  const money = value => `USD ${value.toLocaleString("en-US")}`;
+  const money = value => `USD ${value.toLocaleString("es-AR")}`;
 
   function renderCards() {
     const cards = document.getElementById("hotelCards");
