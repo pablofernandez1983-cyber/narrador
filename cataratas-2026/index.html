@@ -10,7 +10,6 @@
 <style>
   :root {
     --green:      #1a6b4a;
-    --green-mid:  #2d8a5e;
     --green-soft: #e8f5ee;
     --teal:       #2a9d8f;
     --gold:       #c07d28;
@@ -19,7 +18,7 @@
     --ink:        #1d1c1a;
     --muted:      #68645d;
     --border:     #e4dccd;
-    --shadow:     0 6px 20px rgba(26,107,74,.08);
+    --shadow:     0 4px 16px rgba(26,107,74,.08);
 
     --col-llegada:  #1d4b86;
     --col-medio:    #2a9d8f;
@@ -29,6 +28,7 @@
     --col-libre:    #8a4a7a;
     --col-regreso:  #1d4b86;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
@@ -38,15 +38,21 @@
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 700px; margin: 0 auto; padding: 20px 16px 80px; }
 
-  /* HEADER */
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 80px; }
+
+  /* en desktop, el cronograma puede ser más ancho */
+  @media (min-width: 860px) {
+    .wrap { max-width: 960px; }
+  }
+
+  /* ── HEADER ── */
   .hero { padding: 22px 0 26px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
   .eyebrow { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 5px; }
-  h1 { font-family: 'Fraunces', serif; font-size: clamp(30px, 9vw, 50px); font-weight: 700; color: var(--green); line-height: .95; margin-bottom: 6px; }
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(30px, 7vw, 48px); font-weight: 700; color: var(--green); line-height: .95; margin-bottom: 6px; }
   .hero-sub { color: var(--muted); font-size: 14px; }
 
-  /* INFO STRIP */
+  /* ── INFO STRIP ── */
   .info-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
   .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; }
   .info-card.wide { grid-column: 1 / -1; }
@@ -55,7 +61,7 @@
   .info-val { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; color: var(--green); margin-top: 1px; line-height: 1.2; }
   .info-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-  /* STICKY NAV */
+  /* ── STICKY NAV ── */
   .sticky-nav {
     position: sticky; top: 0; z-index: 20;
     margin: 0 -16px 28px;
@@ -64,7 +70,7 @@
     border-bottom: 1px solid rgba(228,220,205,.8);
     backdrop-filter: blur(12px);
   }
-  .nav-row { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .nav-row { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; align-items: center; }
   .nav-row::-webkit-scrollbar { display: none; }
   .nav-btn {
     flex-shrink: 0;
@@ -80,155 +86,213 @@
     white-space: nowrap;
     transition: all .15s;
   }
-  .nav-btn.plan-toggle { color: var(--green); border-color: var(--green); }
-  .nav-btn.plan-toggle.on { background: var(--green); color: white; }
+  .nav-btn.toggle-view { border-color: var(--teal); color: var(--teal); }
+  .nav-btn.toggle-view.horiz { background: var(--teal); color: white; }
 
-  /* SECCION */
+  /* ── SECCIÓN ── */
   .section { margin-bottom: 32px; }
   h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 21px; color: var(--green); margin-bottom: 5px; }
-  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
 
-  /* DAY CARDS — estructura principal */
-  .days { display: grid; gap: 16px; }
+  /* ════════════════════════════════
+     DAY CARDS — layout móvil (base)
+     ════════════════════════════════ */
+  .days { display: grid; gap: 14px; }
 
   .day-card {
     background: var(--card);
     border: 1px solid var(--border);
+    border-top: 4px solid var(--day-color, #aaa);
     border-radius: 14px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    border-top: 4px solid var(--day-color, #ccc);
   }
 
-  /* cabecera del día */
-  .day-header {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    padding: 14px 16px 12px;
+  /* cabecera */
+  .dc-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 15px 11px;
     border-bottom: 1px solid var(--border);
-    background: linear-gradient(135deg, color-mix(in srgb, var(--day-color) 8%, white), white);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--day-color) 7%, white), white);
   }
-  .day-num-block {
-    text-align: center;
-    min-width: 52px;
-    padding: 8px 6px;
-    background: color-mix(in srgb, var(--day-color) 12%, white);
-    border-radius: 10px;
-    flex-shrink: 0;
+  .dc-num {
+    min-width: 52px; text-align: center;
+    padding: 8px 5px;
+    background: color-mix(in srgb, var(--day-color) 13%, white);
+    border-radius: 9px; flex-shrink: 0;
   }
-  .day-num-block .dnum { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 700; color: var(--day-color); display: block; line-height: 1; }
-  .day-num-block .ddate { font-size: 10px; font-weight: 700; color: var(--muted); display: block; margin-top: 3px; }
-  .day-title-block { flex: 1; }
-  .day-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--green); line-height: 1.05; }
-  .day-tag {
-    display: inline-block;
-    margin-top: 5px;
-    padding: 3px 9px;
-    border-radius: 99px;
+  .dc-num .n  { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; color: var(--day-color); display: block; line-height: 1; }
+  .dc-num .d  { font-size: 10px; font-weight: 700; color: var(--muted); display: block; margin-top: 3px; }
+  .dc-title   { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 700; color: var(--green); line-height: 1.05; }
+  .dc-badge   {
+    display: inline-block; margin-top: 5px;
+    padding: 3px 9px; border-radius: 99px;
     font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
     background: color-mix(in srgb, var(--day-color) 14%, white);
     color: var(--day-color);
   }
 
   /* slots mañana/tarde/noche */
-  .day-slots { padding: 12px 16px 4px; }
-  .slot { display: flex; gap: 11px; padding: 8px 0; border-bottom: 1px dotted var(--border); align-items: flex-start; }
-  .slot:last-child { border-bottom: none; }
-  .slot-ico { font-size: 15px; width: 22px; flex-shrink: 0; margin-top: 1px; text-align: center; }
-  .slot-body { flex: 1; }
-  .slot-label { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
-  .slot-text { font-size: 13px; color: var(--ink); line-height: 1.4; }
-  .slot-text em { font-style: normal; color: var(--muted); }
-
-  /* cena + nota — footer del card */
-  .day-bottom { padding: 0 16px 14px; margin-top: 8px; display: grid; gap: 8px; }
-
-  .cena-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    background: var(--green-soft);
-    border-radius: 8px;
-    border: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+  .dc-slot {
+    display: flex; gap: 10px;
+    padding: 9px 15px;
+    border-bottom: 1px dotted var(--border);
+    align-items: flex-start;
   }
-  .cena-ico { font-size: 16px; flex-shrink: 0; }
-  .cena-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--green); }
-  .cena-resto { font-size: 13px; font-weight: 700; color: var(--ink); }
-  .cena-lugar { font-size: 11px; color: var(--muted); }
+  .dc-slot:last-of-type { border-bottom: none; }
+  .dc-slot .s-ico   { font-size: 15px; width: 20px; flex-shrink: 0; text-align: center; margin-top: 1px; }
+  .dc-slot .s-lbl   { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
+  .dc-slot .s-txt   { font-size: 13px; color: var(--ink); line-height: 1.4; }
+  .dc-slot .s-txt em { font-style: normal; color: var(--muted); }
 
-  .day-nota {
-    padding: 9px 12px;
+  /* cena */
+  .dc-cena {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 15px;
+    background: var(--green-soft);
+    border-top: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+  }
+  .dc-cena .c-ico   { font-size: 16px; flex-shrink: 0; }
+  .dc-cena .c-lbl   { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; color: var(--green); display: block; }
+  .dc-cena .c-name  { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .dc-cena .c-lugar { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+  /* nota */
+  .dc-nota {
+    padding: 8px 15px 11px;
+    font-size: 12px; color: var(--muted); line-height: 1.45;
+    border-top: 1px solid var(--border);
     background: #fdf9ef;
     border-left: 3px solid var(--gold);
-    border-radius: 0 7px 7px 0;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.45;
   }
 
-  /* PLAN CALOR / FRÍO */
+  /* ══════════════════════════════════════════════
+     DAY CARDS — layout horizontal (desktop ≥860px)
+     ══════════════════════════════════════════════
+
+     Columnas: [Cabecera] [Mañana] [Tarde] [Noche] [Cena]
+     Si hay nota: ocupa columnas 2-4 en segunda fila.
+  */
+  @media (min-width: 860px) {
+    .days { gap: 10px; }
+
+    .day-card {
+      display: grid;
+      grid-template-columns: 150px repeat(3, 1fr) 190px;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "head man tar noc cena"
+        "head nota nota nota nota";
+      border-top: none;
+      border-left: 5px solid var(--day-color);
+      border-radius: 10px;
+    }
+    /* sin nota: la segunda fila desaparece sola */
+    .day-card:not(:has(.dc-nota)) {
+      grid-template-areas: "head man tar noc cena";
+      grid-template-rows: auto;
+    }
+
+    .dc-head {
+      grid-area: head;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      border-bottom: none;
+      border-right: 1px solid var(--border);
+      padding: 16px 14px;
+      background: color-mix(in srgb, var(--day-color) 6%, white);
+      gap: 8px;
+    }
+    .dc-num {
+      min-width: auto;
+      width: 100%;
+      padding: 6px 8px;
+      text-align: left;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .dc-num .n { font-size: 15px; }
+    .dc-num .d { font-size: 11px; }
+
+    .dc-slot {
+      grid-area: unset;
+      flex-direction: column;
+      padding: 14px 13px;
+      border-bottom: none;
+      border-right: 1px dotted var(--border);
+    }
+    .dc-slot:last-of-type { border-right: 1px dotted var(--border); }
+    .dc-slot .s-ico { margin-bottom: 4px; }
+
+    .dc-slot.s-man  { grid-area: man; }
+    .dc-slot.s-tar  { grid-area: tar; }
+    .dc-slot.s-noc  { grid-area: noc; }
+
+    .dc-cena {
+      grid-area: cena;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 14px 13px;
+      background: var(--green-soft);
+      border-top: none;
+      border-left: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+    }
+
+    .dc-nota {
+      grid-area: nota;
+      border-top: 1px solid var(--border);
+      border-left: none;
+      padding: 8px 14px;
+    }
+  }
+
+  /* ── PLAN CLIMA ── */
   .plan-pair { display: grid; gap: 12px; }
+  @media (min-width: 560px) { .plan-pair { grid-template-columns: 1fr 1fr; } }
   .plan-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
   .plan-head { padding: 14px 16px; color: white; }
   .plan-head.calor { background: linear-gradient(135deg, #d95f2b, #b84c20); }
   .plan-head.frio  { background: linear-gradient(135deg, #2d6b9e, #1e4f7a); }
   .plan-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; opacity: .85; }
-  .plan-title { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 700; margin-top: 3px; }
+  .plan-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; margin-top: 3px; }
   .plan-sub { font-size: 12px; margin-top: 4px; opacity: .9; }
   .plan-body { padding: 14px 16px; display: grid; gap: 9px; }
-  .plan-item { display: flex; gap: 10px; font-size: 13px; }
-  .plan-item-ico { font-size: 16px; flex-shrink: 0; }
-  .plan-item strong { display: block; font-weight: 700; font-size: 13px; }
+  .plan-item { display: flex; gap: 10px; }
+  .pi-ico { font-size: 16px; flex-shrink: 0; }
+  .plan-item strong { display: block; font-size: 13px; font-weight: 700; }
   .plan-item span { color: var(--muted); font-size: 12px; }
 
-  /* RESERVAS */
-  .reserva-list { display: grid; gap: 9px; }
-  .reserva-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 13px 15px;
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-  }
-  .reserva-ico { font-size: 20px; flex-shrink: 0; }
-  .reserva-name { font-size: 14px; font-weight: 700; }
-  .reserva-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
-  .rtag {
-    margin-left: auto; flex-shrink: 0;
-    padding: 3px 9px; border-radius: 99px;
-    font-size: 10px; font-weight: 800; text-transform: uppercase;
-  }
-  .rtag-si  { background: #ddf0e4; color: #1a6b4a; }
-  .rtag-doc { background: #dde8f5; color: #1d4b86; }
-  .rtag-no  { background: #fce8e8; color: #8b2020; }
+  /* ── RESERVAS ── */
+  .reserva-list { display: grid; gap: 8px; }
+  .reserva-item { display: flex; align-items: center; gap: 12px; padding: 13px 15px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+  .ri-ico { font-size: 20px; flex-shrink: 0; }
+  .ri-name { font-size: 14px; font-weight: 700; }
+  .ri-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .rtag { margin-left: auto; flex-shrink: 0; padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+  .rtag-si { background: #ddf0e4; color: #1a6b4a; }
+  .rtag-no { background: #fce8e8; color: #8b2020; }
 
-  /* FRANCO */
+  /* ── FRANCO ── */
   .franco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (min-width: 560px) { .franco-grid { grid-template-columns: repeat(3, 1fr); } }
   .franco-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px 13px; text-align: center; }
-  .franco-ico { font-size: 28px; margin-bottom: 6px; }
-  .franco-name { font-size: 13px; font-weight: 700; color: var(--green); }
-  .franco-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+  .fi { font-size: 26px; margin-bottom: 6px; }
+  .fn { font-size: 13px; font-weight: 700; color: var(--green); }
+  .fd { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
 
-  /* CHECKLIST */
+  /* ── CHECKLIST ── */
   .check-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 440px) { .check-cols { grid-template-columns: 1fr; } }
   .check-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
   .check-box h3 { font-size: 13px; font-weight: 800; color: var(--green); margin-bottom: 10px; }
   .check-box ul { list-style: none; display: grid; gap: 7px; }
   .check-box li { display: flex; gap: 8px; font-size: 12px; align-items: flex-start; line-height: 1.35; }
   .check-box li::before { content: "□"; color: var(--teal); font-size: 14px; flex-shrink: 0; line-height: 1.15; }
 
-  .nota-final { margin-top: 20px; padding: 16px 18px; background: linear-gradient(135deg,#eaf6f0,#ddf0e8); border:1px solid #b8ddc8; border-radius:12px; font-size:13px; color:#1a5038; }
+  .nota-final { margin-top: 20px; padding: 16px 18px; background: linear-gradient(135deg,#eaf6f0,#ddf0e8); border: 1px solid #b8ddc8; border-radius: 12px; font-size: 13px; color: #1a5038; }
   .nota-final strong { color: var(--green); }
-
-  @media (max-width: 460px) {
-    .info-strip { grid-template-columns: 1fr; }
-    .franco-grid { grid-template-columns: 1fr 1fr; }
-    .check-cols { grid-template-columns: 1fr; }
-    .day-header { gap: 10px; }
-  }
-  @media (min-width: 560px) {
-    .plan-pair { grid-template-columns: 1fr 1fr; }
-  }
 </style>
 </head>
 <body>
@@ -259,7 +323,7 @@
       <div class="info-icon">🏨</div>
       <div class="info-label">Hotel · Foz do Iguaçu, Brasil</div>
       <div class="info-val">Mabu Thermas Grand Resort</div>
-      <div class="info-sub">7 noches · pileta termal y Blue Park incluidos · todas las cenas del lado brasilero</div>
+      <div class="info-sub">7 noches · pileta termal y Blue Park · todas las cenas del lado brasilero</div>
     </div>
   </div>
 
@@ -267,7 +331,7 @@
   <nav class="sticky-nav">
     <div class="nav-row">
       <a class="nav-btn" href="#cronograma">📅 Días</a>
-      <button class="nav-btn plan-toggle" id="btnClima" onclick="toggleClima()">🌤️ Plan clima</button>
+      <a class="nav-btn" href="#clima">🌤️ Plan clima</a>
       <a class="nav-btn" href="#reservas">📋 Reservas</a>
       <a class="nav-btn" href="#franco">👦 Franco</a>
       <a class="nav-btn" href="#checklist">✅ Checklist</a>
@@ -278,380 +342,260 @@
   <section class="section" id="cronograma">
     <h2>Cronograma</h2>
     <p class="section-note">Una actividad fuerte por día · cortar a las 14–15hs · tardes en el Mabu</p>
+
     <div class="days">
 
-      <!-- DÍA 1 · lun 20/7 -->
+      <!-- DÍA 1 -->
       <div class="day-card" style="--day-color: var(--col-llegada)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 1</span>
-            <span class="ddate">lun 20/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Llegada</div>
-            <span class="day-tag">Llegada</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 1</span><span class="d">lun 20/7</span></div>
+          <div>
+            <div class="dc-title">Llegada</div>
+            <span class="dc-badge">Llegada</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text"><em>Viajando desde Buenos Aires</em></span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🛬</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Llegada IGR 18:14 · traslado al Mabu · check-in</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌙</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">Cena en el hotel · descanso · primera noche en Foz</span>
-            </div>
-          </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">🌅</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt"><em>Viajando desde Buenos Aires</em></span></div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Restaurante del Mabu</div>
-              <div class="cena-lugar">Foz do Iguaçu · en el hotel, noche de llegada</div>
-            </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">🛬</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Llegada IGR 18:14 · traslado al Mabu · check-in</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌙</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">Cena en el hotel · descanso · primera noche en Foz</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Restaurante del Mabu</div>
+            <div class="c-lugar">Foz do Iguaçu · en el hotel</div>
           </div>
         </div>
       </div>
 
-      <!-- DÍA 2 · mar 21/7 -->
+      <!-- DÍA 2 -->
       <div class="day-card" style="--day-color: var(--col-medio)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 2</span>
-            <span class="ddate">mar 21/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Cataratas · lado argentino</div>
-            <span class="day-tag">Medio</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 2</span><span class="d">mar 21/7</span></div>
+          <div>
+            <div class="dc-title">Cataratas Argentina</div>
+            <span class="dc-badge">Medio</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">08:30 salida · cruce a Argentina · 09:00 ingreso parque · Circuito Superior</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌊</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Almuerzo en el parque · Circuito Inferior · regreso a Foz ~15:00</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌙</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">Descanso en el Mabu · cena en Foz</span>
-            </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">🌅</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">08:30 salida · cruce a Argentina · 09:00 ingreso parque · Circuito Superior</span></div>
+        </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">🌊</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Almuerzo en el parque · Circuito Inferior · regreso a Foz ~15:00</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌙</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">Descanso en el Mabu · cena en Foz</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Rafain Churrascaria</div>
+            <div class="c-lugar">Foz do Iguaçu · rodizio con show folclórico</div>
           </div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Rafain Churrascaria</div>
-              <div class="cena-lugar">Foz do Iguaçu · rodizio con show folclórico, ideal para Franco</div>
-            </div>
-          </div>
-          <div class="day-nota">No alargarlo demasiado en el parque. Circuito Superior + Inferior alcanza y sobra para un día.</div>
-        </div>
+        <div class="dc-nota">No alargarlo demasiado en el parque. Circuito Superior + Inferior alcanza para un día.</div>
       </div>
 
-      <!-- DÍA 3 · mié 22/7 -->
+      <!-- DÍA 3 -->
       <div class="day-card" style="--day-color: var(--col-medio)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 3</span>
-            <span class="ddate">mié 22/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Garganta del Diablo</div>
-            <span class="day-tag">⭐ Recomendado</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 3</span><span class="d">mié 22/7</span></div>
+          <div>
+            <div class="dc-title">Garganta del Diablo</div>
+            <span class="dc-badge">⭐ Recomendado</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">09:00 salida · cruce a Argentina · tren ecológico · Garganta del Diablo</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">💧</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Regreso al Mabu antes de las 15:00 · Blue Park o pileta termal</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌙</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">Cena tranquila en Foz</span>
-            </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">🌅</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">09:00 salida · cruce a Argentina · tren ecológico · Garganta del Diablo</span></div>
+        </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">💧</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Regreso al Mabu antes de las 15:00 · Blue Park o pileta termal</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌙</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">Cena tranquila en Foz</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Buffalo Branco</div>
+            <div class="c-lugar">Foz do Iguaçu · churrascaria premium</div>
           </div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Buffalo Branco</div>
-              <div class="cena-lugar">Foz do Iguaçu · churrascaria premium, ambiente tranquilo</div>
-            </div>
-          </div>
-          <div class="day-nota">Día corto en el parque pero muy impactante. Último tren a Garganta ~15:30 — salir temprano. Franco va a hablar de esto semanas.</div>
-        </div>
+        <div class="dc-nota">Último tren a Garganta ~15:30 — salir temprano. Franco va a hablar de esto semanas.</div>
       </div>
 
-      <!-- DÍA 4 · jue 23/7 -->
+      <!-- DÍA 4 -->
       <div class="day-card" style="--day-color: var(--col-flexible)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 4</span>
-            <span class="ddate">jue 23/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Día flexible</div>
-            <span class="day-tag">Flexible · ver clima</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 4</span><span class="d">jue 23/7</span></div>
+          <div>
+            <div class="dc-title">Día flexible</div>
+            <span class="dc-badge">Flexible · ver clima</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">Sin alarma · desayuno tranquilo en el Mabu</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">☀️</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Si calor: Blue Park y pileta · Si frío: Parque das Aves o centro de Foz</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌙</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">Paseo corto por Foz · cena tranquila</span>
-            </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">😴</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">Sin alarma · desayuno largo en el Mabu</span></div>
+        </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">☀️</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Si calor: Blue Park y pileta · Si frío: Parque das Aves o centro de Foz</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌙</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">Paseo corto por Foz · cena tranquila</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Zaragoza</div>
+            <div class="c-lugar">Foz do Iguaçu · cocina tradicional, familiar</div>
           </div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Zaragoza</div>
-              <div class="cena-lugar">Foz do Iguaçu · cocina tradicional, ambiente familiar</div>
-            </div>
-          </div>
-          <div class="day-nota">Día clave para recargar energía. Evitar sobre-planificar. Ver el plan clima para decidir mañana.</div>
-        </div>
+        <div class="dc-nota">Día clave para recargar energía. No planear nada fijo.</div>
       </div>
 
-      <!-- DÍA 5 · vie 24/7 -->
+      <!-- DÍA 5 -->
       <div class="day-card" style="--day-color: var(--col-brasil)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 5</span>
-            <span class="ddate">vie 24/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Cataratas Brasil + Parque das Aves</div>
-            <span class="day-tag">Medio</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 5</span><span class="d">vie 24/7</span></div>
+          <div>
+            <div class="dc-title">Cataratas Brasil + Parque das Aves</div>
+            <span class="dc-badge">Medio</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">08:30 salida · ingreso Cataratas lado brasilero 09:00 · sendero panorámico</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🦜</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Parque das Aves (a 5 min de la entrada de Cataratas BR) · regreso al Mabu ~15:00</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌙</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">Cena en Foz do Iguaçu</span>
-            </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">🌅</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">08:30 salida · ingreso Cataratas lado brasilero 09:00 · sendero panorámico</span></div>
+        </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">🦜</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Parque das Aves (5 min de Cataratas BR) · regreso al Mabu ~15:00</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌙</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">Cena en Foz</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Bendito</div>
+            <div class="c-lugar">Foz do Iguaçu · cocina contemporánea</div>
           </div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Bendito</div>
-              <div class="cena-lugar">Foz do Iguaçu · cocina contemporánea, buena carta</div>
-            </div>
-          </div>
-          <div class="day-nota">⚠️ Documentos para cruzar a Brasil, aunque ya estén en Foz — el parque pide ID. Parque das Aves es el highlight para Franco: ideal combinarlo con Cataratas BR porque están puerta a puerta.</div>
-        </div>
+        <div class="dc-nota">⚠️ Llevar documentos. Parque das Aves es el highlight para Franco — puerta a puerta con Cataratas BR.</div>
       </div>
 
-      <!-- DÍA 6 · sáb 25/7 -->
+      <!-- DÍA 6 -->
       <div class="day-card" style="--day-color: var(--col-foz)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 6</span>
-            <span class="ddate">sáb 25/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Foz · Hito 3 Fronteras</div>
-            <span class="day-tag">Tranqui</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 6</span><span class="d">sáb 25/7</span></div>
+          <div>
+            <div class="dc-title">Foz · Hito 3 Fronteras</div>
+            <span class="dc-badge">Tranqui</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">Tranquila en el Mabu · desayuno largo · pileta si da</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌍</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Marco das Três Fronteiras · paseo por el centro de Foz · compras</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌆</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">El Hito queda mejor al atardecer · cena en Foz</span>
-            </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">🌅</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">Tranquila en el Mabu · desayuno largo · pileta si da</span></div>
+        </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">🌍</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Marco das Três Fronteiras · paseo y compras por el centro de Foz</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌆</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">El Hito queda mejor al atardecer · cena en Foz</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Cabeça de Boi</div>
+            <div class="c-lugar">Foz do Iguaçu · parrilla brasilera clásica</div>
           </div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Churrascaria Cabeça de Boi</div>
-              <div class="cena-lugar">Foz do Iguaçu · parrilla brasilera, clásica del centro</div>
-            </div>
-          </div>
-          <div class="day-nota">Plan liviano, ideal para cargar energía antes del último día. El Hito es bueno para Franco: Argentina, Brasil y Paraguay juntos. Mini clase de geografía garantizada.</div>
-        </div>
+        <div class="dc-nota">Plan liviano, bueno para cargar energía. El Hito es bueno para Franco: mini clase de geografía garantizada.</div>
       </div>
 
-      <!-- DÍA 7 · dom 26/7 -->
+      <!-- DÍA 7 -->
       <div class="day-card" style="--day-color: var(--col-libre)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 7</span>
-            <span class="ddate">dom 26/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Libre · repetir favorito</div>
-            <span class="day-tag">Libre</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 7</span><span class="d">dom 26/7</span></div>
+          <div>
+            <div class="dc-title">Libre · repetir favorito</div>
+            <span class="dc-badge">Libre</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">😴</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">Sin alarma · desayuno largo · Mabu</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🔁</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Repetir Garganta · Parque das Aves si no se hizo · o full hotel y Blue Park</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🌙</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text">Última cena del viaje · tranquila</span>
-            </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">😴</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">Sin alarma · desayuno largo · Mabu</span></div>
+        </div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">🔁</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Repetir Garganta · Parque das Aves si no se hizo · o full hotel y Blue Park</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🌙</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt">Última cena del viaje · tranquila</span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">🍽️</span>
+          <div>
+            <span class="c-lbl">Cena</span>
+            <div class="c-name">Bendito o Rafain</div>
+            <div class="c-lugar">Foz do Iguaçu · repetir el favorito</div>
           </div>
         </div>
-        <div class="day-bottom">
-          <div class="cena-row">
-            <span class="cena-ico">🍽️</span>
-            <div>
-              <span class="cena-label">Cena</span>
-              <div class="cena-resto">Bendito o Rafain</div>
-              <div class="cena-lugar">Foz do Iguaçu · repetir el favorito del viaje</div>
-            </div>
-          </div>
-          <div class="day-nota">Lo mejor del viaje suele pasar en el día libre. No planear nada fijo, dejar que fluya.</div>
-        </div>
+        <div class="dc-nota">Lo mejor del viaje suele pasar en el día libre. No planear nada fijo.</div>
       </div>
 
-      <!-- DÍA 8 · lun 27/7 -->
+      <!-- DÍA 8 -->
       <div class="day-card" style="--day-color: var(--col-regreso)">
-        <div class="day-header">
-          <div class="day-num-block">
-            <span class="dnum">Día 8</span>
-            <span class="ddate">lun 27/7</span>
-          </div>
-          <div class="day-title-block">
-            <div class="day-title">Regreso</div>
-            <span class="day-tag">Regreso</span>
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 8</span><span class="d">lun 27/7</span></div>
+          <div>
+            <div class="dc-title">Regreso</div>
+            <span class="dc-badge">Regreso</span>
           </div>
         </div>
-        <div class="day-slots">
-          <div class="slot">
-            <span class="slot-ico">🌅</span>
-            <div class="slot-body">
-              <span class="slot-label">Mañana</span>
-              <span class="slot-text">Desayuno · check-out · última pileta si da el tiempo</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🛫</span>
-            <div class="slot-body">
-              <span class="slot-label">Tarde</span>
-              <span class="slot-text">Traslado al aeropuerto IGR · vuelo 15:09 a Buenos Aires</span>
-            </div>
-          </div>
-          <div class="slot">
-            <span class="slot-ico">🏠</span>
-            <div class="slot-body">
-              <span class="slot-label">Noche</span>
-              <span class="slot-text"><em>En Buenos Aires</em></span>
-            </div>
-          </div>
+        <div class="dc-slot s-man">
+          <span class="s-ico">🌅</span>
+          <div><span class="s-lbl">Mañana</span><span class="s-txt">Desayuno · check-out · última pileta si da el tiempo</span></div>
         </div>
-        <div class="day-bottom">
-          <div class="day-nota">Confirmar check-out con el Mabu. El aeropuerto de Foz (IGR) es chico — con llegar 1:30hs antes está bien.</div>
+        <div class="dc-slot s-tar">
+          <span class="s-ico">🛫</span>
+          <div><span class="s-lbl">Tarde</span><span class="s-txt">Traslado al aeropuerto IGR · vuelo 15:09 a Buenos Aires</span></div>
+        </div>
+        <div class="dc-slot s-noc">
+          <span class="s-ico">🏠</span>
+          <div><span class="s-lbl">Noche</span><span class="s-txt"><em>En Buenos Aires</em></span></div>
+        </div>
+        <div class="dc-cena">
+          <span class="c-ico">✈️</span>
+          <div>
+            <span class="c-lbl">Vuelo</span>
+            <div class="c-name">IGR 15:09 → EZE</div>
+            <div class="c-lugar">Con 1:30hs de anticipación alcanza</div>
+          </div>
         </div>
       </div>
 
@@ -661,7 +605,7 @@
   <!-- PLAN CLIMA -->
   <section class="section" id="clima">
     <h2>Plan según el clima</h2>
-    <p class="section-note">Julio en Iguazú puede sorprender. Ajustar el Día 4 y el Día 7 según cómo esté el tiempo.</p>
+    <p class="section-note">Julio puede sorprender. Ajustar el Día 4 y el Día 7 según cómo esté el tiempo.</p>
     <div class="plan-pair">
       <div class="plan-card">
         <div class="plan-head calor">
@@ -670,23 +614,23 @@
           <div class="plan-sub">Salir temprano y priorizar el Mabu en la tarde</div>
         </div>
         <div class="plan-body">
-          <div class="plan-item"><span class="plan-item-ico">💧</span><div><strong>Blue Park</strong><span>El parque acuático del Mabu. Tardes enteras con Franco.</span></div></div>
-          <div class="plan-item"><span class="plan-item-ico">🌡️</span><div><strong>Salir 08:30 y volver a las 14hs</strong><span>Antes de que pique el sol.</span></div></div>
-          <div class="plan-item"><span class="plan-item-ico">🌳</span><div><strong>Selva da sombra</strong><span>Los senderos son frescos aunque haga calor afuera.</span></div></div>
-          <div class="plan-item"><span class="plan-item-ico">🎯</span><div><strong>Día 4 y 7</strong><span>Si hay mucho calor: full Mabu, sin salir.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">💧</span><div><strong>Blue Park</strong><span>Tardes enteras con Franco. El parque acuático del Mabu.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🌡️</span><div><strong>Salir 08:30, volver a las 14hs</strong><span>Antes de que pique el sol.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🌳</span><div><strong>Selva da sombra</strong><span>Los senderos son frescos aunque haga calor.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🎯</span><div><strong>Días 4 y 7</strong><span>Si hay mucho calor: full Mabu, sin salir.</span></div></div>
         </div>
       </div>
       <div class="plan-card">
         <div class="plan-head frio">
           <div class="plan-eyebrow">Si hace frío</div>
           <div class="plan-title">Modo salidas 🧥</div>
-          <div class="plan-sub">Más tiempo afuera, Foz, paseos y actividades al aire libre</div>
+          <div class="plan-sub">Más tiempo afuera, Foz y actividades al aire libre</div>
         </div>
         <div class="plan-body">
-          <div class="plan-item"><span class="plan-item-ico">🦜</span><div><strong>Parque das Aves</strong><span>Caminata liviana al aire libre, ideal con fresco.</span></div></div>
-          <div class="plan-item"><span class="plan-item-ico">🌊</span><div><strong>Cataratas en frío</strong><span>Menos gente, mejor luz y el spray se siente especial.</span></div></div>
-          <div class="plan-item"><span class="plan-item-ico">🏙️</span><div><strong>Centro de Foz</strong><span>Paseo, compras, mercados. Buen plan para tarde fría.</span></div></div>
-          <div class="plan-item"><span class="plan-item-ico">🎯</span><div><strong>Día 4 y 7</strong><span>Si hace frío: sendero extra en Argentina o Parque das Aves doble.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🦜</span><div><strong>Parque das Aves</strong><span>Caminata liviana al aire libre, ideal con fresco.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🌊</span><div><strong>Cataratas en frío</strong><span>Menos gente y mejor luz. El spray igual moja.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🏙️</span><div><strong>Centro de Foz</strong><span>Paseo, compras, mercados. Buen plan de tarde fría.</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🎯</span><div><strong>Días 4 y 7</strong><span>Si hace frío: sendero extra o Parque das Aves doble.</span></div></div>
         </div>
       </div>
     </div>
@@ -697,43 +641,28 @@
     <h2>Qué reservar</h2>
     <div class="reserva-list">
       <div class="reserva-item">
-        <span class="reserva-ico">🎟️</span>
-        <div>
-          <div class="reserva-name">Entradas Parque Nacional Argentina</div>
-          <div class="reserva-sub">Comprar online antes del viaje — vacaciones de invierno tienen mucha demanda</div>
-        </div>
+        <span class="ri-ico">🎟️</span>
+        <div><div class="ri-name">Entradas Parque Nacional Argentina</div><div class="ri-sub">Comprar online antes del viaje — vacaciones de invierno tienen mucha demanda</div></div>
         <span class="rtag rtag-si">Online</span>
       </div>
       <div class="reserva-item">
-        <span class="reserva-ico">🎟️</span>
-        <div>
-          <div class="reserva-name">Cataratas lado brasilero</div>
-          <div class="reserva-sub">Comprar online en cataratasdoiguacu.com.br — conviene tenerlo resuelto</div>
-        </div>
+        <span class="ri-ico">🎟️</span>
+        <div><div class="ri-name">Cataratas lado brasilero</div><div class="ri-sub">Comprar online en cataratasdoiguacu.com.br</div></div>
         <span class="rtag rtag-si">Online</span>
       </div>
       <div class="reserva-item">
-        <span class="reserva-ico">🦜</span>
-        <div>
-          <div class="reserva-name">Parque das Aves</div>
-          <div class="reserva-sub">Se puede comprar en el lugar, pero mejor online para no depender de fila</div>
-        </div>
+        <span class="ri-ico">🦜</span>
+        <div><div class="ri-name">Parque das Aves</div><div class="ri-sub">Se puede en el lugar, pero mejor tenerlo resuelto online</div></div>
         <span class="rtag rtag-si">Online</span>
       </div>
       <div class="reserva-item">
-        <span class="reserva-ico">🚐</span>
-        <div>
-          <div class="reserva-name">Traslados aeropuerto ↔ Mabu</div>
-          <div class="reserva-sub">Confirmar con el hotel o contratar transfer privado con anticipación</div>
-        </div>
+        <span class="ri-ico">🚐</span>
+        <div><div class="ri-name">Traslados aeropuerto ↔ Mabu</div><div class="ri-sub">Confirmar con el hotel o contratar transfer privado</div></div>
         <span class="rtag rtag-si">Confirmar</span>
       </div>
       <div class="reserva-item">
-        <span class="reserva-ico">🚫</span>
-        <div>
-          <div class="reserva-name">Gran Aventura / lancha</div>
-          <div class="reserva-sub">Moja completamente y es más adrenalina — no ideal para Franco a esta edad</div>
-        </div>
+        <span class="ri-ico">🚫</span>
+        <div><div class="ri-name">Gran Aventura / lancha</div><div class="ri-sub">Moja completamente, más adrenalina — no ideal para Franco a esta edad</div></div>
         <span class="rtag rtag-no">Omitir</span>
       </div>
     </div>
@@ -743,36 +672,12 @@
   <section class="section" id="franco">
     <h2>Lo mejor para Franco</h2>
     <div class="franco-grid">
-      <div class="franco-card">
-        <div class="franco-ico">🦜</div>
-        <div class="franco-name">Parque das Aves</div>
-        <div class="franco-desc">El favorito con chicos. Caminata tranquila y muy visual.</div>
-      </div>
-      <div class="franco-card">
-        <div class="franco-ico">🚂</div>
-        <div class="franco-name">Tren ecológico</div>
-        <div class="franco-desc">El trenecito hasta la Garganta. Lo va a amar.</div>
-      </div>
-      <div class="franco-card">
-        <div class="franco-ico">🌊</div>
-        <div class="franco-name">Garganta del Diablo</div>
-        <div class="franco-desc">El momento más impresionante. Impacta a cualquier edad.</div>
-      </div>
-      <div class="franco-card">
-        <div class="franco-ico">🌿</div>
-        <div class="franco-name">Explorador de selva</div>
-        <div class="franco-desc">Bichos, mariposas, coatíes. Armar una misión de explorador.</div>
-      </div>
-      <div class="franco-card">
-        <div class="franco-ico">💧</div>
-        <div class="franco-name">Blue Park</div>
-        <div class="franco-desc">Parque acuático del Mabu. Tardes enteras feliz.</div>
-      </div>
-      <div class="franco-card">
-        <div class="franco-ico">🌍</div>
-        <div class="franco-name">Hito 3 Fronteras</div>
-        <div class="franco-desc">Argentina, Brasil y Paraguay juntos. Cuento geográfico garantizado.</div>
-      </div>
+      <div class="franco-card"><div class="fi">🦜</div><div class="fn">Parque das Aves</div><div class="fd">El favorito con chicos. Visual y tranquilo.</div></div>
+      <div class="franco-card"><div class="fi">🚂</div><div class="fn">Tren ecológico</div><div class="fd">El trenecito hasta la Garganta. Lo va a amar.</div></div>
+      <div class="franco-card"><div class="fi">🌊</div><div class="fn">Garganta del Diablo</div><div class="fd">El momento más impresionante del viaje.</div></div>
+      <div class="franco-card"><div class="fi">🌿</div><div class="fn">Explorador de selva</div><div class="fd">Bichos, mariposas, coatíes. Armar misión.</div></div>
+      <div class="franco-card"><div class="fi">💧</div><div class="fn">Blue Park</div><div class="fd">Parque acuático del Mabu. Tardes enteras.</div></div>
+      <div class="franco-card"><div class="fi">🌍</div><div class="fn">Hito 3 Fronteras</div><div class="fd">Argentina, Brasil y Paraguay juntos.</div></div>
     </div>
   </section>
 
@@ -797,7 +702,7 @@
           <li>Pilcha para mojarse en cataratas</li>
           <li>Protector solar y repelente</li>
           <li>Calzado cómodo para caminar</li>
-          <li>Mochila liviana para salidas</li>
+          <li>Mochila liviana para las salidas</li>
           <li>Snacks para Franco</li>
           <li>Reales (BRL) en efectivo</li>
         </ul>
@@ -806,18 +711,9 @@
   </section>
 
   <div class="nota-final">
-    <strong>El truco con Franco:</strong> salir temprano, cortar a las 14–15hs y que la tarde sea Mabu. Dos horas bien disfrutadas valen más que cinco agotado. El tren ecológico y el Parque das Aves son los highlights garantizados del viaje.
+    <strong>El truco con Franco:</strong> salir temprano, cortar a las 14–15hs y que la tarde sea Mabu. Dos horas bien disfrutadas valen más que cinco agotado. El tren ecológico y el Parque das Aves son los highlights garantizados.
   </div>
 
 </div>
-
-<script>
-  let climaOn = false;
-  function toggleClima() {
-    climaOn = !climaOn;
-    document.getElementById('btnClima').classList.toggle('on', climaOn);
-    if (climaOn) document.getElementById('clima').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-</script>
 </body>
 </html>
