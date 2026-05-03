@@ -166,6 +166,46 @@
     border-left: 3px solid var(--gold);
   }
 
+  /* ══════════════════════════════════════════
+     DAY CARDS — layout 2 columnas (480–859px)
+     Cabecera izquierda · slots apilados derecha
+     ══════════════════════════════════════════ */
+  @media (min-width: 480px) and (max-width: 859px) {
+    .day-card {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      border-top: none;
+      border-left: 4px solid var(--day-color);
+      border-radius: 10px;
+    }
+    .dc-head {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      border-bottom: none;
+      border-right: 1px solid var(--border);
+      padding: 14px 12px;
+      gap: 8px;
+      background: color-mix(in srgb, var(--day-color) 6%, white);
+    }
+    .dc-num {
+      min-width: auto;
+      width: 100%;
+      padding: 6px 8px;
+      text-align: left;
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+    .dc-num .n { font-size: 14px; }
+    .dc-num .d { font-size: 11px; }
+    .dc-slot  { grid-column: 2; }
+    .dc-cena  { grid-column: 2; }
+    .dc-nota  { grid-column: 2; }
+  }
+
   /* ══════════════════════════════════════════════
      DAY CARDS — layout horizontal (desktop ≥860px)
      ══════════════════════════════════════════════
