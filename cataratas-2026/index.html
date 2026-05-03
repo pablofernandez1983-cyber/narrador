@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
     --green:      #1a6b4a;
@@ -371,6 +372,7 @@
   <nav class="sticky-nav">
     <div class="nav-row">
       <a class="nav-btn" href="#cronograma">📅 Días</a>
+      <a class="nav-btn" href="#mapa">🗺️ Mapa</a>
       <a class="nav-btn" href="#clima">🌤️ Plan clima</a>
       <a class="nav-btn" href="#reservas">📋 Reservas</a>
       <a class="nav-btn" href="#franco">👦 Franco</a>
@@ -642,6 +644,13 @@
     </div>
   </section>
 
+  <!-- MAPA -->
+  <section class="section" id="mapa">
+    <h2>Mapa del viaje</h2>
+    <p class="section-note">Tocá cada punto para ver el detalle · ubicaciones aproximadas</p>
+    <div id="map" style="height:380px;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);"></div>
+  </section>
+
   <!-- PLAN CLIMA -->
   <section class="section" id="clima">
     <h2>Plan según el clima</h2>
@@ -755,5 +764,37 @@
   </div>
 
 </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([-25.59, -54.51], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  function pin(emoji, color) {
+    return L.divIcon({
+      html: `<div style="background:${color};color:white;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.4);border:2px solid white;">${emoji}</div>`,
+      iconSize: [34,34], iconAnchor: [17,17], popupAnchor: [0,-20], className: ''
+    });
+  }
+
+  const lugares = [
+    { lat:-25.500, lng:-54.548, e:'🏨', c:'#1d4b86', n:'Mabu Thermas Grand Resort',          d:'Hotel · base del viaje · Blue Park' },
+    { lat:-25.695, lng:-54.437, e:'💧', c:'#2a7d3e', n:'Cataratas do Iguaçu — lado Brasil',   d:'Día 5 · sendero panorámico' },
+    { lat:-25.693, lng:-54.445, e:'🦜', c:'#2a7d3e', n:'Parque das Aves',                     d:'Día 5 · junto a Cataratas BR · highlight para Franco' },
+    { lat:-25.684, lng:-54.452, e:'🌊', c:'#2a9d8f', n:'Cataratas Argentina · Garganta',      d:'Días 2 y 3 · Garganta del Diablo · tren ecológico' },
+    { lat:-25.578, lng:-54.585, e:'🌍', c:'#c07d28', n:'Marco das Três Fronteiras',            d:'Día 6 · Argentina, Brasil y Paraguay' },
+    { lat:-25.521, lng:-54.581, e:'🛕', c:'#7b6fa0', n:'Templo Budista Chen Tien',             d:'Día 4 · entrada libre · arquitectura budista china' },
+    { lat:-25.510, lng:-54.620, e:'🛍️', c:'#c07d28', n:'Ciudad del Este · Monalisa (PY)',     d:'Día 6 · compras en shopping techado' },
+  ];
+
+  lugares.forEach(p => {
+    L.marker([p.lat, p.lng], { icon: pin(p.e, p.c) })
+      .addTo(map)
+      .bindPopup(`<strong style="font-size:13px;font-family:Inter,sans-serif">${p.n}</strong><br><span style="font-size:12px;color:#666;font-family:Inter,sans-serif">${p.d}</span>`);
+  });
+</script>
 </body>
 </html>
