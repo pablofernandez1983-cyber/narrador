@@ -232,6 +232,7 @@
   }
   .chip-owned { border-color: var(--green); color: var(--green); }
   .chip-missing { border-color: var(--red); color: var(--red); }
+  .chip-unknown { border-color: #888; color: #aaa; }
   .chip-remove {
     background: none; border: none; color: inherit; cursor: pointer;
     padding: 0; font-size: 14px; line-height: 1; opacity: 0.6;
@@ -609,8 +610,13 @@
       </div>
 
       <div class="result-section">
-        <div class="result-section-label"><span class="dot dot-red"></span>Espacios vacíos</div>
+        <div class="result-section-label"><span class="dot dot-red"></span>Espacios vacíos (faltan)</div>
         <div class="sticker-chips" id="chips-missing"></div>
+      </div>
+
+      <div class="result-section" id="section-unknown" style="display:none">
+        <div class="result-section-label" style="color:#aaa">❓ No identificadas (decidí vos)</div>
+        <div class="sticker-chips" id="chips-unknown"></div>
       </div>
 
       <button class="btn btn-gold apply-btn" onclick="applyResults()">
@@ -1931,6 +1937,7 @@ let collection = {}; // code -> {owned: bool, count: int}
 let currentFilter = 'all';
 let pendingOwned = [];
 let pendingMissing = [];
+let pendingUnknown = [];
 let currentImageBase64 = null;
 
 function loadState() {
@@ -2048,29 +2055,39 @@ async function analyzeImage() {
 
   const prompt = `Sos un experto en álbumes de figuritas Panini del Mundial 2026.
 
-IMPORTANTE: La foto puede estar girada 90°, 180° o en cualquier ángulo. Rotá mentalmente la imagen para leer los códigos en cualquier orientación.
+IMPORTANTE: La foto puede estar girada 90°, 180° o en cualquier ángulo. Rotá mentalmente para leer los textos.
 
-Analizá esta imagen de una o dos páginas del álbum Panini FIFA World Cup 2026.
+Analizá esta imagen de páginas del álbum Panini FIFA World Cup 2026.
 
-CÓMO DISTINGUIR cada espacio:
-- ESPACIO VACÍO (falta la figurita): el hueco muestra solo el fondo impreso del álbum con el código de la selección y número (ej: "RSA 2", "ARG 7"). No hay foto de jugador. Fondo blanco o con diseño simple. → va en "missing"
-- FIGURITA PEGADA (la tengo): hay una tarjeta colorida con la foto del jugador pegada encima del hueco. Se ve la cara del jugador, nombre y colores del equipo. → va en "owned"
+LÓGICA DE DETECCIÓN (en orden de confiabilidad):
+
+1. ESPACIOS VACÍOS → van en "missing" (ALTA CONFIANZA)
+   - Son huecos donde NO hay figurita pegada
+   - Muestran el código impreso directamente en la página, ej: "RSA 10", "ARG 7"
+   - El fondo es el diseño del álbum, sin foto de jugador
+   - Leé ese código y agregalo a "missing"
+
+2. FIGURITAS PEGADAS → van en "owned" (cuando podés confirmar el número)
+   - Son tarjetas coloridas con foto del jugador encima
+   - El código está tapado por la figurita, pero podés inferirlo por:
+     a) El nombre del jugador visible en la figurita → buscalo en la lista
+     b) La posición en la grilla del álbum (qué número ocupa ese hueco)
+   - Solo agregá a "owned" si estás seguro del código
+
+3. FIGURITAS NO IDENTIFICADAS → van en "unknown"
+   - Ves que hay una figurita pegada pero no podés determinar el código con certeza
+   - Usá el formato: código aproximado si podés (ej: "RSA?"), o simplemente "TEAM?" si solo sabés el equipo
 
 Los códigos válidos del álbum son: ${codeList}
 
-Para cada espacio que puedas identificar:
-- Si ves solo el código impreso sin foto → "missing"
-- Si ves una figurita con foto del jugador → "owned"
-- Leé el código del país + número (ej: RSA3, ARG17) en cualquier orientación
-- Si el nombre del jugador es legible, usalo para confirmar el código
-
 Respondé SOLO con JSON válido, sin texto extra, sin markdown:
 {
-  "owned": ["RSA3", "ARG17", ...],
-  "missing": ["RSA1", "ARG5", ...]
+  "owned": ["RSA3", "RSA4", ...],
+  "missing": ["RSA1", "RSA10", ...],
+  "unknown": ["RSA?", "RSA?"]
 }
 
-Solo incluí códigos de la lista válida. Si no podés leer un código con certeza, no lo incluyas.`;
+Los arrays pueden estar vacíos []. Solo incluí códigos válidos de la lista en owned/missing.`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -2110,8 +2127,10 @@ Solo incluí códigos de la lista válida. Si no podés leer un código con cert
     const text = data.content[0].text.replace(/```json|```/g, '').trim();
     const result = JSON.parse(text);
 
-    pendingOwned = (result.owned || []).filter(c => getAllStickers().find(s=>s.code===c));
-    pendingMissing = (result.missing || []).filter(c => getAllStickers().find(s=>s.code===c));
+    const validCodes = new Set(getAllStickers().map(s => s.code));
+    pendingOwned = (result.owned || []).filter(c => validCodes.has(c));
+    pendingMissing = (result.missing || []).filter(c => validCodes.has(c));
+    pendingUnknown = (result.unknown || []);
 
     renderScanResults();
     document.getElementById('result-container').style.display = 'block';
@@ -2130,6 +2149,8 @@ function renderScanResults() {
 
   const chipsOwned = document.getElementById('chips-owned');
   const chipsMissing = document.getElementById('chips-missing');
+  const chipsUnknown = document.getElementById('chips-unknown');
+  const sectionUnknown = document.getElementById('section-unknown');
 
   chipsOwned.innerHTML = pendingOwned.length === 0
     ? '<span style="color:var(--muted);font-size:13px">Ninguna detectada</span>'
@@ -2152,11 +2173,24 @@ function renderScanResults() {
         <button class="chip-remove" onclick="removePending('missing','${code}')">✕</button>
       </div>`;
     }).join('');
+
+  if (pendingUnknown.length === 0) {
+    sectionUnknown.style.display = 'none';
+  } else {
+    sectionUnknown.style.display = '';
+    chipsUnknown.innerHTML = pendingUnknown.map(label => {
+      return `<div class="chip chip-unknown">
+        ${label}
+        <button class="chip-remove" onclick="removePending('unknown','${label}')">✕</button>
+      </div>`;
+    }).join('');
+  }
 }
 
 function removePending(type, code) {
   if (type === 'owned') pendingOwned = pendingOwned.filter(c => c !== code);
-  else pendingMissing = pendingMissing.filter(c => c !== code);
+  else if (type === 'missing') pendingMissing = pendingMissing.filter(c => c !== code);
+  else pendingUnknown = pendingUnknown.filter(c => c !== code);
   renderScanResults();
 }
 
@@ -2176,6 +2210,7 @@ function applyResults() {
   showToast(`✅ ${changed} figuritas nuevas aplicadas`);
   pendingOwned = [];
   pendingMissing = [];
+  pendingUnknown = [];
   document.getElementById('result-container').style.display = 'none';
 }
 
