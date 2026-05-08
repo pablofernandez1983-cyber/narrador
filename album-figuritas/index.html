@@ -2084,19 +2084,24 @@ Cada espacio está numerado del 1 al 20 con un código como "MAR 4", "SUI 10", "
 PASO 1 — Identificá el código del equipo (3 letras, ej: MAR, SUI, ARG, BRA).
 Buscalo en los espacios vacíos o en el encabezado de la página.
 
-PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a derecha:
+PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a derecha.
 
-• ESPACIO VACÍO: ves el fondo de la página con el código impreso, por ejemplo "MAR 4".
-  → El código está ahí aunque sea pequeño o el contraste sea bajo. Leélo y agregalo a "missing".
+LA ÚNICA SEÑAL CONFIABLE es si hay una FOTO DE LA CARA del jugador:
 
-• ESPACIO CON FIGURITA: hay una tarjeta colorida pegada con foto del jugador.
-  El número queda tapado. Intentá inferirlo por el nombre del jugador visible.
-  → Si podés identificarlo con certeza: "owned". Si no: "[EQUIPO]?" en "unknown".
+• SIN FOTO DE CARA → ESPACIO VACÍO → "missing"
+  Puede tener decoración, número estilizado, nombre impreso en la página, diseño colorido —
+  pero si NO se ve la cara/rostro de un jugador dentro del recuadro, está VACÍO.
+  Leé el código (ej: "MAR 4") y agregalo a "missing".
+  OJO: el nombre del jugador a veces está impreso en la página AFUERA del recuadro —
+  eso no significa que la figurita esté pegada.
 
-ATENCIÓN — FOTO DE EQUIPO (slot X13):
-Es el único espacio HORIZONTAL/APAISADO de la página, generalmente arriba a la derecha.
-Si ese espacio está vacío (ves el fondo impreso del álbum sin figurita pegada) → es "missing".
-NO asumas que está pegado solo porque tiene forma distinta al resto.
+• CON FOTO DE CARA → FIGURITA PEGADA → "owned" o "unknown"
+  Se ve claramente el rostro de un jugador dentro del recuadro del slot.
+  Intentá leer el nombre para identificar el código → "owned".
+  Si no podés identificarlo → "[EQUIPO]?" en "unknown".
+
+• SLOT HORIZONTAL (foto grupal, X13): arriba a la derecha, apaisado.
+  Si no hay foto grupal adentro → "missing". No asumas que está pegado.
 
 Los códigos válidos son: ${codeList}
 
