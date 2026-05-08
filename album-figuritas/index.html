@@ -2074,35 +2074,35 @@ async function analyzeImage() {
 
   const prompt = `Sos un experto en álbumes de figuritas Panini del Mundial 2026.
 
-IMPORTANTE: La foto puede estar girada en cualquier ángulo. Rotá mentalmente para leer los textos.
+La foto puede estar girada. Rotá mentalmente si hace falta.
 
-PASO 1 — IDENTIFICÁ EL EQUIPO DE LA PÁGINA
-Antes de todo, determiná qué selección(es) se ven en esta página. Cada página pertenece a UN solo equipo (ej: SUI = Suiza, ARG = Argentina). Buscá el nombre del país impreso grande en la página, o los códigos como "SUI 3", "SUI 7" en los espacios vacíos.
-SOLO devolvé códigos de ese equipo. NUNCA inventes códigos de otros equipos.
+TAREA: Analizá esta página del álbum Panini FIFA World Cup 2026.
 
-PASO 2 — DETECTÁ CADA ESPACIO
+Cada página tiene exactamente 20 espacios para figuritas de UN solo equipo.
+Cada espacio está numerado del 1 al 20 con un código como "MAR 4", "SUI 10", "ARG 7".
 
-ESPACIOS VACÍOS → "missing"
-Son huecos sin figurita. En el fondo impreso de la página se lee el código: "SUI 3", "SUI 10", etc.
-→ Esos códigos van en "missing". Son la información más confiable.
+PASO 1 — Identificá el código del equipo (3 letras, ej: MAR, SUI, ARG, BRA).
+Buscalo en los espacios vacíos o en el encabezado de la página.
 
-FIGURITAS PEGADAS → "owned" o "unknown"
-Tienen una tarjeta colorida con foto del jugador. El número del código queda tapado por la figurita.
-- Si podés leer el nombre del jugador en la figurita → buscá en la lista y ponelo en "owned"
-- Si es el escudo (foil brillante, sin jugador) → es el código X1 del equipo, ej: SUI1
-- Si es foto grupal del plantel → es X13, ej: SUI13
-- Si no podés identificar el número → poné "SUI?" en "unknown"
+PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a derecha:
 
-Los códigos válidos del álbum son: ${codeList}
+• ESPACIO VACÍO: ves el fondo de la página con el código impreso, por ejemplo "MAR 4".
+  → El código está ahí aunque sea pequeño o el contraste sea bajo. Leélo y agregalo a "missing".
 
-Respondé SOLO con JSON válido, sin texto extra, sin markdown:
+• ESPACIO CON FIGURITA: hay una tarjeta colorida pegada con foto del jugador.
+  El número queda tapado. Intentá inferirlo por el nombre del jugador visible.
+  → Si podés identificarlo con certeza: "owned". Si no: "[EQUIPO]?" en "unknown".
+
+Los códigos válidos son: ${codeList}
+
+Respondé SOLO con JSON, sin texto extra:
 {
-  "owned": ["SUI3", "SUI4", ...],
-  "missing": ["SUI1", "SUI10", ...],
-  "unknown": ["SUI?"]
+  "owned": ["MAR3", "MAR5", ...],
+  "missing": ["MAR4", "MAR10", ...],
+  "unknown": ["MAR?"]
 }
 
-Los arrays pueden estar vacíos []. SOLO incluí códigos del equipo visible en la foto.`;
+SOLO códigos del equipo identificado en el PASO 1. Arrays pueden estar vacíos [].`;
 
   try {
     const response = await fetch(
