@@ -2059,42 +2059,39 @@ async function analyzeImage() {
 
   const prompt = `Sos un experto en álbumes de figuritas Panini del Mundial 2026.
 
-IMPORTANTE: La foto puede estar girada 90°, 180° o en cualquier ángulo. Rotá mentalmente para leer los textos.
+IMPORTANTE: La foto puede estar girada en cualquier ángulo. Rotá mentalmente para leer los textos.
 
-Analizá esta imagen de páginas del álbum Panini FIFA World Cup 2026.
+PASO 1 — IDENTIFICÁ EL EQUIPO DE LA PÁGINA
+Antes de todo, determiná qué selección(es) se ven en esta página. Cada página pertenece a UN solo equipo (ej: SUI = Suiza, ARG = Argentina). Buscá el nombre del país impreso grande en la página, o los códigos como "SUI 3", "SUI 7" en los espacios vacíos.
+SOLO devolvé códigos de ese equipo. NUNCA inventes códigos de otros equipos.
 
-CÓMO IDENTIFICAR CADA ESPACIO:
+PASO 2 — DETECTÁ CADA ESPACIO
 
-── ESPACIOS VACÍOS → "missing" (MUY CONFIABLE) ──
-El hueco no tiene figurita pegada. En el fondo de la página está impreso el código del país + número, por ejemplo: "RSA 10", "ARG 7", "BRA 1".
-→ Leé ese código y agregalo a "missing".
+ESPACIOS VACÍOS → "missing"
+Son huecos sin figurita. En el fondo impreso de la página se lee el código: "SUI 3", "SUI 10", etc.
+→ Esos códigos van en "missing". Son la información más confiable.
 
-── FIGURITAS PEGADAS → "owned" o "unknown" ──
-Cuando hay una figurita pegada, el número del código QUEDA TAPADO. Lo que sí ves es:
-
-• Para figuritas de JUGADORES: el nombre del jugador impreso en la figurita (ej: "RONWEN WILLIAMS", "LAMINE YAMAL"). Buscá ese nombre en la lista de códigos válidos para saber el código exacto.
-
-• Para figuritas de ESCUDO (primera de cada selección, fondo brillante/foil con el logo del equipo): no tiene nombre de jugador. Si podés identificar el equipo, es el código X1 (ej: RSA1, ARG1).
-
-• Para figuritas de FOTO DE EQUIPO (foto grupal de todo el plantel): es el código X13 (ej: RSA13, ARG13).
-
-Si identificás el código con certeza → "owned".
-Si ves que hay una figurita pero no podés determinar el código → "unknown" (usá "RSA?", "ARG?" según el equipo que veas).
+FIGURITAS PEGADAS → "owned" o "unknown"
+Tienen una tarjeta colorida con foto del jugador. El número del código queda tapado por la figurita.
+- Si podés leer el nombre del jugador en la figurita → buscá en la lista y ponelo en "owned"
+- Si es el escudo (foil brillante, sin jugador) → es el código X1 del equipo, ej: SUI1
+- Si es foto grupal del plantel → es X13, ej: SUI13
+- Si no podés identificar el número → poné "SUI?" en "unknown"
 
 Los códigos válidos del álbum son: ${codeList}
 
 Respondé SOLO con JSON válido, sin texto extra, sin markdown:
 {
-  "owned": ["RSA3", "RSA4", ...],
-  "missing": ["RSA1", "RSA10", ...],
-  "unknown": ["RSA?", "RSA?"]
+  "owned": ["SUI3", "SUI4", ...],
+  "missing": ["SUI1", "SUI10", ...],
+  "unknown": ["SUI?"]
 }
 
-Los arrays pueden estar vacíos []. Solo incluí códigos válidos en owned/missing.`;
+Los arrays pueden estar vacíos []. SOLO incluí códigos del equipo visible en la foto.`;
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
