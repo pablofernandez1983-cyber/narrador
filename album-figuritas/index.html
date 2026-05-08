@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mi Álbum Mundial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a12;
+    --surface: #13131f;
+    --surface2: #1c1c2e;
+    --gold: #f5c842;
+    --gold2: #e8a020;
+    --red: #e03040;
+    --green: #2ecc71;
+    --blue: #3a9fd6;
+    --text: #f0f0f0;
+    --muted: #666688;
+    --border: #2a2a40;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100dvh;
+    overscroll-behavior: none;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d0d1a 0%, #1a1030 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 14px 16px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .app-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .app-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .stats-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* progress bar */
+  .progress-wrap {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold2), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 80px;
+    z-index: 90;
+  }
+  .tab {
+    flex: 1;
+    padding: 11px 4px;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── PANELS ── */
+  .panel { display: none; padding: 12px; }
+  .panel.active { display: block; }
+
+  /* ── SCAN PANEL ── */
+  .scan-area {
+    background: var(--surface);
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .scan-area:active { background: var(--surface2); border-color: var(--gold); }
+  .scan-area.has-image { border-style: solid; border-color: var(--gold2); padding: 0; }
+  .scan-icon { font-size: 48px; margin-bottom: 8px; }
+  .scan-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .scan-hint { font-size: 12px; color: #44446a; }
+  #preview-img {
+    width: 100%;
+    border-radius: 14px;
+    display: block;
+    max-height: 320px;
+    object-fit: cover;
+  }
+  #file-input { display: none; }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 12px;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold2), var(--gold));
+    color: #0a0a12;
+  }
+  .btn-gold:active { opacity: 0.85; transform: scale(0.98); }
+  .btn-gold:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; transform: none; }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+    padding: 10px;
+  }
+
+  /* Resultado del scan */
+  .result-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 14px;
+  }
+  .result-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .result-section { margin-bottom: 14px; }
+  .result-section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+
+  .sticker-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .chip-owned { border-color: var(--green); color: var(--green); }
+  .chip-missing { border-color: var(--red); color: var(--red); }
+  .chip-remove {
+    background: none; border: none; color: inherit; cursor: pointer;
+    padding: 0; font-size: 14px; line-height: 1; opacity: 0.6;
+  }
+  .chip-remove:hover { opacity: 1; }
+
+  .apply-btn {
+    margin-top: 10px;
+  }
+
+  /* loading */
+  .loading-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10,10,18,0.85);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--surface2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── COLECCIÓN PANEL ── */
+  .search-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    width: 100%;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .search-bar:focus { border-color: var(--gold2); }
+  .search-bar::placeholder { color: var(--muted); }
+
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .filter-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(245,200,66,0.08); }
+
+  .sticker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  .sticker-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    position: relative;
+  }
+  .sticker-card.owned {
+    border-color: var(--green);
+    background: rgba(46,204,113,0.07);
+  }
+  .sticker-card.duplicate {
+    border-color: var(--blue);
+    background: rgba(58,159,214,0.07);
+  }
+  .sticker-code {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .sticker-card.owned .sticker-code { color: var(--green); }
+  .sticker-card.duplicate .sticker-code { color: var(--blue); }
+  .sticker-name {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .sticker-card.owned .sticker-name { color: #aaffcc; }
+  .dup-badge {
+    position: absolute;
+    top: 3px; right: 3px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 9px;
+    font-family: 'Barlow Condensed', sans-serif;
+    border-radius: 4px;
+    padding: 1px 4px;
+  }
+
+  .section-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    padding: 14px 0 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .section-count {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* ── FALTANTES PANEL ── */
+  .missing-list { display: flex; flex-direction: column; gap: 6px; }
+  .missing-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .missing-code {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--red);
+    min-width: 52px;
+  }
+  .missing-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    flex: 1;
+  }
+  .missing-team {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .share-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  /* ── STATS PANEL ── */
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .stat-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .team-stats { display: flex; flex-direction: column; gap: 8px; }
+  .team-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .team-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    width: 100px;
+    flex-shrink: 0;
+    color: var(--text);
+  }
+  .team-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .team-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold2), var(--gold));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .team-pct {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    width: 32px;
+    text-align: right;
+  }
+
+  /* ── API KEY MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10,10,18,0.92);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px 20px 12px 12px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 480px;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } }
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .modal-desc { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+  .modal-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    width: 100%;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  .modal-input:focus { border-color: var(--gold2); }
+
+  .toast {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface2);
+    border: 1px solid var(--gold2);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 10px; }
+  .empty-text { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div>
+      <div class="app-title">Mi Álbum</div>
+      <div class="app-subtitle">Mundial 2026</div>
+    </div>
+    <div class="stats-pill" id="header-stats">0 / 0</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" data-tab="scan">📸 Escanear</div>
+  <div class="tab" data-tab="coleccion">📋 Colección</div>
+  <div class="tab" data-tab="faltantes">❌ Faltantes</div>
+  <div class="tab" data-tab="stats">📊 Stats</div>
+</div>
+
+<!-- PANEL: SCAN -->
+<div class="panel active" id="panel-scan">
+  <div class="scan-area" id="scan-area" onclick="document.getElementById('file-input').click()">
+    <div class="scan-icon">📷</div>
+    <div class="scan-label">Sacar foto al álbum</div>
+    <div class="scan-hint">Pegadas y espacios vacíos</div>
+  </div>
+  <input type="file" id="file-input" accept="image/*" capture="environment">
+  <img id="preview-img" style="display:none; border-radius:14px; width:100%; margin-top:12px;">
+
+  <button class="btn btn-gold" id="analyze-btn" disabled onclick="analyzeImage()">
+    🔍 Analizar Página
+  </button>
+  <button class="btn btn-outline" onclick="openApiModal()">⚙️ Configurar API Key</button>
+
+  <div id="result-container" style="display:none">
+    <div class="result-box">
+      <div class="result-title">🎯 Detectadas en esta foto</div>
+
+      <div class="result-section">
+        <div class="result-section-label"><span class="dot dot-green"></span>Figuritas pegadas</div>
+        <div class="sticker-chips" id="chips-owned"></div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-label"><span class="dot dot-red"></span>Espacios vacíos</div>
+        <div class="sticker-chips" id="chips-missing"></div>
+      </div>
+
+      <button class="btn btn-gold apply-btn" onclick="applyResults()">
+        ✅ Aplicar a mi colección
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: COLECCIÓN -->
+<div class="panel" id="panel-coleccion">
+  <input type="text" class="search-bar" placeholder="🔍 Buscar figurita..." id="search-input" oninput="renderCollection()">
+  <div class="filter-row">
+    <div class="filter-chip active" data-filter="all" onclick="setFilter('all',this)">Todas</div>
+    <div class="filter-chip" data-filter="owned" onclick="setFilter('owned',this)">Tengo</div>
+    <div class="filter-chip" data-filter="missing" onclick="setFilter('missing',this)">Faltan</div>
+    <div class="filter-chip" data-filter="duplicate" onclick="setFilter('duplicate',this)">Dobles</div>
+  </div>
+  <div id="collection-container"></div>
+</div>
+
+<!-- PANEL: FALTANTES -->
+<div class="panel" id="panel-faltantes">
+  <button class="share-btn" onclick="shareMissing()">📤 Compartir lista de faltantes</button>
+  <div id="missing-container"></div>
+</div>
+
+<!-- PANEL: STATS -->
+<div class="panel" id="panel-stats">
+  <div id="stats-container"></div>
+</div>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Analizando con IA...</div>
+</div>
+
+<!-- MODAL API KEY -->
+<div class="modal-overlay" id="api-modal">
+  <div class="modal">
+    <div class="modal-title">API Key de Claude</div>
+    <div class="modal-desc">
+      Necesitás una API key de Anthropic para que la IA reconozca las fotos.<br>
+      Se guarda solo en tu dispositivo (localStorage).
+    </div>
+    <input type="password" class="modal-input" id="api-key-input" placeholder="sk-ant-...">
+    <button class="btn btn-gold" onclick="saveApiKey()">Guardar</button>
+    <button class="btn btn-outline" style="margin-top:8px" onclick="closeApiModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATOS: Estructura del álbum Mundial 2026
+// Podés editar este objeto para agregar/quitar figuritas
+// ═══════════════════════════════════════════
+const ALBUM = {
+  "INTRO": {
+    label: "Introducción",
+    stickers: [
+      {code:"WC1", name:"FIFA World Cup 2026"},
+      {code:"WC2", name:"Logo oficial"},
+      {code:"WC3", name:"Mascota Striker"},
+      {code:"WC4", name:"Estadios"},
+      {code:"WC5", name:"Copa del Mundo"},
+    ]
+  },
+  "ARG": {
+    label: "Argentina",
+    stickers: [
+      {code:"ARG1", name:"Escudo Argentina"},
+      {code:"ARG2", name:"L. Messi"},
+      {code:"ARG3", name:"E. Martínez"},
+      {code:"ARG4", name:"N. Molina"},
+      {code:"ARG5", name:"C. Romero"},
+      {code:"ARG6", name:"L. Martínez"},
+      {code:"ARG7", name:"N. Otamendi"},
+      {code:"ARG8", name:"M. Acuña"},
+      {code:"ARG9", name:"R. De Paul"},
+      {code:"ARG10", name:"E. Fernández"},
+      {code:"ARG11", name:"A. Mac Allister"},
+      {code:"ARG12", name:"L. Paredes"},
+      {code:"ARG13", name:"Á. Di María"},
+      {code:"ARG14", name:"J. Álvarez"},
+      {code:"ARG15", name:"L. Martínez (FW)"},
+      {code:"ARG16", name:"Equipo Argentina"},
+    ]
+  },
+  "BRA": {
+    label: "Brasil",
+    stickers: [
+      {code:"BRA1", name:"Escudo Brasil"},
+      {code:"BRA2", name:"Vinicius Jr."},
+      {code:"BRA3", name:"Alisson"},
+      {code:"BRA4", name:"Danilo"},
+      {code:"BRA5", name:"Marquinhos"},
+      {code:"BRA6", name:"Gabriel Magalhães"},
+      {code:"BRA7", name:"Alex Sandro"},
+      {code:"BRA8", name:"Casemiro"},
+      {code:"BRA9", name:"Lucas Paquetá"},
+      {code:"BRA10", name:"Rodrygo"},
+      {code:"BRA11", name:"Endrick"},
+      {code:"BRA12", name:"Raphinha"},
+      {code:"BRA13", name:"Gabriel Martinelli"},
+      {code:"BRA14", name:"Bruno Guimarães"},
+      {code:"BRA15", name:"Savinho"},
+      {code:"BRA16", name:"Equipo Brasil"},
+    ]
+  },
+  "FRA": {
+    label: "Francia",
+    stickers: [
+      {code:"FRA1", name:"Escudo Francia"},
+      {code:"FRA2", name:"K. Mbappé"},
+      {code:"FRA3", name:"M. Maignan"},
+      {code:"FRA4", name:"J. Koundé"},
+      {code:"FRA5", name:"D. Upamecano"},
+      {code:"FRA6", name:"W. Saliba"},
+      {code:"FRA7", name:"T. Hernández"},
+      {code:"FRA8", name:"A. Tchouaméni"},
+      {code:"FRA9", name:"A. Rabiot"},
+      {code:"FRA10", name:"A. Griezmann"},
+      {code:"FRA11", name:"O. Dembélé"},
+      {code:"FRA12", name:"M. Thuram"},
+      {code:"FRA13", name:"E. Camavinga"},
+      {code:"FRA14", name:"Y. Fofana"},
+      {code:"FRA15", name:"B. Diaby"},
+      {code:"FRA16", name:"Equipo Francia"},
+    ]
+  },
+  "ENG": {
+    label: "Inglaterra",
+    stickers: [
+      {code:"ENG1", name:"Escudo Inglaterra"},
+      {code:"ENG2", name:"J. Bellingham"},
+      {code:"ENG3", name:"J. Pickford"},
+      {code:"ENG4", name:"K. Trippier"},
+      {code:"ENG5", name:"H. Maguire"},
+      {code:"ENG6", name:"M. Guehi"},
+      {code:"ENG7", name:"L. Hall"},
+      {code:"ENG8", name:"D. Rice"},
+      {code:"ENG9", name:"P. Foden"},
+      {code:"ENG10", name:"B. Saka"},
+      {code:"ENG11", name:"H. Kane"},
+      {code:"ENG12", name:"C. Palmer"},
+      {code:"ENG13", name:"A. Gordon"},
+      {code:"ENG14", name:"T. Alexander-Arnold"},
+      {code:"ENG15", name:"O. Watkins"},
+      {code:"ENG16", name:"Equipo Inglaterra"},
+    ]
+  },
+  "ESP": {
+    label: "España",
+    stickers: [
+      {code:"ESP1", name:"Escudo España"},
+      {code:"ESP2", name:"L. Yamal"},
+      {code:"ESP3", name:"U. Simón"},
+      {code:"ESP4", name:"D. Carvajal"},
+      {code:"ESP5", name:"A. Laporte"},
+      {code:"ESP6", name:"R. Le Normand"},
+      {code:"ESP7", name:"M. Cucurella"},
+      {code:"ESP8", name:"R. Rodri"},
+      {code:"ESP9", name:"P. Gavi"},
+      {code:"ESP10", name:"P. Pedri"},
+      {code:"ESP11", name:"N. Williams"},
+      {code:"ESP12", name:"A. Morata"},
+      {code:"ESP13", name:"F. Torres"},
+      {code:"ESP14", name:"M. Merino"},
+      {code:"ESP15", name:"D. Olmo"},
+      {code:"ESP16", name:"Equipo España"},
+    ]
+  },
+  "GER": {
+    label: "Alemania",
+    stickers: [
+      {code:"GER1", name:"Escudo Alemania"},
+      {code:"GER2", name:"J. Musiala"},
+      {code:"GER3", name:"M. Neuer"},
+      {code:"GER4", name:"J. Kimmich"},
+      {code:"GER5", name:"A. Rüdiger"},
+      {code:"GER6", name:"J. Tah"},
+      {code:"GER7", name:"D. Raum"},
+      {code:"GER8", name:"L. Goretzka"},
+      {code:"GER9", name:"L. Andrich"},
+      {code:"GER10", name:"F. Wirtz"},
+      {code:"GER11", name:"K. Havertz"},
+      {code:"GER12", name:"T. Müller"},
+      {code:"GER13", name:"L. Nmecha"},
+      {code:"GER14", name:"R. Gnabry"},
+      {code:"GER15", name:"N. Schlotterbeck"},
+      {code:"GER16", name:"Equipo Alemania"},
+    ]
+  },
+  "POR": {
+    label: "Portugal",
+    stickers: [
+      {code:"POR1", name:"Escudo Portugal"},
+      {code:"POR2", name:"C. Ronaldo"},
+      {code:"POR3", name:"D. Costa"},
+      {code:"POR4", name:"J. Cancelo"},
+      {code:"POR5", name:"P. Magalhães"},
+      {code:"POR6", name:"R. Dias"},
+      {code:"POR7", name:"N. Mendes"},
+      {code:"POR8", name:"B. Fernandes"},
+      {code:"POR9", name:"R. Neves"},
+      {code:"POR10", name:"V. Horta"},
+      {code:"POR11", name:"R. Leão"},
+      {code:"POR12", name:"G. Ramos"},
+      {code:"POR13", name:"J. Félix"},
+      {code:"POR14", name:"P. Neto"},
+      {code:"POR15", name:"O. Ndicka"},
+      {code:"POR16", name:"Equipo Portugal"},
+    ]
+  },
+  "URU": {
+    label: "Uruguay",
+    stickers: [
+      {code:"URU1", name:"Escudo Uruguay"},
+      {code:"URU2", name:"F. Valverde"},
+      {code:"URU3", name:"S. Rochet"},
+      {code:"URU4", name:"N. Nández"},
+      {code:"URU5", name:"R. Araujo"},
+      {code:"URU6", name:"S. Coates"},
+      {code:"URU7", name:"M. Olivera"},
+      {code:"URU8", name:"M. Ugarte"},
+      {code:"URU9", name:"G. De Arrascaeta"},
+      {code:"URU10", name:"D. Núñez"},
+      {code:"URU11", name:"L. Suárez"},
+      {code:"URU12", name:"M. Viña"},
+      {code:"URU13", name:"A. Bentancur"},
+      {code:"URU14", name:"D. Pellistri"},
+      {code:"URU15", name:"E. Cavani"},
+      {code:"URU16", name:"Equipo Uruguay"},
+    ]
+  },
+  "COL": {
+    label: "Colombia",
+    stickers: [
+      {code:"COL1", name:"Escudo Colombia"},
+      {code:"COL2", name:"L. Díaz"},
+      {code:"COL3", name:"C. Vargas"},
+      {code:"COL4", name:"D. Muñoz"},
+      {code:"COL5", name:"J. Sánchez"},
+      {code:"COL6", name:"D. Yerry Mina"},
+      {code:"COL7", name:"J. Mojica"},
+      {code:"COL8", name:"R. Lerma"},
+      {code:"COL9", name:"J. Cuadrado"},
+      {code:"COL10", name:"J. Rodríguez"},
+      {code:"COL11", name:"R. Falcao"},
+      {code:"COL12", name:"S. Arias"},
+      {code:"COL13", name:"J. Borré"},
+      {code:"COL14", name:"L. Sinisterra"},
+      {code:"COL15", name:"M. Cabal"},
+      {code:"COL16", name:"Equipo Colombia"},
+    ]
+  },
+};
+
+// ═══════════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════════
+let collection = {}; // code -> {owned: bool, count: int}
+let currentFilter = 'all';
+let pendingOwned = [];
+let pendingMissing = [];
+let currentImageBase64 = null;
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('album2026_v2');
+    if (saved) collection = JSON.parse(saved);
+  } catch(e) {}
+}
+function saveState() {
+  localStorage.setItem('album2026_v2', JSON.stringify(collection));
+}
+function getAllStickers() {
+  const all = [];
+  for (const [teamCode, team] of Object.entries(ALBUM)) {
+    for (const s of team.stickers) {
+      all.push({...s, team: teamCode, teamLabel: team.label});
+    }
+  }
+  return all;
+}
+function totalStickers() { return getAllStickers().length; }
+function ownedCount() { return getAllStickers().filter(s => collection[s.code]?.owned).length; }
+
+// ═══════════════════════════════════════════
+// UI UTILS
+// ═══════════════════════════════════════════
+function showToast(msg, duration=2200) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+function setLoading(show) {
+  document.getElementById('loading').classList.toggle('show', show);
+}
+function updateHeader() {
+  const owned = ownedCount();
+  const total = totalStickers();
+  const pct = total ? Math.round(owned/total*100) : 0;
+  document.getElementById('header-stats').textContent = `${owned} / ${total}`;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'coleccion') renderCollection();
+    if (tab.dataset.tab === 'faltantes') renderMissing();
+    if (tab.dataset.tab === 'stats') renderStats();
+  });
+});
+
+// ═══════════════════════════════════════════
+// SCAN / PHOTO
+// ═══════════════════════════════════════════
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const data = ev.target.result;
+    currentImageBase64 = data.split(',')[1];
+    const img = document.getElementById('preview-img');
+    img.src = data;
+    img.style.display = 'block';
+    document.getElementById('analyze-btn').disabled = false;
+    document.getElementById('result-container').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+});
+
+function getApiKey() {
+  return localStorage.getItem('claude_api_key') || '';
+}
+function openApiModal() {
+  document.getElementById('api-key-input').value = getApiKey();
+  document.getElementById('api-modal').classList.add('show');
+}
+function closeApiModal() {
+  document.getElementById('api-modal').classList.remove('show');
+}
+function saveApiKey() {
+  const key = document.getElementById('api-key-input').value.trim();
+  if (!key.startsWith('sk-ant-')) {
+    showToast('❌ La key debe empezar con sk-ant-');
+    return;
+  }
+  localStorage.setItem('claude_api_key', key);
+  closeApiModal();
+  showToast('✅ API Key guardada');
+}
+
+// Construir lista de todos los códigos para el prompt
+function buildCodeList() {
+  return getAllStickers().map(s => `${s.code} (${s.name})`).join(', ');
+}
+
+async function analyzeImage() {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    openApiModal();
+    return;
+  }
+  if (!currentImageBase64) return;
+
+  setLoading(true);
+
+  const codeList = buildCodeList();
+
+  const prompt = `Sos un experto en álbumes de figuritas Panini del Mundial 2026.
+
+Analizá esta imagen de una página del álbum de figuritas. 
+
+Los códigos válidos del álbum son: ${codeList}
+
+Tu tarea:
+1. Identificar los ESPACIOS VACÍOS: son huecos sin figurita pegada. Tienen impreso el código de la selección (ej: ARG, BRA, FRA) y un número. Devolvé el código correspondiente de la lista arriba.
+2. Identificar las FIGURITAS PEGADAS: figuritas ya colocadas, con foto del jugador visible.
+
+Para las pegadas, intentá leer el nombre si es legible y mapealo al código correcto.
+Para los vacíos, leé el código/número impreso y mapealo al código correcto.
+
+Respondé SOLO con JSON, sin texto extra, sin markdown:
+{
+  "owned": ["ARG2", "ARG5", ...],
+  "missing": ["ARG1", "ARG3", ...]
+}
+
+Si no podés identificar alguna con certeza, no la incluyas. Solo incluí códigos de la lista válida.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-5',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: 'image/jpeg',
+                data: currentImageBase64
+              }
+            },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+
+    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(text);
+
+    pendingOwned = (result.owned || []).filter(c => getAllStickers().find(s=>s.code===c));
+    pendingMissing = (result.missing || []).filter(c => getAllStickers().find(s=>s.code===c));
+
+    renderScanResults();
+    document.getElementById('result-container').style.display = 'block';
+
+  } catch(err) {
+    showToast('❌ Error: ' + err.message.slice(0,60));
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+}
+
+function renderScanResults() {
+  const allStickers = getAllStickers();
+  const getInfo = code => allStickers.find(s => s.code === code);
+
+  const chipsOwned = document.getElementById('chips-owned');
+  const chipsMissing = document.getElementById('chips-missing');
+
+  chipsOwned.innerHTML = pendingOwned.length === 0
+    ? '<span style="color:var(--muted);font-size:13px">Ninguna detectada</span>'
+    : pendingOwned.map(code => {
+      const s = getInfo(code);
+      return `<div class="chip chip-owned">
+        ${code}
+        <span style="opacity:0.7;font-size:11px">${s ? s.name.split(' ')[0] : ''}</span>
+        <button class="chip-remove" onclick="removePending('owned','${code}')">✕</button>
+      </div>`;
+    }).join('');
+
+  chipsMissing.innerHTML = pendingMissing.length === 0
+    ? '<span style="color:var(--muted);font-size:13px">Ninguna detectada</span>'
+    : pendingMissing.map(code => {
+      const s = getInfo(code);
+      return `<div class="chip chip-missing">
+        ${code}
+        <span style="opacity:0.7;font-size:11px">${s ? s.name.split(' ')[0] : ''}</span>
+        <button class="chip-remove" onclick="removePending('missing','${code}')">✕</button>
+      </div>`;
+    }).join('');
+}
+
+function removePending(type, code) {
+  if (type === 'owned') pendingOwned = pendingOwned.filter(c => c !== code);
+  else pendingMissing = pendingMissing.filter(c => c !== code);
+  renderScanResults();
+}
+
+function applyResults() {
+  let changed = 0;
+  for (const code of pendingOwned) {
+    if (!collection[code]) collection[code] = {owned: false, count: 0};
+    if (!collection[code].owned) { collection[code].owned = true; changed++; }
+    collection[code].count = Math.max(collection[code].count || 1, 1);
+  }
+  // Los vacíos los marcamos como no poseídos (confirmar que faltan)
+  for (const code of pendingMissing) {
+    if (!collection[code]) collection[code] = {owned: false, count: 0};
+  }
+  saveState();
+  updateHeader();
+  showToast(`✅ ${changed} figuritas nuevas aplicadas`);
+  pendingOwned = [];
+  pendingMissing = [];
+  document.getElementById('result-container').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════
+// COLECCIÓN
+// ═══════════════════════════════════════════
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderCollection();
+}
+
+function renderCollection() {
+  const query = document.getElementById('search-input').value.toLowerCase();
+  const container = document.getElementById('collection-container');
+  let html = '';
+
+  for (const [teamCode, team] of Object.entries(ALBUM)) {
+    let stickers = team.stickers;
+
+    if (query) {
+      stickers = stickers.filter(s =>
+        s.code.toLowerCase().includes(query) ||
+        s.name.toLowerCase().includes(query) ||
+        team.label.toLowerCase().includes(query)
+      );
+    }
+
+    if (currentFilter === 'owned')
+      stickers = stickers.filter(s => collection[s.code]?.owned);
+    else if (currentFilter === 'missing')
+      stickers = stickers.filter(s => !collection[s.code]?.owned);
+    else if (currentFilter === 'duplicate')
+      stickers = stickers.filter(s => (collection[s.code]?.count || 0) > 1);
+
+    if (!stickers.length) continue;
+
+    const ownedInTeam = team.stickers.filter(s => collection[s.code]?.owned).length;
+
+    html += `<div class="section-header">
+      ${team.label}
+      <span class="section-count">${ownedInTeam}/${team.stickers.length}</span>
+    </div>
+    <div class="sticker-grid">`;
+
+    for (const s of stickers) {
+      const c = collection[s.code];
+      const owned = c?.owned;
+      const count = c?.count || 0;
+      const dup = count > 1;
+      html += `<div class="sticker-card ${owned ? (dup?'duplicate':'owned') : ''}" onclick="toggleSticker('${s.code}')">
+        ${dup ? `<div class="dup-badge">x${count}</div>` : ''}
+        <div class="sticker-code">${s.code}</div>
+        <div class="sticker-name">${s.name}</div>
+      </div>`;
+    }
+    html += '</div>';
+  }
+
+  if (!html) {
+    html = `<div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-text">Sin resultados</div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function toggleSticker(code) {
+  if (!collection[code]) collection[code] = {owned: false, count: 0};
+  const c = collection[code];
+  if (!c.owned) {
+    c.owned = true;
+    c.count = 1;
+  } else if (c.count === 1) {
+    c.count = 2; // doble
+  } else {
+    c.owned = false;
+    c.count = 0;
+  }
+  saveState();
+  updateHeader();
+  renderCollection();
+}
+
+// ═══════════════════════════════════════════
+// FALTANTES
+// ═══════════════════════════════════════════
+function renderMissing() {
+  const container = document.getElementById('missing-container');
+  const allStickers = getAllStickers();
+  const missing = allStickers.filter(s => !collection[s.code]?.owned);
+
+  if (!missing.length) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🏆</div>
+      <div class="empty-text">¡Álbum completo!</div>
+    </div>`;
+    return;
+  }
+
+  // Agrupar por equipo
+  let html = '';
+  let lastTeam = null;
+  for (const s of missing) {
+    if (s.team !== lastTeam) {
+      if (lastTeam) html += '</div>';
+      html += `<div class="section-header">${s.teamLabel} <span class="section-count">${missing.filter(x=>x.team===s.team).length} faltantes</span></div><div class="missing-list">`;
+      lastTeam = s.team;
+    }
+    html += `<div class="missing-row">
+      <div class="missing-code">${s.code}</div>
+      <div>
+        <div class="missing-name">${s.name}</div>
+        <div class="missing-team">${s.teamLabel}</div>
+      </div>
+    </div>`;
+  }
+  if (lastTeam) html += '</div>';
+
+  container.innerHTML = html;
+}
+
+function shareMissing() {
+  const allStickers = getAllStickers();
+  const missing = allStickers.filter(s => !collection[s.code]?.owned);
+  if (!missing.length) { showToast('¡No te falta ninguna!'); return; }
+  const text = `Me faltan ${missing.length} figuritas del álbum Mundial 2026:\n` +
+    missing.map(s => `${s.code} - ${s.name}`).join('\n');
+  if (navigator.share) {
+    navigator.share({ title: 'Mis figuritas faltantes', text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast('📋 Lista copiada al portapapeles'));
+  }
+}
+
+// ═══════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════
+function renderStats() {
+  const container = document.getElementById('stats-container');
+  const total = totalStickers();
+  const owned = ownedCount();
+  const missing = total - owned;
+  const pct = total ? Math.round(owned/total*100) : 0;
+  const dups = getAllStickers().filter(s => (collection[s.code]?.count || 0) > 1).length;
+
+  let html = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div class="stat-card">
+        <div class="stat-label">Tengo</div>
+        <div class="stat-value">${owned}</div>
+        <div class="stat-sub">${pct}% del álbum</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Me faltan</div>
+        <div class="stat-value" style="color:var(--red)">${missing}</div>
+        <div class="stat-sub">de ${total} totales</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div class="stat-card">
+        <div class="stat-label">Dobles</div>
+        <div class="stat-value" style="color:var(--blue)">${dups}</div>
+        <div class="stat-sub">para intercambio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Progreso</div>
+        <div class="stat-value" style="font-size:36px">${pct}%</div>
+        <div class="stat-sub">completado</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label" style="margin-bottom:12px">Por selección</div>
+      <div class="team-stats">`;
+
+  for (const [teamCode, team] of Object.entries(ALBUM)) {
+    const tot = team.stickers.length;
+    const own = team.stickers.filter(s => collection[s.code]?.owned).length;
+    const p = Math.round(own/tot*100);
+    html += `<div class="team-row">
+      <div class="team-name">${team.label}</div>
+      <div class="team-bar-bg"><div class="team-bar-fill" style="width:${p}%"></div></div>
+      <div class="team-pct">${p}%</div>
+    </div>`;
+  }
+
+  html += `</div></div>`;
+
+  // Botón reset
+  html += `<button class="btn btn-outline" style="margin-top:10px;color:var(--red);border-color:var(--red)" onclick="resetCollection()">
+    🗑️ Resetear colección
+  </button>`;
+
+  container.innerHTML = html;
+}
+
+function resetCollection() {
+  if (confirm('¿Seguro? Esto borra toda tu colección guardada.')) {
+    collection = {};
+    saveState();
+    updateHeader();
+    renderStats();
+    showToast('🗑️ Colección reseteada');
+  }
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+loadState();
+updateHeader();
+renderCollection();
+</script>
+</body>
+</html>
