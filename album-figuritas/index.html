@@ -2102,8 +2102,8 @@ Los arrays pueden estar vacíos []. Solo incluí códigos válidos en owned/miss
           contents: [{
             parts: [
               {
-                inline_data: {
-                  mime_type: currentMimeType,
+                inlineData: {
+                  mimeType: currentMimeType,
                   data: currentImageBase64
                 }
               },
@@ -2117,11 +2117,13 @@ Los arrays pueden estar vacíos []. Solo incluí códigos válidos en owned/miss
 
     const data = await response.json();
 
-    if (data.error) {
-      const msg = data.error.message || JSON.stringify(data.error);
-      const status = data.error.code || response.status;
-      if (status === 429) throw new Error('Límite de requests alcanzado — esperá 1 minuto e intentá de nuevo');
-      throw new Error(msg);
+    if (data.error || !response.ok) {
+      const err = data.error || {};
+      const status = err.code || response.status;
+      const msg = err.message || `HTTP ${response.status}`;
+      console.error('Gemini error:', status, data);
+      if (status === 429) throw new Error('Rate limit: esperá 1 minuto e intentá de nuevo');
+      throw new Error(`[${status}] ${msg}`);
     }
 
     const text = (data.candidates[0].content.parts[0].text).replace(/```json|```/g, '').trim();
