@@ -2008,13 +2008,28 @@ document.getElementById('file-input').addEventListener('change', e => {
   const reader = new FileReader();
   reader.onload = ev => {
     const data = ev.target.result;
-    currentMimeType = data.split(';')[0].split(':')[1] || 'image/jpeg';
-    currentImageBase64 = data.split(',')[1];
-    const img = document.getElementById('preview-img');
-    img.src = data;
-    img.style.display = 'block';
-    document.getElementById('analyze-btn').disabled = false;
-    document.getElementById('result-container').style.display = 'none';
+    // Normalizar orientación EXIF y redimensionar via canvas
+    const tmpImg = new Image();
+    tmpImg.onload = () => {
+      const MAX = 1600;
+      let w = tmpImg.naturalWidth, h = tmpImg.naturalHeight;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(tmpImg, 0, 0, w, h);
+      const normalized = canvas.toDataURL('image/jpeg', 0.88);
+      currentMimeType = 'image/jpeg';
+      currentImageBase64 = normalized.split(',')[1];
+      const preview = document.getElementById('preview-img');
+      preview.src = normalized;
+      preview.style.display = 'block';
+      document.getElementById('analyze-btn').disabled = false;
+      document.getElementById('result-container').style.display = 'none';
+    };
+    tmpImg.src = data;
   };
   reader.readAsDataURL(file);
 });
@@ -2123,8 +2138,10 @@ Los arrays pueden estar vacíos []. SOLO incluí códigos del equipo visible en 
       throw new Error(`[${status}] ${msg}`);
     }
 
-    const text = (data.candidates[0].content.parts[0].text).replace(/```json|```/g, '').trim();
-    const result = JSON.parse(text);
+    const raw = data.candidates[0].content.parts[0].text;
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('La IA no devolvió JSON válido — intentá de nuevo');
+    const result = JSON.parse(jsonMatch[0]);
 
     const validCodes = new Set(getAllStickers().map(s => s.code));
     pendingOwned = (result.owned || []).filter(c => validCodes.has(c));
