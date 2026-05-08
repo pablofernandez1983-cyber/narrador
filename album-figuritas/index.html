@@ -2048,24 +2048,29 @@ async function analyzeImage() {
 
   const prompt = `Sos un experto en álbumes de figuritas Panini del Mundial 2026.
 
-Analizá esta imagen de una página del álbum de figuritas. 
+IMPORTANTE: La foto puede estar girada 90°, 180° o en cualquier ángulo. Rotá mentalmente la imagen para leer los códigos en cualquier orientación.
+
+Analizá esta imagen de una o dos páginas del álbum Panini FIFA World Cup 2026.
+
+CÓMO DISTINGUIR cada espacio:
+- ESPACIO VACÍO (falta la figurita): el hueco muestra solo el fondo impreso del álbum con el código de la selección y número (ej: "RSA 2", "ARG 7"). No hay foto de jugador. Fondo blanco o con diseño simple. → va en "missing"
+- FIGURITA PEGADA (la tengo): hay una tarjeta colorida con la foto del jugador pegada encima del hueco. Se ve la cara del jugador, nombre y colores del equipo. → va en "owned"
 
 Los códigos válidos del álbum son: ${codeList}
 
-Tu tarea:
-1. Identificar los ESPACIOS VACÍOS: son huecos sin figurita pegada. Tienen impreso el código de la selección (ej: ARG, BRA, FRA) y un número. Devolvé el código correspondiente de la lista arriba.
-2. Identificar las FIGURITAS PEGADAS: figuritas ya colocadas, con foto del jugador visible.
+Para cada espacio que puedas identificar:
+- Si ves solo el código impreso sin foto → "missing"
+- Si ves una figurita con foto del jugador → "owned"
+- Leé el código del país + número (ej: RSA3, ARG17) en cualquier orientación
+- Si el nombre del jugador es legible, usalo para confirmar el código
 
-Para las pegadas, intentá leer el nombre si es legible y mapealo al código correcto.
-Para los vacíos, leé el código/número impreso y mapealo al código correcto.
-
-Respondé SOLO con JSON, sin texto extra, sin markdown:
+Respondé SOLO con JSON válido, sin texto extra, sin markdown:
 {
-  "owned": ["ARG2", "ARG5", ...],
-  "missing": ["ARG1", "ARG3", ...]
+  "owned": ["RSA3", "ARG17", ...],
+  "missing": ["RSA1", "ARG5", ...]
 }
 
-Si no podés identificar alguna con certeza, no la incluyas. Solo incluí códigos de la lista válida.`;
+Solo incluí códigos de la lista válida. Si no podés leer un código con certeza, no lo incluyas.`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -2077,8 +2082,8 @@ Si no podés identificar alguna con certeza, no la incluyas. Solo incluí códig
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: 'claude-opus-4-5',
-        max_tokens: 1000,
+        model: 'claude-opus-4-7',
+        max_tokens: 2000,
         messages: [{
           role: 'user',
           content: [
