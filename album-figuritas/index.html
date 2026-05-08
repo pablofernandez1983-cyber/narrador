@@ -222,16 +222,17 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 4px 10px;
+    padding: 5px 12px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: 600;
     color: var(--text);
     display: flex;
     align-items: center;
     gap: 5px;
   }
   .chip-owned { border-color: var(--green); color: var(--green); }
-  .chip-missing { border-color: var(--red); color: var(--red); }
+  .chip-missing { background: rgba(255,100,80,0.12); border-color: #FF8A7A; color: #FFBFB5; }
   .chip-unknown { border-color: #888; color: #aaa; }
   .chip-remove {
     background: none; border: none; color: inherit; cursor: pointer;
