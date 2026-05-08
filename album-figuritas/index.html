@@ -2084,24 +2084,21 @@ Cada espacio está numerado del 1 al 20 con un código como "MAR 4", "SUI 10", "
 PASO 1 — Identificá el código del equipo (3 letras, ej: MAR, SUI, ARG, BRA).
 Buscalo en los espacios vacíos o en el encabezado de la página.
 
-PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a derecha.
+PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a derecha:
 
-LA ÚNICA SEÑAL CONFIABLE es si hay una FOTO DE LA CARA del jugador:
+• ESPACIO VACÍO → "missing"
+  El hueco muestra el fondo de la página con el código impreso (ej: "MAR 4").
+  IMPORTANTE: todos los espacios vacíos del álbum tienen un número decorativo grande
+  adentro (el propio número del slot con diseño estilizado). Eso NO es una figurita.
+  Un espacio está vacío cuando no hay foto real de un jugador, aunque tenga diseño.
 
-• SIN FOTO DE CARA → ESPACIO VACÍO → "missing"
-  Puede tener decoración, número estilizado, nombre impreso en la página, diseño colorido —
-  pero si NO se ve la cara/rostro de un jugador dentro del recuadro, está VACÍO.
-  Leé el código (ej: "MAR 4") y agregalo a "missing".
-  OJO: el nombre del jugador a veces está impreso en la página AFUERA del recuadro —
-  eso no significa que la figurita esté pegada.
-
-• CON FOTO DE CARA → FIGURITA PEGADA → "owned" o "unknown"
-  Se ve claramente el rostro de un jugador dentro del recuadro del slot.
+• ESPACIO CON FIGURITA → "owned" o "unknown"
+  Hay una tarjeta con la foto real del jugador pegada encima.
   Intentá leer el nombre para identificar el código → "owned".
   Si no podés identificarlo → "[EQUIPO]?" en "unknown".
 
 • SLOT HORIZONTAL (foto grupal, X13): arriba a la derecha, apaisado.
-  Si no hay foto grupal adentro → "missing". No asumas que está pegado.
+  Si no hay foto grupal real adentro → "missing".
 
 Los códigos válidos son: ${codeList}
 
