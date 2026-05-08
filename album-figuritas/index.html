@@ -659,12 +659,13 @@
 <!-- MODAL API KEY -->
 <div class="modal-overlay" id="api-modal">
   <div class="modal">
-    <div class="modal-title">API Key de Claude</div>
+    <div class="modal-title">API Key de Gemini</div>
     <div class="modal-desc">
-      Necesitás una API key de Anthropic para que la IA reconozca las fotos.<br>
+      Necesitás una API key de Google AI Studio para que la IA reconozca las fotos.<br>
+      Conseguila gratis en <strong>aistudio.google.com</strong>.<br>
       Se guarda solo en tu dispositivo (localStorage).
     </div>
-    <input type="password" class="modal-input" id="api-key-input" placeholder="sk-ant-...">
+    <input type="password" class="modal-input" id="api-key-input" placeholder="AIza...">
     <button class="btn btn-gold" onclick="saveApiKey()">Guardar</button>
     <button class="btn btn-outline" style="margin-top:8px" onclick="closeApiModal()">Cancelar</button>
   </div>
@@ -2017,7 +2018,7 @@ document.getElementById('file-input').addEventListener('change', e => {
 });
 
 function getApiKey() {
-  return localStorage.getItem('claude_api_key') || '';
+  return localStorage.getItem('gemini_api_key') || '';
 }
 function openApiModal() {
   document.getElementById('api-key-input').value = getApiKey();
@@ -2028,11 +2029,11 @@ function closeApiModal() {
 }
 function saveApiKey() {
   const key = document.getElementById('api-key-input').value.trim();
-  if (!key.startsWith('sk-ant-')) {
-    showToast('❌ La key debe empezar con sk-ant-');
+  if (!key.startsWith('AIza')) {
+    showToast('❌ La key debe empezar con AIza');
     return;
   }
-  localStorage.setItem('claude_api_key', key);
+  localStorage.setItem('gemini_api_key', key);
   closeApiModal();
   showToast('✅ API Key guardada');
 }
@@ -2090,33 +2091,27 @@ Respondé SOLO con JSON válido, sin texto extra, sin markdown:
 Los arrays pueden estar vacíos []. Solo incluí códigos válidos en owned/missing.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'image',
-              source: {
-                type: 'base64',
-                media_type: 'image/jpeg',
-                data: currentImageBase64
-              }
-            },
-            { type: 'text', text: prompt }
-          ]
-        }]
-      })
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              {
+                inline_data: {
+                  mime_type: 'image/jpeg',
+                  data: currentImageBase64
+                }
+              },
+              { text: prompt }
+            ]
+          }],
+          generationConfig: { maxOutputTokens: 2000, temperature: 0 }
+        })
+      }
+    );
 
     const data = await response.json();
 
@@ -2124,7 +2119,7 @@ Los arrays pueden estar vacíos []. Solo incluí códigos válidos en owned/miss
       throw new Error(data.error.message);
     }
 
-    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    const text = (data.candidates[0].content.parts[0].text).replace(/```json|```/g, '').trim();
     const result = JSON.parse(text);
 
     const validCodes = new Set(getAllStickers().map(s => s.code));
