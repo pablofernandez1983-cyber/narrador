@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Mi Álbum Mundial 2026</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<meta name="theme-color" content="#010D1E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mundial 2026">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -45,6 +52,7 @@
     justify-content: space-between;
     margin-bottom: 8px;
   }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
   .app-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 26px;
@@ -567,9 +575,16 @@
 <!-- HEADER -->
 <header>
   <div class="header-top">
-    <div>
-      <div class="app-title">⚽ Mi Álbum</div>
-      <div class="app-subtitle">FIFA World Cup 2026™ · Panini</div>
+    <div class="header-brand">
+      <svg width="36" height="36" viewBox="0 0 64 64" fill="none" style="flex-shrink:0;">
+        <circle cx="32" cy="32" r="31" fill="#C8102E"/>
+        <circle cx="32" cy="32" r="27" fill="none" stroke="#FFB800" stroke-width="3"/>
+        <text x="32" y="41" font-family="Arial Black,Impact,sans-serif" font-size="20" font-weight="900" text-anchor="middle" fill="#FFFFFF">26</text>
+      </svg>
+      <div>
+        <div class="app-title">MUNDIAL 2026</div>
+        <div class="app-subtitle">Panini · Mi Colección</div>
+      </div>
     </div>
     <div class="stats-pill" id="header-stats">0 / 0</div>
   </div>
@@ -1984,7 +1999,7 @@ function updateHeader() {
   const owned = ownedCount();
   const total = totalStickers();
   const pct = total ? Math.round(owned/total*100) : 0;
-  document.getElementById('header-stats').textContent = `${owned} / ${total}`;
+  document.getElementById('header-stats').textContent = `${owned}/${total} · ${pct}%`;
   document.getElementById('progress-bar').style.width = pct + '%';
 }
 
@@ -2136,6 +2151,8 @@ PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a de
   Si no hay foto grupal real adentro → "missing".
 
 Los códigos válidos son: ${codeList}
+
+IMPORTANTE: Un álbum en progreso tiene MUCHOS espacios vacíos. Ante cualquier duda, marcá "missing". Solo usá "owned" cuando estés 100% seguro de ver una figurita real pegada tapando el fondo del álbum. Es mejor equivocarse hacia "missing" que marcar como pegada una figurita que no está.
 
 Respondé SOLO con JSON, sin texto extra:
 {
@@ -2484,6 +2501,10 @@ function resetCollection() {
 loadState();
 updateHeader();
 renderCollection();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>

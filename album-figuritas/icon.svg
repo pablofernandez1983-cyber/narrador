@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="32" fill="#010D1E"/>
+  <circle cx="96" cy="84" r="62" fill="#C8102E"/>
+  <circle cx="96" cy="84" r="57" fill="none" stroke="#FFB800" stroke-width="5"/>
+  <text x="96" y="108" font-family="Arial Black,Impact,sans-serif" font-size="58" font-weight="900" text-anchor="middle" fill="#FFFFFF">26</text>
+  <text x="96" y="162" font-family="Arial Narrow,Arial,sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#FFB800" letter-spacing="7">PANINI</text>
+</svg>

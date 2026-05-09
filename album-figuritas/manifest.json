@@ -1,0 +1,19 @@
+{
+  "name": "Mi Álbum Mundial 2026",
+  "short_name": "Mundial 2026",
+  "description": "Seguimiento de figuritas Panini FIFA World Cup 2026",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#010D1E",
+  "theme_color": "#010D1E",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
