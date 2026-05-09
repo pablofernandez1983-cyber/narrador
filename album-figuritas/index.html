@@ -661,6 +661,10 @@
 <!-- PANEL: FALTANTES -->
 <div class="panel" id="panel-faltantes">
   <button class="share-btn" onclick="shareMissing()">📤 Compartir lista de faltantes</button>
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <button class="share-btn" style="margin-bottom:0;" onclick="printReport(false)">🖨️ Imprimir por grupo</button>
+    <button class="share-btn" style="margin-bottom:0;" onclick="printReport(true)">🔤 Imprimir A-Z</button>
+  </div>
   <div id="missing-container"></div>
 </div>
 
@@ -2412,6 +2416,96 @@ function renderMissing() {
   if (lastTeam) html += '</div>';
 
   container.innerHTML = html;
+}
+
+function printReport(sortAlpha) {
+  const GROUPS = 'ABCDEFGHIJKL'.split('');
+  const teamKeys = Object.keys(ALBUM).filter(k => !['INTRO','CC','PANINI'].includes(k));
+
+  // Build missing numbers per section
+  function missingNums(teamKey) {
+    return ALBUM[teamKey].stickers
+      .filter(s => !collection[s.code]?.owned)
+      .map(s => s.code.replace(teamKey === 'INTRO' ? 'FWC' : teamKey, ''));
+  }
+
+  // Build rows for a list of [teamKey, label, nums]
+  function buildRows(entries) {
+    return entries.map(([key, lbl, nums]) => {
+      if (!nums.length) return '';
+      return `<div class="tr"><span class="tc">${key}</span><span class="tl">${lbl}:</span> ${nums.join(', ')}</div>`;
+    }).join('');
+  }
+
+  let content = '';
+
+  // INTRO
+  const introNums = missingNums('INTRO');
+  if (introNums.length) {
+    content += `<div class="gh">Introducción (FWC)</div>`;
+    content += `<div class="tr"><span class="tc">FWC</span><span class="tl">Introducción:</span> ${introNums.join(', ')}</div>`;
+  }
+
+  // Teams
+  if (sortAlpha) {
+    const sorted = [...teamKeys].sort((a, b) =>
+      ALBUM[a].label.localeCompare(ALBUM[b].label, 'es'));
+    content += `<div class="gh">Equipos (A-Z)</div>`;
+    content += buildRows(sorted.map(k => [k, ALBUM[k].label, missingNums(k)]));
+  } else {
+    teamKeys.forEach((key, i) => {
+      if (i % 4 === 0) {
+        content += `<div class="gh">Grupo ${GROUPS[i / 4]}</div>`;
+      }
+      const nums = missingNums(key);
+      if (nums.length) {
+        content += `<div class="tr"><span class="tc">${key}</span><span class="tl">${ALBUM[key].label}:</span> ${nums.join(', ')}</div>`;
+      }
+    });
+  }
+
+  // CC
+  const ccNums = ALBUM['CC'].stickers.filter(s => !collection[s.code]?.owned).map(s => s.code.replace('CC',''));
+  if (ccNums.length) {
+    content += `<div class="gh">Coca-Cola (CC)</div>`;
+    content += `<div class="tr"><span class="tc">CC</span><span class="tl">Coca-Cola:</span> ${ccNums.join(', ')}</div>`;
+  }
+  const paniniMissing = ALBUM['PANINI'].stickers.filter(s => !collection[s.code]?.owned);
+  if (paniniMissing.length) {
+    content += `<div class="gh">Panini</div>`;
+    content += `<div class="tr"><span class="tc">00</span><span class="tl">Panini:</span> 00</div>`;
+  }
+
+  const owned = ownedCount(), total = totalStickers();
+  const pct = total ? Math.round(owned / total * 100) : 0;
+  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
+  const titulo = sortAlpha ? 'FIGURITAS FALTANTES — A-Z' : 'FIGURITAS FALTANTES — POR GRUPO';
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>${titulo}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;font-size:7.5pt;color:#111;margin:8mm}
+h1{font-size:10pt;text-align:center;color:#C8102E;margin-bottom:1mm;letter-spacing:1px}
+.meta{text-align:center;font-size:6.5pt;color:#666;margin-bottom:3mm}
+.cols{column-count:3;column-gap:5mm}
+.gh{font-size:6.5pt;font-weight:bold;text-transform:uppercase;color:#C8102E;
+    border-bottom:.4pt solid #C8102E;padding-bottom:.5pt;margin:4pt 0 1pt;
+    break-inside:avoid;page-break-inside:avoid;break-before:auto}
+.tr{break-inside:avoid;page-break-inside:avoid;line-height:1.45;margin-bottom:.5pt}
+.tc{font-weight:bold;display:inline-block;min-width:26pt;font-size:7pt}
+.tl{color:#444}
+@media print{body{margin:6mm}.cols{column-count:3}}
+</style></head><body>
+<h1>⚽ ${titulo}</h1>
+<div class="meta">Mundial 2026 Panini · ${owned}/${total} completadas (${pct}%) · Faltan ${total - owned} · ${fecha}</div>
+<div class="cols">${content}</div>
+<script>window.onload=()=>{window.print()}<\/script>
+</body></html>`;
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
 }
 
 function shareMissing() {
