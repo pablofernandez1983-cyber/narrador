@@ -2136,19 +2136,20 @@ Cada espacio está numerado del 1 al 20 con un código como "MAR 4", "SUI 10", "
 PASO 1 — Identificá el código del equipo (3 letras, ej: MAR, SUI, ARG, BRA).
 Buscalo en los espacios vacíos o en el encabezado de la página.
 
-PASO 2 — Revisá los 20 espacios UNO POR UNO de arriba a abajo, izquierda a derecha:
+PASO 2 — Buscá solo los espacios que CLARAMENTE tienen una figurita pegada:
 
-• ESPACIO VACÍO → "missing"
-  El código del jugador (ej: "MAR 4") está VISIBLE e impreso en el álbum.
-  No hay tarjeta pegada encima. Leé ese código y agregalo a "missing".
+Una figurita pegada = tarjeta con FOTO REAL DE JUGADOR (cara, camiseta, en los colores del equipo) cubriendo el fondo del álbum.
+Un espacio vacío = fondo blanco/claro del álbum, con o sin el logo del Mundial, aunque no puedas leer el código.
 
-• ESPACIO CON FIGURITA → "owned" o "unknown"
-  El código está TAPADO porque hay una figurita pegada encima.
-  Intentá leer el nombre del jugador en la figurita para identificar el código → "owned".
+REGLA: Solo usás "owned" o "unknown" cuando VES con certeza la foto del jugador.
+NO uses "owned" por descarte. Si no podés leer el código Y no ves la foto → "missing".
+
+• Foto de jugador visible → intentá leer el nombre para saber el código → "owned".
   Si no podés identificarlo → "[EQUIPO]?" en "unknown".
+• Cualquier duda, fondo blanco visible, no se lee bien → "missing".
 
-• SLOT HORIZONTAL (foto grupal, X13): arriba a la derecha, apaisado.
-  Si no hay foto grupal real adentro → "missing".
+• SLOT HORIZONTAL (foto grupal del equipo, X13): apaisado, arriba a la derecha.
+  Solo "owned" si ves foto grupal real. Si no → "missing".
 
 Los códigos válidos son: ${codeList}
 
