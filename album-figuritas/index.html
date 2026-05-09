@@ -595,7 +595,10 @@
   </div>
   <input type="file" id="file-input" accept="image/*" capture="environment">
   <img id="preview-img" style="display:none; border-radius:14px; width:100%; margin-top:12px;">
-  <button class="btn btn-outline" id="rotate-btn" style="display:none; margin-top:8px;" onclick="rotateImage()">↻ Rotar imagen</button>
+  <div id="rotate-btns" style="display:none; margin-top:8px; display:none; gap:8px; flex-direction:row;">
+    <button class="btn btn-outline" style="flex:1;" onclick="rotateImage(1)">↻ Rotar</button>
+    <button class="btn btn-outline" style="flex:1;" onclick="rotateImage(-1)">↺ Rotar</button>
+  </div>
 
   <button class="btn btn-gold" id="analyze-btn" disabled onclick="analyzeImage()">
     🔍 Analizar Página
@@ -2036,7 +2039,8 @@ document.getElementById('file-input').addEventListener('change', e => {
       const preview = document.getElementById('preview-img');
       preview.src = normalized;
       preview.style.display = 'block';
-      document.getElementById('rotate-btn').style.display = '';
+      const rb = document.getElementById('rotate-btns');
+      rb.style.display = 'flex';
       document.getElementById('analyze-btn').disabled = false;
       document.getElementById('result-container').style.display = 'none';
     };
@@ -2045,14 +2049,20 @@ document.getElementById('file-input').addEventListener('change', e => {
   reader.readAsDataURL(file);
 });
 
-function rotateImage() {
+function rotateImage(dir) {
+  // dir: 1 = CW, -1 = CCW
   const img = new Image();
   img.onload = () => {
     const canvas = document.createElement('canvas');
     canvas.width = img.height; canvas.height = img.width;
     const ctx = canvas.getContext('2d');
-    ctx.translate(img.height, 0);
-    ctx.rotate(Math.PI / 2);
+    if (dir === 1) {
+      ctx.translate(img.height, 0);
+      ctx.rotate(Math.PI / 2);
+    } else {
+      ctx.translate(0, img.width);
+      ctx.rotate(-Math.PI / 2);
+    }
     ctx.drawImage(img, 0, 0);
     const rotated = canvas.toDataURL('image/jpeg', 0.88);
     currentImageBase64 = rotated.split(',')[1];
