@@ -2026,8 +2026,8 @@ document.getElementById('file-input').addEventListener('change', e => {
       if (h > w) {
         canvas.width = h; canvas.height = w;
         const ctx = canvas.getContext('2d');
-        ctx.translate(h, 0);
-        ctx.rotate(Math.PI / 2);
+        ctx.translate(0, w);
+        ctx.rotate(-Math.PI / 2);
         ctx.drawImage(tmpImg, 0, 0, w, h);
       } else {
         canvas.width = w; canvas.height = h;
