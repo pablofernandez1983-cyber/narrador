@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entradas · Cataratas Iguazú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:      #1a6b4a;
+    --green-soft: #e8f5ee;
+    --teal:       #2a9d8f;
+    --gold:       #c07d28;
+    --bg:         #f5f2e8;
+    --card:       #fffef9;
+    --ink:        #1d1c1a;
+    --muted:      #68645d;
+    --border:     #e4dccd;
+    --shadow:     0 4px 16px rgba(26,107,74,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(180deg, #f9f7f0 0%, var(--bg) 50%, #ede8d8 100%);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  .hero { padding: 22px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .eyebrow { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 5px; }
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(26px, 6vw, 38px); font-weight: 700; color: var(--green); line-height: 1; }
+  .hero a { font-size: 13px; color: var(--teal); text-decoration: none; font-weight: 700; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px 20px; box-shadow: var(--shadow); max-width: 440px; margin: 0 auto;
+  }
+  .card .ico { font-size: 34px; text-align: center; margin-bottom: 10px; }
+  .card h2 { font-family: 'Fraunces', serif; font-size: 20px; color: var(--green); text-align: center; margin-bottom: 4px; }
+  .card p.sub { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 18px; }
+  label { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+  input[type=password], input[type=text] {
+    width: 100%; padding: 12px 14px; font-size: 16px; font-family: 'Inter', sans-serif;
+    border: 1.5px solid var(--border); border-radius: 10px; background: white; color: var(--ink);
+  }
+  input:focus { outline: none; border-color: var(--teal); }
+  .remember { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+  .remember input { width: auto; }
+  button.go {
+    width: 100%; margin-top: 16px; padding: 13px;
+    background: var(--green); color: white; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 800; font-family: 'Inter', sans-serif; cursor: pointer;
+  }
+  button.go:disabled { opacity: .6; cursor: wait; }
+  .error { margin-top: 12px; padding: 10px 13px; background: #fce8e8; color: #8b2020; border-radius: 9px; font-size: 13px; display: none; }
+
+  #viewer { display: none; }
+  .ok-bar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: var(--green-soft); border: 1px solid #b8ddc8; border-radius: 12px;
+    padding: 12px 15px; margin-bottom: 14px; font-size: 13px; color: #1a5038;
+  }
+  .ok-bar strong { color: var(--green); }
+  .ok-bar a.dl {
+    margin-left: auto; padding: 8px 16px; background: var(--green); color: white;
+    border-radius: 9px; font-size: 13px; font-weight: 800; text-decoration: none;
+  }
+  iframe { width: 100%; height: 80vh; border: 1px solid var(--border); border-radius: 12px; background: white; }
+  .nota { margin-top: 12px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Cataratas del Iguazú · Jul 2026</div>
+    <h1>🎟️ Entradas</h1>
+    <a href="./index.html">← Volver al itinerario</a>
+  </header>
+
+  <div class="card" id="lock">
+    <div class="ico">🔐</div>
+    <h2>Flexipass Iguazú</h2>
+    <p class="sub">Reserva 00405232 · Pablo, Lore y Franco<br>Ingresá la clave para ver el PDF</p>
+    <label for="pw">Clave</label>
+    <input type="password" id="pw" autocomplete="current-password" placeholder="••••••••">
+    <div class="remember">
+      <input type="checkbox" id="remember">
+      <label for="remember" style="margin:0;text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;">Recordar en este dispositivo</label>
+    </div>
+    <button class="go" id="go">Abrir entradas</button>
+    <div class="error" id="err">Clave incorrecta. Probá de nuevo.</div>
+  </div>
+
+  <div id="viewer">
+    <div class="ok-bar">
+      <span>✅ <strong>Flexipass x3 Nacional</strong> · primer ingreso mar 21/7 · DNI + ticket cada vez que entran</span>
+      <a class="dl" id="dl" download="APN-00405232.pdf" href="#">Descargar PDF</a>
+    </div>
+    <iframe id="pdf"></iframe>
+    <p class="nota">El PDF está cifrado en el servidor (AES-256-GCM) — solo se descifra acá, en tu navegador, con la clave.</p>
+  </div>
+</div>
+
+<script>
+const ENC_URL = './entradas.enc.json';
+const LS_KEY = 'cataratas-entradas-clave';
+
+const $ = id => document.getElementById(id);
+
+async function decrypt(password) {
+  const res = await fetch(ENC_URL);
+  if (!res.ok) throw new Error('No pude descargar el archivo cifrado');
+  const enc = await res.json();
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+  const baseKey = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: b64(enc.salt), iterations: enc.iter, hash: 'SHA-256' },
+    baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+
+  const plain = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: b64(enc.iv) }, key, b64(enc.data));
+  return new Blob([plain], { type: 'application/pdf' });
+}
+
+async function tryOpen(password, remember) {
+  $('go').disabled = true;
+  $('err').style.display = 'none';
+  try {
+    const blob = await decrypt(password);
+    const url = URL.createObjectURL(blob);
+    $('pdf').src = url;
+    $('dl').href = url;
+    $('lock').style.display = 'none';
+    $('viewer').style.display = 'block';
+    if (remember) localStorage.setItem(LS_KEY, password);
+  } catch (e) {
+    localStorage.removeItem(LS_KEY);
+    $('err').style.display = 'block';
+  } finally {
+    $('go').disabled = false;
+  }
+}
+
+$('go').addEventListener('click', () => tryOpen($('pw').value.trim(), $('remember').checked));
+$('pw').addEventListener('keydown', e => { if (e.key === 'Enter') $('go').click(); });
+
+const saved = localStorage.getItem(LS_KEY);
+if (saved) tryOpen(saved, false);
+</script>
+</body>
+</html>
