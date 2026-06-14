@@ -503,7 +503,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.52</span>
+      <span>chirp 3 hd · v5.53</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -596,12 +596,18 @@
 
     <div class="status" id="status"></div>
 
-    <!-- Historial -->
+    <!-- Podcast de hoy -->
+    <div class="historial-section" id="todaySection" style="display:none">
+      <div class="section-label" style="margin-top:28px">Podcast de hoy</div>
+      <div id="todayList"></div>
+    </div>
+
+    <!-- Historial anterior (colapsado por defecto) -->
     <div class="historial-section" id="historialSection" style="display:none">
       <button class="historial-tab" id="historialTabBtn" onclick="toggleHistorial()">
-        Historial <span id="historialToggleIcon">▾</span>
+        Historial <span id="historialToggleIcon">▸</span>
       </button>
-      <div id="jobsList" class="open-border"></div>
+      <div id="jobsList" class="open-border" style="display:none"></div>
     </div>
 
   </div><!-- /mainContent -->
@@ -754,8 +760,19 @@ function renderVoiceSection(gridId, voices) {
 function jobTitle(job) {
   if (job.title) return job.title;
   const src = (job.prompt || job.text || '').trim();
-  const words = src.split(/\s+/);
-  return words.slice(0, 6).join(' ') + (words.length > 6 ? '…' : '');
+  // Strip common podcast request prefixes in Spanish
+  const cleaned = src
+    .replace(/^hac[eé]me\s+(un\s+)?podcast(\s+de\s+\d+\s*min\w*)?\s+(sobre|acerca\s+de|de)\s+/i, '')
+    .replace(/^(un\s+)?podcast\s+(sobre|de|acerca\s+de)\s+/i, '')
+    .replace(/^sobre\s+/i, '');
+  const fragment = cleaned.split(/[.,;:\-–(]/)[0].trim();
+  return fragment.split(/\s+/).slice(0, 4).join(' ') || 'Podcast';
+}
+
+function isToday(iso) {
+  const d = new Date(iso);
+  const n = new Date();
+  return d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth() && d.getDate() === n.getDate();
 }
 
 function formatDateLabel(date) {
@@ -816,15 +833,10 @@ function updateGenBtn() {
   document.getElementById('genBtn').style.display = activeTab === 'ia' ? 'none' : 'block';
 }
 
-let _historialOpen = true;
+let _historialOpen = false;
 function toggleHistorial() {
   _historialOpen = !_historialOpen;
-  document.getElementById('jobsList').style.display = _historialOpen ? '' : 'none';
-  if (_historialOpen) renderJobs(); else {
-    const btn = document.getElementById('historialTabBtn');
-    btn.innerHTML = `Historial <span id="historialToggleIcon">▸</span>`;
-    btn.classList.remove('open');
-  }
+  renderJobs();
 }
 
 function updateCount() {
@@ -930,77 +942,88 @@ function timeAgo(iso) {
 }
 
 function renderJobs() {
-  const section = document.getElementById('historialSection');
-  const list    = document.getElementById('jobsList');
+  const todayJobs  = _jobs.filter(j => isToday(j.created_at));
+  const olderJobs  = _jobs.filter(j => !isToday(j.created_at));
 
-  if (!_jobs.length) { section.style.display = 'none'; return; }
-  section.style.display = 'block';
+  // — Sección "Podcast de hoy" —
+  const todaySection = document.getElementById('todaySection');
+  const todayList    = document.getElementById('todayList');
+  if (todayJobs.length) {
+    todaySection.style.display = 'block';
+    todayList.innerHTML = '';
+    todayJobs.forEach(job => renderJobCard(job, todayList));
+  } else {
+    todaySection.style.display = 'none';
+  }
 
-  // Badge count for active jobs
-  const activeCount = _jobs.filter(j => ['pending','writing','recording'].includes(j.status)).length;
-  const icon = document.getElementById('historialToggleIcon');
-  const btn  = document.getElementById('historialTabBtn');
-  const badgeText = activeCount > 0 ? ` (${activeCount})` : '';
-  if (icon) btn.innerHTML = `Historial${badgeText} <span id="historialToggleIcon">${_historialOpen ? '▾' : '▸'}</span>`;
-  btn.classList.toggle('open', _historialOpen);
+  // — Sección "Historial anterior" —
+  const histSection = document.getElementById('historialSection');
+  const histList    = document.getElementById('jobsList');
+  if (olderJobs.length) {
+    histSection.style.display = 'block';
+    const activeCount = olderJobs.filter(j => ['pending','writing','recording'].includes(j.status)).length;
+    const badge = activeCount > 0 ? ` (${activeCount})` : '';
+    document.getElementById('historialTabBtn').innerHTML =
+      `Historial${badge} <span id="historialToggleIcon">${_historialOpen ? '▾' : '▸'}</span>`;
+    document.getElementById('historialTabBtn').classList.toggle('open', _historialOpen);
+    if (_historialOpen) {
+      histList.style.display = '';
+      histList.innerHTML = '';
+      // Group by date
+      const groups = new Map();
+      olderJobs.forEach(job => {
+        const d = new Date(job.created_at);
+        const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toDateString();
+        if (!groups.has(key)) groups.set(key, { date: d, jobs: [] });
+        groups.get(key).jobs.push(job);
+      });
+      groups.forEach(({ date, jobs }) => {
+        const sep = document.createElement('div');
+        sep.className = 'date-sep';
+        sep.textContent = formatDateLabel(date);
+        histList.appendChild(sep);
+        jobs.forEach(job => renderJobCard(job, histList));
+      });
+    }
+  } else {
+    histSection.style.display = 'none';
+  }
+}
 
-  if (!_historialOpen) return;
-
-  list.innerHTML = '';
-
-  // Group by creation date (most recent day first)
-  const groups = new Map();
-  _jobs.forEach(job => {
-    const d = new Date(job.created_at);
-    const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toDateString();
-    if (!groups.has(key)) groups.set(key, { date: d, jobs: [] });
-    groups.get(key).jobs.push(job);
-  });
-
-  groups.forEach(({ date, jobs }) => {
-    const sep = document.createElement('div');
-    sep.className = 'date-sep';
-    sep.textContent = formatDateLabel(date);
-    list.appendChild(sep);
-
-    jobs.forEach(job => {
-      const isActive = ['pending','writing','recording'].includes(job.status);
-      const isDone   = job.status === 'done';
-      const isError  = job.status === 'error';
-
-      const title      = jobTitle(job);
-      const modelShort = (job.model || '').replace('claude-','').replace(/-\d{4}-\d{2}/,'');
-      const searchBadge = (job.search_count || 0) > 0 ? ` · 🔎${job.search_count}` : '';
-      const timeStr    = new Date(job.created_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
-      const dateInfo   = isDone   ? `${timeStr} · ${modelShort}${searchBadge}`
-                       : isError  ? `${timeStr} · error`
-                       : `${timeStr} · ${job.progress_text || 'procesando...'}`;
-
-      const card = document.createElement('div');
-      card.className = `job-card status-${job.status}`;
-      card.id = `job-${job.id}`;
-      card.innerHTML = `
-        <div class="job-title">${esc(title)}</div>
-        <div class="job-date">${esc(dateInfo)}</div>
-        ${isActive ? `
-          <div class="job-progress pulsing" style="margin-bottom:12px">
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill" style="width:${job.progress_pct||0}%"></div>
-            </div>
-            <div class="progress-text">${esc(job.progress_text||'Preparando...')}</div>
-          </div>` : ''}
-        ${isError ? `<div class="progress-text" style="color:var(--red);margin-bottom:10px">${esc(job.error||'Error')}</div>` : ''}
-        <div class="job-actions">
-          ${isDone ? `
-            <button class="job-btn play" onclick="playJob('${job.id}')">▶ Escuchar</button>
-            <button class="job-btn" onclick="downloadJob('${job.id}')">⬇ Descargar</button>
-            ${navigator.share ? `<button class="job-btn" onclick="shareJob('${job.id}')">⇪ Compartir</button>` : ''}
-          ` : ''}
-          <button class="job-btn del" onclick="deleteJob('${job.id}')">✕</button>
-        </div>`;
-      list.appendChild(card);
-    });
-  });
+function renderJobCard(job, container) {
+  const isActive = ['pending','writing','recording'].includes(job.status);
+  const isDone   = job.status === 'done';
+  const isError  = job.status === 'error';
+  const title      = jobTitle(job);
+  const modelShort = (job.model || '').replace('claude-','').replace(/-\d{4}-\d{2}/,'');
+  const searchBadge = (job.search_count || 0) > 0 ? ` · 🔎${job.search_count}` : '';
+  const timeStr    = new Date(job.created_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+  const dateInfo   = isDone  ? `${timeStr} · ${modelShort}${searchBadge}`
+                   : isError ? `${timeStr} · error`
+                   : `${timeStr} · ${job.progress_text || 'procesando...'}`;
+  const card = document.createElement('div');
+  card.className = `job-card status-${job.status}`;
+  card.id = `job-${job.id}`;
+  card.innerHTML = `
+    <div class="job-title">${esc(title)}</div>
+    <div class="job-date">${esc(dateInfo)}</div>
+    ${isActive ? `
+      <div class="job-progress pulsing" style="margin-bottom:12px">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width:${job.progress_pct||0}%"></div>
+        </div>
+        <div class="progress-text">${esc(job.progress_text||'Preparando...')}</div>
+      </div>` : ''}
+    ${isError ? `<div class="progress-text" style="color:var(--red);margin-bottom:10px">${esc(job.error||'Error')}</div>` : ''}
+    <div class="job-actions">
+      ${isDone ? `
+        <button class="job-btn play" onclick="playJob('${job.id}')">▶ Escuchar</button>
+        <button class="job-btn" onclick="downloadJob('${job.id}')">⬇ Descargar</button>
+        ${navigator.share ? `<button class="job-btn" onclick="shareJob('${job.id}')">⇪ Compartir</button>` : ''}
+      ` : ''}
+      <button class="job-btn del" onclick="deleteJob('${job.id}')">✕</button>
+    </div>`;
+  container.appendChild(card);
 }
 
 function esc(s) {
