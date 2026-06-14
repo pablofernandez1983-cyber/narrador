@@ -512,10 +512,15 @@
     <!-- Settings (oculto por defecto) -->
     <div class="section" id="settingsSection" style="display:none">
       <div class="section-label">Acceso</div>
-      <div style="display:flex;gap:8px">
-        <input type="password" id="backendKey" placeholder="Contraseña..." autocomplete="off">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input type="password" id="backendKey" placeholder="Contraseña Narrador..." autocomplete="off">
         <button class="btn-sm" onclick="changeKey()">Cambiar</button>
       </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="password" id="geminiKeyInput" placeholder="Gemini API key (para títulos)..." autocomplete="off">
+        <button class="btn-sm" id="geminiSaveBtn" onclick="saveGeminiKey()">Guardar</button>
+      </div>
+      <div id="geminiKeyStatus" style="font-size:10px;color:var(--muted);margin-top:4px"></div>
     </div>
 
     <!-- Voz -->
@@ -702,7 +707,23 @@ function showMain(key) {
 
 function toggleSettings() {
   const s = document.getElementById('settingsSection');
-  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+  const open = s.style.display === 'none';
+  s.style.display = open ? 'block' : 'none';
+  if (open) {
+    const gk = lsGet('gemini_api_key');
+    document.getElementById('geminiKeyStatus').textContent = gk ? '✓ Key configurada' : 'Sin key — los títulos usan texto del prompt';
+    document.getElementById('geminiKeyStatus').style.color = gk ? 'var(--green)' : 'var(--muted)';
+  }
+}
+
+function saveGeminiKey() {
+  const k = document.getElementById('geminiKeyInput').value.trim();
+  if (!k) return;
+  lsSet('gemini_api_key', k);
+  document.getElementById('geminiKeyInput').value = '';
+  document.getElementById('geminiKeyStatus').textContent = '✓ Key guardada — generando títulos...';
+  document.getElementById('geminiKeyStatus').style.color = 'var(--green)';
+  generateMissingTitles();
 }
 
 function changeKey() {
