@@ -1118,7 +1118,7 @@ async function playJob(jid) {
     window._currentBlob = blob;
     const url = URL.createObjectURL(blob);
     const job = _jobs.find(j => j.id === jid);
-    document.getElementById('playerTitle').textContent = job?.title || 'Podcast';
+    document.getElementById('playerTitle').textContent = jobTitle(job) || 'Podcast';
     const audio = document.getElementById('audioPlayer');
     audio.src = url;
     const fname = safeFilename(job) + '.mp3';
