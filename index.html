@@ -440,30 +440,6 @@
   .generating { animation: pulse 1.5s ease infinite; }
   .pulsing .progress-bar-fill { animation: pulse 1.5s ease infinite; }
 
-  /* ── Main navigation ── */
-  .main-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
-  .main-tab {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    padding: 8px 16px 10px;
-    cursor: pointer;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    transition: all 0.15s;
-    margin-bottom: -1px;
-  }
-  .main-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-  .main-tab:hover:not(.active) { color: var(--text); }
-
   /* ── Date separator in history ── */
   .date-sep {
     font-size: 10px;
@@ -513,28 +489,6 @@
       </div>
     </div>
 
-    <!-- Main navigation -->
-    <div class="main-tabs">
-      <button class="main-tab active" onclick="switchMainTab('crear', this)">Crear</button>
-      <button class="main-tab" id="historialTabBtn" onclick="switchMainTab('historial', this)">Historial</button>
-    </div>
-
-    <div id="main-crear">
-
-    <!-- Voice -->
-    <div class="section">
-      <div class="section-label">Voz</div>
-      <div class="voice-grid" id="voiceGridMain"></div>
-      <div class="voice-grid" id="voiceGridExtra" style="display:none;margin-top:6px"></div>
-      <button class="show-more-btn" id="showMoreBtn" onclick="toggleMoreVoices()">▾ Mostrar más voces</button>
-      <div class="speed-row">
-        <label>Velocidad</label>
-        <input type="range" id="speedRange" min="0.7" max="1.4" step="0.05" value="1.0"
-               oninput="document.getElementById('speedVal').textContent=this.value+'x'">
-        <span class="speed-val" id="speedVal">1.0x</span>
-      </div>
-    </div>
-
     <!-- Contenido -->
     <div class="section">
       <div class="section-label">Contenido</div>
@@ -542,6 +496,7 @@
         <button class="tab" data-tab="ia" onclick="switchTab('ia', this)">✦ IA</button>
         <button class="tab active" data-tab="text" onclick="switchTab('text', this)">Texto</button>
         <button class="tab" data-tab="pdf" onclick="switchTab('pdf', this)">PDF / TXT</button>
+        <button class="tab" data-tab="historial" id="historialTabBtn" onclick="switchTab('historial', this)">Historial</button>
       </div>
 
       <div class="tab-content" id="tab-ia">
@@ -574,6 +529,10 @@
           <div style="margin-top:6px;font-size:10px;opacity:0.6">(PDF próximamente)</div>
         </div>
       </div>
+
+      <div class="tab-content" id="tab-historial">
+        <div id="jobsList"></div>
+      </div>
     </div>
 
     <!-- Botón Generar Audio (Texto/PDF) -->
@@ -597,12 +556,6 @@
     </div>
 
     <div class="status" id="status"></div>
-    </div><!-- /main-crear -->
-
-    <!-- Historial section -->
-    <div id="main-historial" style="display:none">
-      <div id="jobsList"></div>
-    </div>
 
   </div><!-- /mainContent -->
 
@@ -751,13 +704,6 @@ function renderVoiceSection(gridId, voices) {
   });
 }
 
-function switchMainTab(name, el) {
-  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('main-crear').style.display    = name === 'crear'    ? '' : 'none';
-  document.getElementById('main-historial').style.display = name === 'historial' ? '' : 'none';
-}
-
 function jobTitle(job) {
   if (job.title) return job.title;
   const src = (job.prompt || job.text || '').trim();
@@ -820,7 +766,7 @@ function switchTab(name, el) {
 
 function updateGenBtn() {
   const activeTab = document.querySelector('.tab.active')?.dataset?.tab;
-  document.getElementById('genBtn').style.display = activeTab === 'ia' ? 'none' : 'block';
+  document.getElementById('genBtn').style.display = (activeTab === 'ia' || activeTab === 'historial') ? 'none' : 'block';
 }
 
 function updateCount() {
@@ -928,10 +874,10 @@ function timeAgo(iso) {
 function renderJobs() {
   const list = document.getElementById('jobsList');
 
-  // Update historial tab badge for active jobs
+  // Update historial tab label when jobs are active
   const activeCount = _jobs.filter(j => ['pending','writing','recording'].includes(j.status)).length;
   const histBtn = document.getElementById('historialTabBtn');
-  if (histBtn) histBtn.textContent = activeCount > 0 ? `Historial · ${activeCount} procesando` : 'Historial';
+  if (histBtn) histBtn.textContent = activeCount > 0 ? `Historial (${activeCount})` : 'Historial';
 
   if (!_jobs.length) {
     list.innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0">Sin podcasts todavía</div>';
