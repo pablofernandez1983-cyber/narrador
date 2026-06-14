@@ -969,7 +969,6 @@ function renderJobs() {
     if (_historialOpen) {
       histList.style.display = '';
       histList.innerHTML = '';
-      // Group by date
       const groups = new Map();
       olderJobs.forEach(job => {
         const d = new Date(job.created_at);
@@ -984,6 +983,8 @@ function renderJobs() {
         histList.appendChild(sep);
         jobs.forEach(job => renderJobCard(job, histList));
       });
+    } else {
+      histList.style.display = 'none';
     }
   } else {
     histSection.style.display = 'none';
@@ -1048,7 +1049,7 @@ async function playJob(jid) {
     document.getElementById('playerTitle').textContent = job?.title || 'Podcast';
     const audio = document.getElementById('audioPlayer');
     audio.src = url;
-    const fname = safeFilename(job?.title) + '.mp3';
+    const fname = safeFilename(job) + '.mp3';
     window._currentFilename = fname;
     document.getElementById('downloadBtn').href = url;
     document.getElementById('downloadBtn').download = fname;
@@ -1068,7 +1069,7 @@ async function downloadJob(jid) {
   try {
     const blob = await _fetchAudio(jid);
     const job = _jobs.find(j => j.id === jid);
-    const fname = safeFilename(job?.title) + '.mp3';
+    const fname = safeFilename(job) + '.mp3';
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = fname;
@@ -1084,7 +1085,7 @@ async function shareJob(jid) {
   const job = _jobs.find(j => j.id === jid);
   try {
     const blob = await _fetchAudio(jid);
-    const fname = safeFilename(job?.title) + '.mp3';
+    const fname = safeFilename(job) + '.mp3';
     const file = new File([blob], fname, { type: 'audio/mpeg' });
     if (navigator.canShare?.({ files: [file] })) {
       await navigator.share({ files: [file], title: fname });
@@ -1106,8 +1107,9 @@ async function deleteJob(jid) {
   }
 }
 
-function safeFilename(title) {
-  return (title || 'narrador').replace(/[^\w\s-]/g,'').trim().slice(0,50).replace(/\s+/g,'_').toLowerCase() || 'narrador';
+function safeFilename(job) {
+  const title = (typeof job === 'string') ? job : jobTitle(job || {});
+  return title.replace(/[^\w\s-áéíóúüñÁÉÍÓÚÜÑ]/g,'').trim().slice(0,50).replace(/\s+/g,'_').toLowerCase() || 'narrador';
 }
 
 // ─── Text/PDF → job queue ─────────────────────────────────────
