@@ -440,6 +440,35 @@
   .generating { animation: pulse 1.5s ease infinite; }
   .pulsing .progress-bar-fill { animation: pulse 1.5s ease infinite; }
 
+  /* ── Historial section ── */
+  .historial-section { margin-top: 32px; }
+  .historial-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    cursor: pointer;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.15s;
+  }
+  .historial-tab:hover { color: var(--text); }
+  .historial-tab.open { color: var(--gold); border-color: var(--gold2); }
+  #historialList {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 0 8px 8px 8px;
+    padding: 16px;
+  }
+  #historialList.open-border { border-color: var(--gold2); }
+
   /* ── Date separator in history ── */
   .date-sep {
     font-size: 10px;
@@ -474,7 +503,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.51</span>
+      <span>chirp 3 hd · v5.52</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -496,7 +525,6 @@
         <button class="tab" data-tab="ia" onclick="switchTab('ia', this)">✦ IA</button>
         <button class="tab active" data-tab="text" onclick="switchTab('text', this)">Texto</button>
         <button class="tab" data-tab="pdf" onclick="switchTab('pdf', this)">PDF / TXT</button>
-        <button class="tab" data-tab="historial" id="historialTabBtn" onclick="switchTab('historial', this)">Historial</button>
       </div>
 
       <div class="tab-content" id="tab-ia">
@@ -530,9 +558,6 @@
         </div>
       </div>
 
-      <div class="tab-content" id="tab-historial">
-        <div id="jobsList"></div>
-      </div>
     </div>
 
     <!-- Botón Generar Audio (Texto/PDF) -->
@@ -556,6 +581,14 @@
     </div>
 
     <div class="status" id="status"></div>
+
+    <!-- Historial -->
+    <div class="historial-section" id="historialSection" style="display:none">
+      <button class="historial-tab" id="historialTabBtn" onclick="toggleHistorial()">
+        Historial <span id="historialToggleIcon">▾</span>
+      </button>
+      <div id="jobsList" class="open-border"></div>
+    </div>
 
   </div><!-- /mainContent -->
 
@@ -766,7 +799,18 @@ function switchTab(name, el) {
 
 function updateGenBtn() {
   const activeTab = document.querySelector('.tab.active')?.dataset?.tab;
-  document.getElementById('genBtn').style.display = (activeTab === 'ia' || activeTab === 'historial') ? 'none' : 'block';
+  document.getElementById('genBtn').style.display = activeTab === 'ia' ? 'none' : 'block';
+}
+
+let _historialOpen = true;
+function toggleHistorial() {
+  _historialOpen = !_historialOpen;
+  document.getElementById('jobsList').style.display = _historialOpen ? '' : 'none';
+  if (_historialOpen) renderJobs(); else {
+    const btn = document.getElementById('historialTabBtn');
+    btn.innerHTML = `Historial <span id="historialToggleIcon">▸</span>`;
+    btn.classList.remove('open');
+  }
 }
 
 function updateCount() {
@@ -872,17 +916,21 @@ function timeAgo(iso) {
 }
 
 function renderJobs() {
-  const list = document.getElementById('jobsList');
+  const section = document.getElementById('historialSection');
+  const list    = document.getElementById('jobsList');
 
-  // Update historial tab label when jobs are active
+  if (!_jobs.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  // Badge count for active jobs
   const activeCount = _jobs.filter(j => ['pending','writing','recording'].includes(j.status)).length;
-  const histBtn = document.getElementById('historialTabBtn');
-  if (histBtn) histBtn.textContent = activeCount > 0 ? `Historial (${activeCount})` : 'Historial';
+  const icon = document.getElementById('historialToggleIcon');
+  const btn  = document.getElementById('historialTabBtn');
+  const badgeText = activeCount > 0 ? ` (${activeCount})` : '';
+  if (icon) btn.innerHTML = `Historial${badgeText} <span id="historialToggleIcon">${_historialOpen ? '▾' : '▸'}</span>`;
+  btn.classList.toggle('open', _historialOpen);
 
-  if (!_jobs.length) {
-    list.innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0">Sin podcasts todavía</div>';
-    return;
-  }
+  if (!_historialOpen) return;
 
   list.innerHTML = '';
 
