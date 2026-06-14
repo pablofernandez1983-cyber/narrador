@@ -813,7 +813,7 @@ async function geminiTitle(jobId, prompt) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [{ text:
-          `Generá un título de 2 a 4 palabras en español para un podcast sobre el siguiente tema. Solo el título, sin comillas ni puntuación final:\n\n${context}`
+          `Generá un título descriptivo y claro de 3 a 5 palabras en español que explique exactamente el TEMA del podcast. Debe ser informativo, no poético ni creativo. Ejemplos buenos: "Cambio de figuritas Panini", "Historia del tango rioplatense", "Fuegos artificiales Barcelona 2026". Solo el título, sin comillas ni puntuación final:\n\n${context}`
         }] }] })
       }
     );
