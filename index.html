@@ -758,27 +758,52 @@ function renderVoiceSection(gridId, voices) {
 }
 
 function jobTitle(job) {
+  // Gemini-generated title takes priority
+  const cached = lsGet('title_' + job.id);
+  if (cached) return cached;
+
   const src = (job.title || job.prompt || job.text || '').trim();
-  // If already a short real title (≤5 words, no filler prefix), use as-is
   const words = src.split(/\s+/);
   if (words.length <= 5 && !src.match(/^hac[eé]me\b/i) && !src.match(/^(un\s+)?podcast\b/i)) return src;
 
-  // Extract topic after "sobre" / "acerca de"
   const sobreMatch = src.match(/\bsobre\s+(.+)/i) || src.match(/\bacerca\s+de\s+(.+)/i);
   if (sobreMatch) {
     const frag = sobreMatch[1].split(/[.,;:\-–(]/)[0].trim();
     return frag.split(/\s+/).slice(0, 3).join(' ');
   }
 
-  // Extract topic after "podcast de/del …"
   const podMatch = src.match(/\bpodcast\s+(?:de[l]?\s+)?(.+)/i);
   if (podMatch) {
     const frag = podMatch[1].replace(/^\d+\s*min\w*\s+(de\s+)?/i, '').split(/[.,;:\-–(]/)[0].trim();
     return frag.split(/\s+/).slice(0, 3).join(' ');
   }
 
-  // Fallback: first 3 meaningful words
   return words.slice(0, 3).join(' ');
+}
+
+async function geminiTitle(jobId, prompt) {
+  const key = lsGet('gemini_api_key');
+  if (!key || lsGet('title_' + jobId)) return;
+  try {
+    const context = prompt.slice(0, 400);
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text:
+          `Generá un título de 2 a 4 palabras en español para un podcast sobre el siguiente tema. Solo el título, sin comillas ni puntuación final:\n\n${context}`
+        }] }] })
+      }
+    );
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const title = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    if (title && title.length < 60) {
+      lsSet('title_' + jobId, title);
+      renderJobs();
+    }
+  } catch(e) {}
 }
 
 function isToday(iso) {
@@ -910,6 +935,7 @@ async function submitJob() {
     const job = await resp.json();
     _jobs = [job, ..._jobs.filter(j => j.id !== job.id)];
     renderJobs();
+    geminiTitle(job.id, prompt);
     document.getElementById('promptInput').value = '';
     setStatus('✓ Podcast encolado — podés cerrar la app y volver cuando esté listo', 'ok');
   } catch(e) {
@@ -1150,6 +1176,7 @@ async function generate() {
     const job = await resp.json();
     _jobs = [job, ..._jobs.filter(j => j.id !== job.id)];
     renderJobs();
+    geminiTitle(job.id, text.slice(0, 400));
     setStatus('✓ Encolado — podés cerrar Chrome y volver cuando esté listo', 'ok');
   } catch(e) {
     setStatus('Error: ' + e.message, 'error');
