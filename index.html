@@ -955,8 +955,21 @@ async function loadJobs() {
   if (!bkey) return;
   try {
     const resp = await fetch(`${BACKEND_URL}/jobs`, { headers: { 'X-API-Key': bkey } });
-    if (resp.ok) { _jobs = await resp.json(); renderJobs(); }
+    if (resp.ok) {
+      _jobs = await resp.json();
+      renderJobs();
+      generateMissingTitles();
+    }
   } catch(e) {}
+}
+
+async function generateMissingTitles() {
+  const missing = _jobs.filter(j => !lsGet('title_' + j.id) && (j.prompt || j.text));
+  for (let i = 0; i < missing.length; i++) {
+    const job = missing[i];
+    await geminiTitle(job.id, (job.prompt || job.text || '').slice(0, 400));
+    if (i < missing.length - 1) await new Promise(r => setTimeout(r, 300));
+  }
 }
 
 function startPolling() {
