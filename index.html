@@ -518,6 +518,20 @@
       </div>
     </div>
 
+    <!-- Voz -->
+    <div class="section">
+      <div class="section-label">Voz</div>
+      <div class="voice-grid" id="voiceGridMain"></div>
+      <div class="voice-grid" id="voiceGridExtra" style="display:none;margin-top:6px"></div>
+      <button class="show-more-btn" id="showMoreBtn" onclick="toggleMoreVoices()">▾ Mostrar más voces</button>
+      <div class="speed-row">
+        <label>Velocidad</label>
+        <input type="range" id="speedRange" min="0.7" max="1.4" step="0.05" value="1.0"
+               oninput="document.getElementById('speedVal').textContent=this.value+'x'">
+        <span class="speed-val" id="speedVal">1.0x</span>
+      </div>
+    </div>
+
     <!-- Contenido -->
     <div class="section">
       <div class="section-label">Contenido</div>
