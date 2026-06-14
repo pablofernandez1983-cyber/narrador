@@ -758,15 +758,27 @@ function renderVoiceSection(gridId, voices) {
 }
 
 function jobTitle(job) {
-  if (job.title) return job.title;
-  const src = (job.prompt || job.text || '').trim();
-  // Strip common podcast request prefixes in Spanish
-  const cleaned = src
-    .replace(/^hac[eé]me\s+(un\s+)?podcast(\s+de\s+\d+\s*min\w*)?\s+(sobre|acerca\s+de|de)\s+/i, '')
-    .replace(/^(un\s+)?podcast\s+(sobre|de|acerca\s+de)\s+/i, '')
-    .replace(/^sobre\s+/i, '');
-  const fragment = cleaned.split(/[.,;:\-–(]/)[0].trim();
-  return fragment.split(/\s+/).slice(0, 4).join(' ') || 'Podcast';
+  const src = (job.title || job.prompt || job.text || '').trim();
+  // If already a short real title (≤5 words, no filler prefix), use as-is
+  const words = src.split(/\s+/);
+  if (words.length <= 5 && !src.match(/^hac[eé]me\b/i) && !src.match(/^(un\s+)?podcast\b/i)) return src;
+
+  // Extract topic after "sobre" / "acerca de"
+  const sobreMatch = src.match(/\bsobre\s+(.+)/i) || src.match(/\bacerca\s+de\s+(.+)/i);
+  if (sobreMatch) {
+    const frag = sobreMatch[1].split(/[.,;:\-–(]/)[0].trim();
+    return frag.split(/\s+/).slice(0, 3).join(' ');
+  }
+
+  // Extract topic after "podcast de/del …"
+  const podMatch = src.match(/\bpodcast\s+(?:de[l]?\s+)?(.+)/i);
+  if (podMatch) {
+    const frag = podMatch[1].replace(/^\d+\s*min\w*\s+(de\s+)?/i, '').split(/[.,;:\-–(]/)[0].trim();
+    return frag.split(/\s+/).slice(0, 3).join(' ');
+  }
+
+  // Fallback: first 3 meaningful words
+  return words.slice(0, 3).join(' ');
 }
 
 function isToday(iso) {
