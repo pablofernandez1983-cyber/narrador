@@ -404,16 +404,14 @@
   .job-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
   .job-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 300;
     font-style: italic;
     color: var(--gold);
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin-bottom: 4px;
+    line-height: 1.3;
   }
-  .job-meta { font-size: 10px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .job-date { font-size: 10px; color: var(--muted); margin-bottom: 10px; letter-spacing: 0.3px; }
   .job-progress { margin-bottom: 12px; }
   .job-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
@@ -442,10 +440,43 @@
   .generating { animation: pulse 1.5s ease infinite; }
   .pulsing .progress-bar-fill { animation: pulse 1.5s ease infinite; }
 
-  /* ── Jobs collapsible ── */
-  .jobs-toggle { cursor: pointer; user-select: none; }
-  .jobs-toggle:hover { color: var(--text); }
-  .jobs-toggle-icon { font-style: normal; font-size: 11px; color: var(--muted); }
+  /* ── Main navigation ── */
+  .main-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .main-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+  .main-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .main-tab:hover:not(.active) { color: var(--text); }
+
+  /* ── Date separator in history ── */
+  .date-sep {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .date-sep:first-child { margin-top: 0; }
+  .date-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 </style>
 </head>
 <body>
@@ -481,6 +512,14 @@
         <button class="btn-sm" onclick="changeKey()">Cambiar</button>
       </div>
     </div>
+
+    <!-- Main navigation -->
+    <div class="main-tabs">
+      <button class="main-tab active" onclick="switchMainTab('crear', this)">Crear</button>
+      <button class="main-tab" id="historialTabBtn" onclick="switchMainTab('historial', this)">Historial</button>
+    </div>
+
+    <div id="main-crear">
 
     <!-- Voice -->
     <div class="section">
@@ -537,12 +576,6 @@
       </div>
     </div>
 
-    <!-- Jobs queue -->
-    <div class="jobs-section" id="jobsSection" style="display:none">
-      <div class="section-label jobs-toggle" onclick="toggleJobsList()">Cola de podcasts <span id="jobsToggleIcon" class="jobs-toggle-icon">▾</span></div>
-      <div id="jobsList"></div>
-    </div>
-
     <!-- Botón Generar Audio (Texto/PDF) -->
     <button class="btn-generate" id="genBtn" onclick="generate()">▶ Generar Audio</button>
 
@@ -564,6 +597,13 @@
     </div>
 
     <div class="status" id="status"></div>
+    </div><!-- /main-crear -->
+
+    <!-- Historial section -->
+    <div id="main-historial" style="display:none">
+      <div id="jobsList"></div>
+    </div>
+
   </div><!-- /mainContent -->
 
 </div>
@@ -711,11 +751,29 @@ function renderVoiceSection(gridId, voices) {
   });
 }
 
-let _jobsCollapsed = false;
-function toggleJobsList() {
-  _jobsCollapsed = !_jobsCollapsed;
-  document.getElementById('jobsList').style.display = _jobsCollapsed ? 'none' : '';
-  document.getElementById('jobsToggleIcon').textContent = _jobsCollapsed ? '▸' : '▾';
+function switchMainTab(name, el) {
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('main-crear').style.display    = name === 'crear'    ? '' : 'none';
+  document.getElementById('main-historial').style.display = name === 'historial' ? '' : 'none';
+}
+
+function jobTitle(job) {
+  if (job.title) return job.title;
+  const src = (job.prompt || job.text || '').trim();
+  const words = src.split(/\s+/);
+  return words.slice(0, 6).join(' ') + (words.length > 6 ? '…' : '');
+}
+
+function formatDateLabel(date) {
+  const now = new Date();
+  const todayStr = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toDateString();
+  const yestDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  const yestStr  = yestDate.toDateString();
+  const dStr     = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toDateString();
+  if (dStr === todayStr) return 'Hoy';
+  if (dStr === yestStr)  return 'Ayer';
+  return date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
 function toggleMoreVoices() {
@@ -868,47 +926,72 @@ function timeAgo(iso) {
 }
 
 function renderJobs() {
-  const section = document.getElementById('jobsSection');
   const list = document.getElementById('jobsList');
-  if (!_jobs.length) { section.style.display = 'none'; return; }
-  section.style.display = 'block';
+
+  // Update historial tab badge for active jobs
+  const activeCount = _jobs.filter(j => ['pending','writing','recording'].includes(j.status)).length;
+  const histBtn = document.getElementById('historialTabBtn');
+  if (histBtn) histBtn.textContent = activeCount > 0 ? `Historial · ${activeCount} procesando` : 'Historial';
+
+  if (!_jobs.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0">Sin podcasts todavía</div>';
+    return;
+  }
+
   list.innerHTML = '';
 
+  // Group by creation date (most recent day first)
+  const groups = new Map();
   _jobs.forEach(job => {
-    const isActive = ['pending','writing','recording'].includes(job.status);
-    const isDone   = job.status === 'done';
-    const isError  = job.status === 'error';
+    const d = new Date(job.created_at);
+    const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toDateString();
+    if (!groups.has(key)) groups.set(key, { date: d, jobs: [] });
+    groups.get(key).jobs.push(job);
+  });
 
-    const title      = job.title || job.prompt.slice(0,60) + (job.prompt.length > 60 ? '…' : '');
-    const modelShort = job.model.replace('claude-','').replace(/-\d{4}-\d{2}/,'');
-    const searchBadge = (job.search_count || 0) > 0 ? ` · 🔎${job.search_count}` : '';
-    const meta = isDone ? `${modelShort}${searchBadge}` : isError ? 'error' : timeAgo(job.updated_at);
+  groups.forEach(({ date, jobs }) => {
+    const sep = document.createElement('div');
+    sep.className = 'date-sep';
+    sep.textContent = formatDateLabel(date);
+    list.appendChild(sep);
 
-    const card = document.createElement('div');
-    card.className = `job-card status-${job.status}`;
-    card.id = `job-${job.id}`;
-    card.innerHTML = `
-      <div class="job-header">
-        <span class="job-title">${esc(title)}</span>
-        <span class="job-meta">${esc(meta)}</span>
-      </div>
-      ${isActive ? `
-        <div class="job-progress pulsing">
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" style="width:${job.progress_pct||0}%"></div>
-          </div>
-          <div class="progress-text">${esc(job.progress_text||'Preparando...')}</div>
-        </div>` : ''}
-      ${isError ? `<div class="progress-text" style="color:var(--red);margin-bottom:10px">${esc(job.error||'Error')}</div>` : ''}
-      <div class="job-actions">
-        ${isDone ? `
-          <button class="job-btn play" onclick="playJob('${job.id}')">▶ Escuchar</button>
-          <button class="job-btn" onclick="downloadJob('${job.id}')">⬇ Descargar</button>
-          ${navigator.share ? `<button class="job-btn" onclick="shareJob('${job.id}')">⇪ Compartir</button>` : ''}
-        ` : ''}
-        <button class="job-btn del" onclick="deleteJob('${job.id}')">✕</button>
-      </div>`;
-    list.appendChild(card);
+    jobs.forEach(job => {
+      const isActive = ['pending','writing','recording'].includes(job.status);
+      const isDone   = job.status === 'done';
+      const isError  = job.status === 'error';
+
+      const title      = jobTitle(job);
+      const modelShort = (job.model || '').replace('claude-','').replace(/-\d{4}-\d{2}/,'');
+      const searchBadge = (job.search_count || 0) > 0 ? ` · 🔎${job.search_count}` : '';
+      const timeStr    = new Date(job.created_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      const dateInfo   = isDone   ? `${timeStr} · ${modelShort}${searchBadge}`
+                       : isError  ? `${timeStr} · error`
+                       : `${timeStr} · ${job.progress_text || 'procesando...'}`;
+
+      const card = document.createElement('div');
+      card.className = `job-card status-${job.status}`;
+      card.id = `job-${job.id}`;
+      card.innerHTML = `
+        <div class="job-title">${esc(title)}</div>
+        <div class="job-date">${esc(dateInfo)}</div>
+        ${isActive ? `
+          <div class="job-progress pulsing" style="margin-bottom:12px">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:${job.progress_pct||0}%"></div>
+            </div>
+            <div class="progress-text">${esc(job.progress_text||'Preparando...')}</div>
+          </div>` : ''}
+        ${isError ? `<div class="progress-text" style="color:var(--red);margin-bottom:10px">${esc(job.error||'Error')}</div>` : ''}
+        <div class="job-actions">
+          ${isDone ? `
+            <button class="job-btn play" onclick="playJob('${job.id}')">▶ Escuchar</button>
+            <button class="job-btn" onclick="downloadJob('${job.id}')">⬇ Descargar</button>
+            ${navigator.share ? `<button class="job-btn" onclick="shareJob('${job.id}')">⇪ Compartir</button>` : ''}
+          ` : ''}
+          <button class="job-btn del" onclick="deleteJob('${job.id}')">✕</button>
+        </div>`;
+      list.appendChild(card);
+    });
   });
 }
 
