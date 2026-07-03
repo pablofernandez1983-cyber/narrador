@@ -503,7 +503,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.56</span>
+      <span>chirp 3 hd · v5.57</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -988,12 +988,20 @@ async function loadJobs() {
   } catch(e) {}
 }
 
+let _genTitlesRunning = false;
 async function generateMissingTitles() {
+  if (_genTitlesRunning) return;
   const missing = _jobs.filter(j => !lsGet('title_' + j.id) && (j.prompt || j.text));
-  for (let i = 0; i < missing.length; i++) {
-    const job = missing[i];
-    await geminiTitle(job.id, (job.prompt || job.text || '').slice(0, 400));
-    if (i < missing.length - 1) await new Promise(r => setTimeout(r, 300));
+  if (!missing.length) return;
+  _genTitlesRunning = true;
+  try {
+    for (let i = 0; i < missing.length; i++) {
+      const job = missing[i];
+      await geminiTitle(job.id, (job.prompt || job.text || '').slice(0, 400));
+      if (i < missing.length - 1) await new Promise(r => setTimeout(r, 300));
+    }
+  } finally {
+    _genTitlesRunning = false;
   }
 }
 
@@ -1005,7 +1013,7 @@ function startPolling() {
     if (!bkey) return;
     try {
       const resp = await fetch(`${BACKEND_URL}/jobs`, { headers: { 'X-API-Key': bkey } });
-      if (resp.ok) { _jobs = await resp.json(); renderJobs(); }
+      if (resp.ok) { _jobs = await resp.json(); renderJobs(); generateMissingTitles(); }
     } catch(e) {}
   }, 3000);
 }
