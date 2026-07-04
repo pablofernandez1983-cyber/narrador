@@ -503,7 +503,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.58</span>
+      <span>chirp 3 hd · v5.59</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -779,11 +779,15 @@ function renderVoiceSection(gridId, voices) {
 }
 
 function jobTitle(job) {
-  // Gemini-generated title takes priority
+  // 1) Título Gemini cacheado en este dispositivo (compatibilidad con jobs viejos)
   const cached = lsGet('title_' + job.id);
   if (cached) return cached;
 
-  const src = (job.title || job.prompt || job.text || '').trim();
+  // 2) Título que ya generó el backend con Gemini (funciona en cualquier dispositivo)
+  if (job.title) return job.title;
+
+  // 3) Fallback heurístico a partir del prompt/texto
+  const src = (job.prompt || job.text || '').trim();
   const words = src.split(/\s+/);
   if (words.length <= 5 && !src.match(/^hac[eé]me\b/i) && !src.match(/^(un\s+)?podcast\b/i)) return src;
 
