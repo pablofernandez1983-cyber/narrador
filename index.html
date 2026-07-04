@@ -503,7 +503,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.57</span>
+      <span>chirp 3 hd · v5.58</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -804,7 +804,7 @@ function jobTitle(job) {
 
 async function geminiTitle(jobId, prompt) {
   const key = lsGet('gemini_api_key');
-  if (!key || lsGet('title_' + jobId)) return;
+  if (!key || lsGet('title_' + jobId)) return false;
   try {
     const context = prompt.slice(0, 800);
     const resp = await fetch(
@@ -812,19 +812,48 @@ async function geminiTitle(jobId, prompt) {
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text:
-          `Generá un título en español de hasta 10 palabras para este podcast. El título debe ser MUY ESPECÍFICO: incluí los nombres propios, palabras clave y términos exactos del tema. Nunca uses títulos genéricos. Si el texto trata sobre "la palabra sabotaje", el título debe decir "sabotaje" explícitamente. Si trata sobre "figuritas de Panini", debe decir "figuritas Panini". Solo el título, sin comillas ni puntuación final.\n\nContenido:\n${context}`
-        }] }] })
+        body: JSON.stringify({
+          contents: [{ parts: [{ text:
+            `Generá un título en español de hasta 10 palabras para este podcast. El título debe ser MUY ESPECÍFICO: incluí los nombres propios, palabras clave y términos exactos del tema. Nunca uses títulos genéricos. Si el texto trata sobre "la palabra sabotaje", el título debe decir "sabotaje" explícitamente. Si trata sobre "figuritas de Panini", debe decir "figuritas Panini". Solo el título, sin comillas ni puntuación final.\n\nContenido:\n${context}`
+          }] }],
+          // gemini-2.5-flash es un modelo "thinking" por default: sin este budget
+          // puede gastar todos los tokens pensando y devolver parts vacío (MAX_TOKENS),
+          // dejando el podcast sin renombrar. Para un título no hace falta pensar.
+          generationConfig: {
+            thinkingConfig: { thinkingBudget: 0 },
+            maxOutputTokens: 40,
+            temperature: 0.4
+          }
+        })
       }
     );
-    if (!resp.ok) return;
+    if (!resp.ok) {
+      console.warn('geminiTitle: HTTP', resp.status, await resp.text().catch(() => ''));
+      return false;
+    }
     const data = await resp.json();
-    const title = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-    if (title && title.length < 100) {
+    const cand = data.candidates?.[0];
+    // Unir todas las parts de texto por si el modelo fragmenta la respuesta.
+    let title = (cand?.content?.parts || [])
+      .map(p => p.text || '')
+      .join('')
+      .trim()
+      .replace(/^["'«»]+|["'«».]+$/g, '')  // sacar comillas/punto final que el modelo a veces agrega
+      .trim();
+    if (!title) {
+      console.warn('geminiTitle: sin texto. finishReason=', cand?.finishReason, data);
+      return false;
+    }
+    if (title.length < 100) {
       lsSet('title_' + jobId, title);
       renderJobs();
+      return true;
     }
-  } catch(e) {}
+    return false;
+  } catch(e) {
+    console.warn('geminiTitle: error', e);
+    return false;
+  }
 }
 
 function isToday(iso) {
