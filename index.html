@@ -503,7 +503,7 @@
 
     <div class="header">
       <h1>Narrador</h1>
-      <span>chirp 3 hd · v5.60</span>
+      <span>chirp 3 hd · v5.61</span>
       <div class="header-right">
         <button class="settings-link" onclick="toggleSettings()">⚙ contraseña</button>
       </div>
@@ -779,12 +779,13 @@ function renderVoiceSection(gridId, voices) {
 }
 
 function jobTitle(job) {
-  // 1) Título Gemini cacheado en este dispositivo (compatibilidad con jobs viejos)
+  // 1) Título que generó el backend con Gemini — fuente de verdad, funciona en
+  //    cualquier dispositivo (incluye el historial renombrado)
+  if (job.title) return job.title;
+
+  // 2) Cache local de Gemini (jobs recién creados, antes de que el backend lo fije)
   const cached = lsGet('title_' + job.id);
   if (cached) return cached;
-
-  // 2) Título que ya generó el backend con Gemini (funciona en cualquier dispositivo)
-  if (job.title) return job.title;
 
   // 3) Fallback heurístico a partir del prompt/texto
   const src = (job.prompt || job.text || '').trim();
