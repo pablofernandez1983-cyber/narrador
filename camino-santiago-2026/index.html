@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camino de Santiago · Sep 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  :root {
+    --green:      #1a6b4a;
+    --green-soft: #e8f5ee;
+    --teal:       #2a9d8f;
+    --gold:       #c07d28;
+    --bg:         #f5f2e8;
+    --card:       #fffef9;
+    --ink:        #1d1c1a;
+    --muted:      #68645d;
+    --border:     #e4dccd;
+    --shadow:     0 4px 16px rgba(26,107,74,.08);
+
+    --col-vuelo:    #1d4b86;
+    --col-trabajo:  #7b6fa0;
+    --col-camino:   #b5892b;
+    --col-hito:     #1a6b4a;
+    --col-regreso:  #1d4b86;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(180deg, #f9f7f0 0%, var(--bg) 50%, #ede8d8 100%);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 80px; }
+
+  @media (min-width: 860px) {
+    .wrap { max-width: 960px; }
+  }
+
+  /* ── HEADER ── */
+  .hero { padding: 22px 0 26px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+  .eyebrow { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 5px; }
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(30px, 7vw, 48px); font-weight: 700; color: var(--green); line-height: .95; margin-bottom: 6px; }
+  .hero-sub { color: var(--muted); font-size: 14px; }
+
+  /* ── INFO STRIP ── */
+  .info-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+  .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; }
+  .info-card.wide { grid-column: 1 / -1; }
+  .info-icon { font-size: 18px; margin-bottom: 3px; }
+  .info-label { font-size: 10px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
+  .info-val { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; color: var(--green); margin-top: 1px; line-height: 1.2; }
+  .info-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── STICKY NAV ── */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 20;
+    margin: 0 -16px 28px;
+    padding: 10px 16px;
+    background: rgba(245,242,232,.95);
+    border-bottom: 1px solid rgba(228,220,205,.8);
+    backdrop-filter: blur(12px);
+  }
+  .nav-row { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; align-items: center; }
+  .nav-row::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    background: white;
+    color: var(--ink);
+    font-size: 12px; font-weight: 700;
+    cursor: pointer;
+    touch-action: manipulation;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all .15s;
+  }
+
+  /* ── SECCIÓN ── */
+  .section { margin-bottom: 32px; }
+  h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 21px; color: var(--green); margin-bottom: 5px; }
+  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+
+  /* ════════════════════════════════
+     DAY CARDS — layout móvil (base)
+     ════════════════════════════════ */
+  .days { display: grid; gap: 14px; }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--day-color, #aaa);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .dc-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 15px 11px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--day-color) 7%, white), white);
+  }
+  .dc-num {
+    min-width: 52px; text-align: center;
+    padding: 8px 5px;
+    background: color-mix(in srgb, var(--day-color) 13%, white);
+    border-radius: 9px; flex-shrink: 0;
+  }
+  .dc-num .n  { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; color: var(--day-color); display: block; line-height: 1; }
+  .dc-num .d  { font-size: 10px; font-weight: 700; color: var(--muted); display: block; margin-top: 3px; }
+  .dc-title   { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 700; color: var(--green); line-height: 1.05; }
+  .dc-badge   {
+    display: inline-block; margin-top: 5px;
+    padding: 3px 9px; border-radius: 99px;
+    font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    background: color-mix(in srgb, var(--day-color) 14%, white);
+    color: var(--day-color);
+  }
+
+  .dc-slot {
+    display: flex; gap: 10px;
+    padding: 9px 15px;
+    border-bottom: 1px dotted var(--border);
+    align-items: flex-start;
+  }
+  .dc-slot:last-of-type { border-bottom: none; }
+  .dc-slot .s-ico   { font-size: 15px; width: 20px; flex-shrink: 0; text-align: center; margin-top: 1px; }
+  .dc-slot .s-lbl   { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
+  .dc-slot .s-txt   { font-size: 13px; color: var(--ink); line-height: 1.4; }
+  .dc-slot .s-txt em { font-style: normal; color: var(--muted); }
+
+  .dc-cena {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 15px;
+    background: var(--green-soft);
+    border-top: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+  }
+  .dc-cena .c-ico   { font-size: 16px; flex-shrink: 0; }
+  .dc-cena .c-lbl   { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; color: var(--green); display: block; }
+  .dc-cena .c-name  { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .dc-cena .c-lugar { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+  .dc-nota {
+    padding: 8px 15px 11px;
+    font-size: 12px; color: var(--muted); line-height: 1.45;
+    border-top: 1px solid var(--border);
+    background: #fdf9ef;
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ══ layout 2 columnas (480–859px) ══ */
+  @media (min-width: 480px) and (max-width: 859px) {
+    .day-card {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      border-top: none;
+      border-left: 4px solid var(--day-color);
+      border-radius: 10px;
+    }
+    .dc-head {
+      grid-column: 1; grid-row: 1 / -1;
+      flex-direction: column; align-items: flex-start; justify-content: center;
+      border-bottom: none; border-right: 1px solid var(--border);
+      padding: 14px 12px; gap: 8px;
+      background: color-mix(in srgb, var(--day-color) 6%, white);
+    }
+    .dc-num { min-width: auto; width: 100%; padding: 6px 8px; text-align: left; display: flex; align-items: baseline; gap: 5px; }
+    .dc-num .n { font-size: 14px; }
+    .dc-num .d { font-size: 11px; }
+    .dc-slot  { grid-column: 2; }
+    .dc-cena  { grid-column: 2; }
+    .dc-nota  { grid-column: 2; }
+  }
+
+  /* ══ layout horizontal (desktop ≥860px) ══ */
+  @media (min-width: 860px) {
+    .days { gap: 10px; }
+    .day-card {
+      display: grid;
+      grid-template-columns: 150px repeat(3, 1fr) 190px;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "head man tar noc cena"
+        "head nota nota nota nota";
+      border-top: none;
+      border-left: 5px solid var(--day-color);
+      border-radius: 10px;
+    }
+    .day-card:not(:has(.dc-nota)) {
+      grid-template-areas: "head man tar noc cena";
+      grid-template-rows: auto;
+    }
+    .dc-head {
+      grid-area: head;
+      flex-direction: column; align-items: flex-start; justify-content: center;
+      border-bottom: none; border-right: 1px solid var(--border);
+      padding: 16px 14px;
+      background: color-mix(in srgb, var(--day-color) 6%, white);
+      gap: 8px;
+    }
+    .dc-num { min-width: auto; width: 100%; padding: 6px 8px; text-align: left; display: flex; align-items: baseline; gap: 6px; }
+    .dc-num .n { font-size: 15px; }
+    .dc-num .d { font-size: 11px; }
+    .dc-slot {
+      grid-area: unset;
+      flex-direction: column;
+      padding: 14px 13px;
+      border-bottom: none;
+      border-right: 1px dotted var(--border);
+    }
+    .dc-slot:last-of-type { border-right: 1px dotted var(--border); }
+    .dc-slot .s-ico { margin-bottom: 4px; }
+    .dc-slot.s-man  { grid-area: man; }
+    .dc-slot.s-tar  { grid-area: tar; }
+    .dc-slot.s-noc  { grid-area: noc; }
+    .dc-cena {
+      grid-area: cena;
+      flex-direction: column; align-items: flex-start;
+      padding: 14px 13px;
+      background: var(--green-soft);
+      border-top: none; border-left: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+    }
+    .dc-nota {
+      grid-area: nota;
+      border-top: 1px solid var(--border); border-left: none;
+      padding: 8px 14px;
+    }
+  }
+
+  /* ── PLAN EQUIPAJE ── */
+  .plan-pair { display: grid; gap: 12px; }
+  @media (min-width: 560px) { .plan-pair { grid-template-columns: 1fr 1fr; } }
+  .plan-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .plan-head { padding: 14px 16px; color: white; }
+  .plan-head.valija { background: linear-gradient(135deg, #2d6b9e, #1e4f7a); }
+  .plan-head.carryon  { background: linear-gradient(135deg, #b5892b, #8a6720); }
+  .plan-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; opacity: .85; }
+  .plan-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; margin-top: 3px; }
+  .plan-sub { font-size: 12px; margin-top: 4px; opacity: .9; }
+  .plan-body { padding: 14px 16px; display: grid; gap: 9px; }
+  .plan-item { display: flex; gap: 10px; }
+  .pi-ico { font-size: 16px; flex-shrink: 0; }
+  .plan-item strong { display: block; font-size: 13px; font-weight: 700; }
+  .plan-item span { color: var(--muted); font-size: 12px; }
+
+  /* ── RESERVAS ── */
+  .reserva-list { display: grid; gap: 8px; }
+  .reserva-item { display: flex; align-items: center; gap: 12px; padding: 13px 15px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+  .ri-ico { font-size: 20px; flex-shrink: 0; }
+  .ri-name { font-size: 14px; font-weight: 700; }
+  .ri-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .rtag { margin-left: auto; flex-shrink: 0; padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+  .rtag-si { background: #ddf0e4; color: #1a6b4a; }
+  .rtag-no { background: #fce8e8; color: #8b2020; }
+  .rtag-ok { background: #ddf0e4; color: #1a6b4a; }
+
+  /* ── ETAPAS ── */
+  .franco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (min-width: 560px) { .franco-grid { grid-template-columns: repeat(4, 1fr); } }
+  .franco-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px 13px; text-align: center; }
+  .fi { font-size: 26px; margin-bottom: 6px; }
+  .fn { font-size: 13px; font-weight: 700; color: var(--green); }
+  .fd { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+
+  /* ── CHECKLIST ── */
+  .check-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 440px) { .check-cols { grid-template-columns: 1fr; } }
+  .check-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .check-box h3 { font-size: 13px; font-weight: 800; color: var(--green); margin-bottom: 10px; }
+  .check-box ul { list-style: none; display: grid; gap: 7px; }
+  .check-box li { display: flex; gap: 8px; font-size: 12px; align-items: flex-start; line-height: 1.35; }
+  .check-box li::before { content: "□"; color: var(--teal); font-size: 14px; flex-shrink: 0; line-height: 1.15; }
+
+  .nota-final { margin-top: 20px; padding: 16px 18px; background: linear-gradient(135deg,#eaf6f0,#ddf0e8); border: 1px solid #b8ddc8; border-radius: 12px; font-size: 13px; color: #1a5038; }
+  .nota-final strong { color: var(--green); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="hero">
+    <div class="eyebrow">Camino de Santiago · Septiembre 2026</div>
+    <h1>Sarria → Santiago</h1>
+    <p class="hero-sub">7–17 sept · Buenos Aires → Alemania (trabajo) → Camino Francés (últimos 100km) → Buenos Aires</p>
+  </header>
+
+  <!-- INFO STRIP -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-icon">✈️</div>
+      <div class="info-label">Salida</div>
+      <div class="info-val">lun 7/9 · 17:50</div>
+      <div class="info-sub">Buenos Aires (EZE) → Düsseldorf</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🛬</div>
+      <div class="info-label">Regreso</div>
+      <div class="info-val">mié 16/9 · 19:55</div>
+      <div class="info-sub">Düsseldorf → Buenos Aires (llega jue 17/9 07:40)</div>
+    </div>
+    <div class="info-card wide">
+      <div class="info-icon">🥾</div>
+      <div class="info-label">Camino Francés · Últimos 100km</div>
+      <div class="info-val">Sarria → Santiago de Compostela</div>
+      <div class="info-sub">4 días de caminata · ~111km · sáb 12 a mar 15/9</div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="sticky-nav">
+    <div class="nav-row">
+      <a class="nav-btn" href="#cronograma">📅 Días</a>
+      <a class="nav-btn" href="#mapa">🗺️ Mapa</a>
+      <a class="nav-btn" href="#equipaje">🎒 Equipaje</a>
+      <a class="nav-btn" href="#reservas">📋 Pendientes</a>
+      <a class="nav-btn" href="#etapas">🐚 Etapas</a>
+      <a class="nav-btn" href="#checklist">✅ Checklist</a>
+    </div>
+  </nav>
+
+  <!-- CRONOGRAMA -->
+  <section class="section" id="cronograma">
+    <h2>Cronograma</h2>
+    <p class="section-note">Vuelo · semana de oficina en Alemania · 4 días de Camino · regreso el mismo miércoles del vuelo emitido</p>
+
+    <div class="days">
+
+      <!-- DÍA 1 -->
+      <div class="day-card" style="--day-color: var(--col-vuelo)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 1</span><span class="d">lun 7/9</span></div>
+          <div><div class="dc-title">Vuelo a Alemania</div><span class="dc-badge">Vuelo</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">🧳</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Preparativos, valija grande + carry-on + mochila de Camino</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">✈️</span><div><span class="s-lbl">Tarde</span><span class="s-txt">17:50 salida Buenos Aires (EZE) · Iberia IB106 + IB755 · 1 escala · 20h20 total</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt"><em>En vuelo</em></span></div></div>
+      </div>
+
+      <!-- DÍA 2 -->
+      <div class="day-card" style="--day-color: var(--col-vuelo)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 2</span><span class="d">mar 8/9</span></div>
+          <div><div class="dc-title">Llegada a Düsseldorf</div><span class="dc-badge">Llegada</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">✈️</span><div><span class="s-lbl">Mañana</span><span class="s-txt"><em>En vuelo / escala</em></span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🛬</span><div><span class="s-lbl">Tarde</span><span class="s-txt">19:10 llegada a Düsseldorf (DUS) · traslado a Leverkusen</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Descanso · primera noche en Alemania</span></div></div>
+      </div>
+
+      <!-- DÍA 3 -->
+      <div class="day-card" style="--day-color: var(--col-trabajo)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 3</span><span class="d">mié 9/9</span></div>
+          <div><div class="dc-title">Oficina</div><span class="dc-badge">Trabajo</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">💼</span><div><span class="s-lbl">Todo el día</span><span class="s-txt">Jornada de trabajo en Leverkusen</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Descanso en Leverkusen</span></div></div>
+      </div>
+
+      <!-- DÍA 4 -->
+      <div class="day-card" style="--day-color: var(--col-trabajo)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 4</span><span class="d">jue 10/9</span></div>
+          <div><div class="dc-title">Oficina</div><span class="dc-badge">Trabajo</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">💼</span><div><span class="s-lbl">Todo el día</span><span class="s-txt">Jornada de trabajo en Leverkusen</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Descanso en Leverkusen</span></div></div>
+      </div>
+
+      <!-- DÍA 5 -->
+      <div class="day-card" style="--day-color: var(--col-trabajo)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 5</span><span class="d">vie 11/9</span></div>
+          <div><div class="dc-title">Último día de oficina</div><span class="dc-badge">Trabajo</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">💼</span><div><span class="s-lbl">Todo el día</span><span class="s-txt">Último día de trabajo</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🎒</span><div><span class="s-lbl">Noche</span><span class="s-txt">Armar mochila del Camino · dormir en Leverkusen · salida muy temprano al otro día</span></div></div>
+        <div class="dc-nota">Última noche antes del Camino — dejar todo listo: carry-on separado de la mochilita de mano, documentación a mano.</div>
+      </div>
+
+      <!-- DÍA 6 -->
+      <div class="day-card" style="--day-color: var(--col-camino)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 6</span><span class="d">sáb 12/9</span></div>
+          <div><div class="dc-title">Leverkusen → Sarria → Portomarín</div><span class="dc-badge">⭐ Día 1 Camino</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">🚄</span><div><span class="s-lbl">Mañana</span><span class="s-txt">05:04 tren a Düsseldorf Hbf → locker 24hs para la valija grande → aeropuerto DUS → ~06:30 vuelo Iberia a Madrid (solo carry-on de mano) → Cercanías a Chamartín → 10:04 AVE Madrid→Ourense</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">12:18 Ourense → combinación regional → 13:47 llegada a Sarria → carry-on al alojamiento (Correos Directo a Santiago) → caminata Sarria→Portomarín (18-20km)</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Dormís en zona Ferreiros/Portomarín</span></div></div>
+        <div class="dc-nota">El día más logístico del viaje. El carry-on se entrega en Sarria/Portomarín con Paq Mochila Directo — no se carga en ninguna etapa. Confirmar antes con paqmochila@correos.com.</div>
+      </div>
+
+      <!-- DÍA 7 -->
+      <div class="day-card" style="--day-color: var(--col-camino)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 7</span><span class="d">dom 13/9</span></div>
+          <div><div class="dc-title">Portomarín → Palas de Rei</div><span class="dc-badge">Día 2 Camino</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">🌅</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Salida temprano desde Portomarín</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">Caminata 25-28km</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Dormís en Palas de Rei</span></div></div>
+      </div>
+
+      <!-- DÍA 8 -->
+      <div class="day-card" style="--day-color: var(--col-camino)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 8</span><span class="d">lun 14/9</span></div>
+          <div><div class="dc-title">Palas de Rei → Melide</div><span class="dc-badge">🐙 Día 3 Camino</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">🌅</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Salida desde Palas de Rei</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">Caminata 28-30km · llegada a Melide</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🐙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Pulpo en Melide, con tiempo y sin apuro · dormís en Melide</span></div></div>
+      </div>
+
+      <!-- DÍA 9 -->
+      <div class="day-card" style="--day-color: var(--col-camino)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 9</span><span class="d">mar 15/9</span></div>
+          <div><div class="dc-title">Melide → Santiago</div><span class="dc-badge">⭐ Día 4 · Llegada</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">🌅</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Salida desde Melide</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">Caminata 30-32km · llegada a Santiago ~15-16hs</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🏛️</span><div><span class="s-lbl">Noche</span><span class="s-txt">Retirás la Compostela + el carry-on en la Oficina de Correos · paseo por la ciudad · última noche en Santiago</span></div></div>
+        <div class="dc-nota">Dormir en Santiago mismo esa noche (no en las afueras) para estar cerca del aeropuerto al otro día.</div>
+      </div>
+
+      <!-- DÍA 10 -->
+      <div class="day-card" style="--day-color: var(--col-regreso)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 10</span><span class="d">mié 16/9</span></div>
+          <div><div class="dc-title">Santiago → Düsseldorf → Buenos Aires</div><span class="dc-badge">Regreso</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">✈️</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Check-out · traslado a SCQ · 09:15 vuelo Vueling SCQ→Düsseldorf (1 escala, 5h10, ~€199)</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🧳</span><div><span class="s-lbl">Tarde</span><span class="s-txt">14:25 llegada a Düsseldorf → tren a Hbf → retirás la valija grande del locker → volvés al aeropuerto</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">19:55 Iberia IB756 + IB103, Düsseldorf → Buenos Aires (1 escala, 16h45)</span></div></div>
+        <div class="dc-nota">~4h30 de margen entre aterrizar y el vuelo intercontinental — de sobra para el tren + retiro de valija.</div>
+      </div>
+
+      <!-- DÍA 11 -->
+      <div class="day-card" style="--day-color: var(--col-regreso)">
+        <div class="dc-head">
+          <div class="dc-num"><span class="n">Día 11</span><span class="d">jue 17/9</span></div>
+          <div><div class="dc-title">Llegada a Buenos Aires</div><span class="dc-badge">Casa</span></div>
+        </div>
+        <div class="dc-slot s-man"><span class="s-ico">🏠</span><div><span class="s-lbl">Mañana</span><span class="s-txt">07:40 llegada a Buenos Aires (EZE)</span></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MAPA -->
+  <section class="section" id="mapa">
+    <h2>Mapa del viaje</h2>
+    <p class="section-note">Tocá cada punto para ver el detalle · ubicaciones aproximadas</p>
+    <div id="map" style="height:380px;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);"></div>
+  </section>
+
+  <!-- PLAN EQUIPAJE -->
+  <section class="section" id="equipaje">
+    <h2>Plan de equipaje</h2>
+    <p class="section-note">Dos bultos, dos caminos distintos — ninguno se carga en las etapas de caminata</p>
+    <div class="plan-pair">
+      <div class="plan-card">
+        <div class="plan-head valija">
+          <div class="plan-eyebrow">Valija grande</div>
+          <div class="plan-title">Locker en Düsseldorf Hbf 🔒</div>
+          <div class="plan-sub">Ropa de vuelta / Buenos Aires — no hace falta en el Camino</div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-item"><span class="pi-ico">📍</span><div><strong>Se deja el sábado 12/9</strong><span>Bajando del tren en Düsseldorf Hbf, antes de seguir al aeropuerto</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🔓</span><div><strong>Locker autoservicio 24hs</strong><span>Andenes 12-13 o cerca del andén 4 · €4/día (grande)</span></div></div>
+          <div class="plan-item"><span class="pi-ico">📅</span><div><strong>Se retira el miércoles 16/9</strong><span>Al volver de Santiago, antes del vuelo a Buenos Aires · ~€20 total (5 días)</span></div></div>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-head carryon">
+          <div class="plan-eyebrow">Carry-on</div>
+          <div class="plan-title">Correos Paq Mochila Directo 🎒</div>
+          <div class="plan-sub">Viaja como equipaje de mano hasta Sarria, después va solo</div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-item"><span class="pi-ico">✈️</span><div><strong>Equipaje de mano en el vuelo DUS-MAD</strong><span>Sin valija facturada — así no hay espera de cinta en Madrid</span></div></div>
+          <div class="plan-item"><span class="pi-ico">📍</span><div><strong>Se entrega en Sarria/Portomarín el 12/9</strong><span>En cualquier alojamiento que colabore con Correos</span></div></div>
+          <div class="plan-item"><span class="pi-ico">🏛️</span><div><strong>Directo a la Oficina de Correos de Santiago</strong><span>A 2 min de la Catedral · te espera hasta 30 días · se retira el 15/9</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVAS / PENDIENTES -->
+  <section class="section" id="reservas">
+    <h2>Qué falta reservar</h2>
+    <p class="section-note">A ~2 meses de la fecha — todo esto ya se puede reservar, no hay que esperar</p>
+    <div class="reserva-list">
+      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Düsseldorf → Madrid (12/9)</div><div class="ri-sub">Iberia, salida ~06:30 · reservar pronto, los horarios más tempranos se llenan primero</div></div><span class="rtag rtag-no">Pendiente</span></div>
+      <div class="reserva-item"><span class="ri-ico">🚄</span><div><div class="ri-name">AVE Madrid Chamartín → Ourense (10:04)</div><div class="ri-sub">Renfe, €34,70 confirmado · chequear si ya abrió venta para el 12/9</div></div><span class="rtag rtag-no">Pendiente</span></div>
+      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Santiago → Düsseldorf (16/9, 09:15)</div><div class="ri-sub">Vueling, ~€199, 1 escala, 5h10</div></div><span class="rtag rtag-no">Pendiente</span></div>
+      <div class="reserva-item"><span class="ri-ico">🏨</span><div><div class="ri-name">Alojamiento Portomarín · Palas de Rei · Melide · Santiago</div><div class="ri-sub">4 noches en el Camino</div></div><span class="rtag rtag-no">Pendiente</span></div>
+      <div class="reserva-item"><span class="ri-ico">📮</span><div><div class="ri-name">Correos Paq Mochila Directo</div><div class="ri-sub">Confirmar en elcaminoconcorreos.com o paqmochila@correos.com — precio del Directo sin confirmar todavía</div></div><span class="rtag rtag-no">Confirmar</span></div>
+      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Buenos Aires ↔ Düsseldorf</div><div class="ri-sub">Iberia IB106/755 (ida) + IB756/103 (vuelta) — ya emitido</div></div><span class="rtag rtag-si">Listo</span></div>
+      <div class="reserva-item"><span class="ri-ico">🔒</span><div><div class="ri-name">Locker Düsseldorf Hbf</div><div class="ri-sub">Autoservicio, no necesita reserva previa</div></div><span class="rtag rtag-ok">No hace falta</span></div>
+    </div>
+  </section>
+
+  <!-- ETAPAS -->
+  <section class="section" id="etapas">
+    <h2>Las 4 etapas</h2>
+    <div class="franco-grid">
+      <div class="franco-card"><div class="fi">🥾</div><div class="fn">Sarria → Portomarín</div><div class="fd">18-20km · sáb 12/9 · la más corta, empieza a la tarde</div></div>
+      <div class="franco-card"><div class="fi">🥾</div><div class="fn">Portomarín → Palas de Rei</div><div class="fd">25-28km · dom 13/9</div></div>
+      <div class="franco-card"><div class="fi">🐙</div><div class="fn">Palas de Rei → Melide</div><div class="fd">28-30km · lun 14/9 · pulpo sin apuro</div></div>
+      <div class="franco-card"><div class="fi">🏛️</div><div class="fn">Melide → Santiago</div><div class="fd">30-32km · mar 15/9 · llegada ~15-16hs, Compostela</div></div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section class="section" id="checklist">
+    <h2>Checklist</h2>
+    <div class="check-cols">
+      <div class="check-box">
+        <h3>📄 Documentos</h3>
+        <ul>
+          <li>DNI y pasaporte</li>
+          <li>Credencial del peregrino (para sellar en cada etapa)</li>
+          <li>Reservas de alojamiento (voucher o confirmación)</li>
+          <li>Seguro de viaje / cobertura médica</li>
+          <li>Tickets de vuelo y tren (celu + backup impreso)</li>
+        </ul>
+      </div>
+      <div class="check-box">
+        <h3>🎒 Para el Camino (mochila de mano)</h3>
+        <ul>
+          <li>Calzado de trekking ya usado (no estrenar)</li>
+          <li>2-3 mudas de ropa técnica liviana</li>
+          <li>Poncho de lluvia / campera impermeable</li>
+          <li>Bastones de trekking (si se usan)</li>
+          <li>Botiquín básico: ampollas, vendas, ibuprofeno</li>
+          <li>Protector solar, gorra, botella de agua</li>
+          <li>Power bank y cargador</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="nota-final">
+    <strong>El punto crítico del viaje:</strong> el sábado 12/9 a la mañana (tren + vuelo + AVE hasta Ourense). Viajando solo con equipaje de mano se evita la espera de valijas en Madrid, lo que hace viable la conexión con el AVE de las 10:04. Todo lo demás tiene bastante margen.
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map');
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  function pin(emoji, color) {
+    return L.divIcon({
+      html: `<div style="background:${color};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 2px 8px rgba(0,0,0,.4);border:2px solid white;">${emoji}</div>`,
+      iconSize: [32,32], iconAnchor: [16,16], popupAnchor: [0,-18], className: ''
+    });
+  }
+
+  const lugares = [
+    { lat:51.0459, lng:6.9852,  e:'💼', c:'#7b6fa0', n:'Leverkusen',                     d:'Oficina · noche del 8 al 11/9' },
+    { lat:51.2200, lng:6.7943,  e:'🔒', c:'#2d6b9e', n:'Düsseldorf Hbf',                 d:'Locker 24hs para la valija grande · €4/día' },
+    { lat:51.2895, lng:6.7668,  e:'✈️', c:'#1d4b86', n:'Aeropuerto Düsseldorf (DUS)',    d:'Vuelo a Madrid ~06:30 (12/9) · vuelo a Buenos Aires 19:55 (16/9)' },
+    { lat:40.4725, lng:-3.6820, e:'🚄', c:'#1d4b86', n:'Madrid Chamartín',               d:'AVE a Ourense 10:04 · €34,70' },
+    { lat:42.3364, lng:-7.8632, e:'🚉', c:'#1d4b86', n:'Ourense',                        d:'Combinación regional a Sarria' },
+    { lat:42.7810, lng:-7.4151, e:'🥾', c:'#b5892b', n:'Sarria',                          d:'Inicio del Camino · llegada 13:47 (12/9) · entrega del carry-on' },
+    { lat:42.8079, lng:-7.6157, e:'🌙', c:'#b5892b', n:'Portomarín',                     d:'Noche 1 · 12/9' },
+    { lat:42.8737, lng:-7.8688, e:'🌙', c:'#b5892b', n:'Palas de Rei',                   d:'Noche 2 · 13/9' },
+    { lat:42.9145, lng:-8.0146, e:'🐙', c:'#b5892b', n:'Melide',                         d:'Noche 3 · 14/9 · pulpo' },
+    { lat:42.8805, lng:-8.5457, e:'🏛️', c:'#1a6b4a', n:'Santiago de Compostela',        d:'Llegada 15/9 · Compostela + retiro del carry-on en Correos · última noche' },
+    { lat:42.8963, lng:-8.4115, e:'✈️', c:'#1d4b86', n:'Aeropuerto Santiago (SCQ)',      d:'Vuelo a Düsseldorf 09:15 (16/9)' },
+  ];
+
+  const markers = [];
+  lugares.forEach(p => {
+    const m = L.marker([p.lat, p.lng], { icon: pin(p.e, p.c) })
+      .addTo(map)
+      .bindPopup(`<strong style="font-size:13px;font-family:Inter,sans-serif">${p.n}</strong><br><span style="font-size:12px;color:#666;font-family:Inter,sans-serif">${p.d}</span>`);
+    markers.push(m);
+  });
+
+  const group = L.featureGroup(markers);
+  map.fitBounds(group.getBounds(), { padding: [30,30] });
+</script>
+</body>
+</html>
