@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 
-PDF = r"C:\Users\loren\Downloads\S2UKXB_AEP_IGR_F_ALL.pdf"
+PDF = r"C:\Users\loren\Downloads\S2UKXB_definitivo_mobile.pdf"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tarjetas.enc.json")
 ITERATIONS = 310_000
 
@@ -33,7 +33,7 @@ with open(OUT, "w") as f:
         "salt": base64.b64encode(salt).decode(),
         "iv": base64.b64encode(iv).decode(),
         "data": base64.b64encode(ct).decode(),
-        "filename": "S2UKXB_AEP_IGR_F_ALL.pdf",
+        "filename": "S2UKXB_definitivo_mobile.pdf",
     }, f)
 
 print(f"OK -> {OUT} ({os.path.getsize(OUT)} bytes)")
