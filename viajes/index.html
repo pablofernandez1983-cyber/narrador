@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mis Viajes</title>
+<meta name="theme-color" content="#0a1a30">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Viajes">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" href="./icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-top:    #16324f;
+    --bg-bot:    #081522;
+    --card:      #10233a;
+    --card-b:    #24405e;
+    --ink:       #f3f6fa;
+    --muted:     #93a8c0;
+    --accent:    #7fb8e8;
+    --gold:      #d9a85c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; max-width: 100%; overflow-x: hidden; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bot) 65%);
+    color: var(--ink);
+    min-height: 100vh;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    padding: max(28px, env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .hero { text-align: center; padding: 18px 0 32px; }
+  .plane { font-size: 40px; margin-bottom: 10px; filter: drop-shadow(0 4px 10px rgba(0,0,0,.4)); }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 8vw, 38px);
+    letter-spacing: -.01em;
+  }
+  .hero-sub { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+  .trips { display: grid; gap: 16px; flex: 1; }
+
+  .trip-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    max-width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, var(--card), color-mix(in srgb, var(--card) 80%, black));
+    border: 1px solid var(--card-b);
+    border-radius: 18px;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    transition: transform .15s, border-color .15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .trip-card:active { transform: scale(.97); }
+  .trip-card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--accent-glow, transparent), transparent 55%);
+    opacity: .18;
+    pointer-events: none;
+  }
+  .trip-card.cataratas { --accent-glow: #2a9d8f; border-color: #2a9d8f55; }
+  .trip-card.disney    { --accent-glow: #7b6fa0; border-color: #7b6fa055; }
+  .trip-card.santiago  { --accent-glow: #c07d28; border-color: #c07d2855; }
+
+  .tc-icon {
+    font-size: 30px;
+    width: 56px; height: 56px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,.06);
+    border-radius: 14px;
+  }
+  .tc-body { flex: 1; min-width: 0; }
+  .tc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.15;
+  }
+  .tc-date {
+    font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 4px;
+  }
+  .tc-sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .tc-arrow { font-size: 20px; color: var(--muted); flex-shrink: 0; }
+
+  .footer-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11.5px;
+    margin-top: 28px;
+    line-height: 1.5;
+  }
+
+  .install-hint {
+    margin-top: 20px;
+    padding: 13px 16px;
+    background: rgba(255,255,255,.05);
+    border: 1px dashed var(--card-b);
+    border-radius: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    display: none;
+  }
+  .install-hint.show { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="plane">✈️</div>
+    <h1>Mis Viajes</h1>
+    <p class="hero-sub">Acceso rápido a todos los itinerarios</p>
+  </header>
+
+  <div class="trips">
+
+    <a class="trip-card cataratas" href="../cataratas-2026/index.html">
+      <div class="tc-icon">💧</div>
+      <div class="tc-body">
+        <div class="tc-title">Cataratas del Iguazú</div>
+        <div class="tc-date">20–27 julio 2026</div>
+        <div class="tc-sub">Pablo, Lore y Franco · Foz do Iguaçu, Brasil</div>
+      </div>
+      <div class="tc-arrow">›</div>
+    </a>
+
+    <a class="trip-card disney" href="../disney-2027/index.html">
+      <div class="tc-icon">🏰</div>
+      <div class="tc-body">
+        <div class="tc-title">Disney World</div>
+        <div class="tc-date">Febrero 2027</div>
+        <div class="tc-sub">Presupuesto y planificación del viaje</div>
+      </div>
+      <div class="tc-arrow">›</div>
+    </a>
+
+    <a class="trip-card santiago" href="../camino-santiago-2026/index.html">
+      <div class="tc-icon">🥾</div>
+      <div class="tc-body">
+        <div class="tc-title">Camino de Santiago</div>
+        <div class="tc-date">7–17 septiembre 2026</div>
+        <div class="tc-sub">Sarria → Santiago · últimos 100km del Camino Francés</div>
+      </div>
+      <div class="tc-arrow">›</div>
+    </a>
+
+  </div>
+
+  <p class="footer-note">Tocá un viaje para ver el itinerario completo.</p>
+  <div class="install-hint" id="installHint">📲 Agregá esta página a tu pantalla de inicio para tener acceso directo desde el celu.</div>
+
+</div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+  // Muestra el tip de instalación solo si todavía no está corriendo como PWA instalada.
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if (!isStandalone) {
+    document.getElementById('installHint').classList.add('show');
+  }
+</script>
+</body>
+</html>
