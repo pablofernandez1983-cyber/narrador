@@ -383,7 +383,8 @@ function cardHtml(c) {
   let statusBlock = '';
   if (done) {
     const kmShown = (p.km_reales != null && p.km_reales !== '') ? p.km_reales : c.km;
-    statusBlock = `<div class="done-summary">✅ Completado${p.fecha_completado ? ' el ' + p.fecha_completado : ''} <span class="meta">· ${kmShown}km${p.nota ? ' · "' + escapeHtml(p.nota) + '"' : ''}</span></div>
+    const tiempoShown = (p.minutos_reales != null && p.minutos_reales !== '') ? ` · ${p.minutos_reales} min` : '';
+    statusBlock = `<div class="done-summary">✅ Completado${p.fecha_completado ? ' el ' + p.fecha_completado : ''} <span class="meta">· ${kmShown}km${tiempoShown}${p.nota ? ' · "' + escapeHtml(p.nota) + '"' : ''}</span></div>
       <div class="card-actions"><button class="btn undo-btn" data-action="undo" data-id="${c.id}">Deshacer</button></div>`;
   } else {
     statusBlock = `<div class="card-actions">
@@ -395,6 +396,7 @@ function cardHtml(c) {
           <div><label>Fecha</label><input type="date" id="fecha-${c.id}" value="${todayStr()}"></div>
           <div><label>Km reales (opcional)</label><input type="number" step="0.1" min="0" id="km-${c.id}" placeholder="${c.km}"></div>
         </div>
+        <div><label>Minutos reales (opcional)</label><input type="number" step="1" min="0" id="min-${c.id}" placeholder="ej. 90"></div>
         <div><label>Nota (opcional)</label><textarea id="nota-${c.id}" rows="2" placeholder="¿Cómo estuvo?"></textarea></div>
         <div class="form-actions">
           <button class="btn done-btn active" data-action="save" data-id="${c.id}">Guardar</button>
@@ -481,15 +483,17 @@ function onCardAction(e) {
   } else if (action === 'save') {
     const fecha = document.getElementById('fecha-' + id).value || todayStr();
     const kmVal = document.getElementById('km-' + id).value;
+    const minVal = document.getElementById('min-' + id).value;
     const nota = document.getElementById('nota-' + id).value;
     saveRemote(id, {
       completado: true,
       fecha_completado: fecha,
       km_reales: kmVal ? Number(kmVal) : null,
+      minutos_reales: minVal ? Number(minVal) : null,
       nota: nota || null
     });
   } else if (action === 'undo') {
-    saveRemote(id, { completado: false, fecha_completado: null, km_reales: null, nota: null });
+    saveRemote(id, { completado: false, fecha_completado: null, km_reales: null, minutos_reales: null, nota: null });
   }
 }
 
