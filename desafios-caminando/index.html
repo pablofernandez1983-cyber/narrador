@@ -117,7 +117,7 @@
   <div class="hero">
     <div class="eyebrow">Entrenamiento · Camino de Santiago Sept 2026</div>
     <h1>Desafíos Caminando<br>desde Devoto</h1>
-    <div class="hero-sub">16 lugares reales de Buenos Aires, a 5-15km ida y vuelta desde Calderón de la Barca 2752</div>
+    <div class="hero-sub">16 lugares reales de Buenos Aires, a 6-18km ida y vuelta desde Calderón de la Barca 2752 (ruta real caminando, según Google Maps)</div>
   </div>
 
   <div class="info-strip">
@@ -158,41 +158,43 @@ const CATS = {
   'mercado':       { label: 'Mercado',        icon: '🛒' }
 };
 
+// kmIda = distancia real caminando según Google Maps (misma ruta que abre "Ver en Maps"), no línea recta.
 const CHALLENGES = [
-  { id:'estacion-liniers', name:'Estación Liniers', cat:'estacion', addr:'Av. Rivadavia 11500, Liniers, CABA', km:5.0, stars:3,
+  { id:'estacion-liniers', name:'Estación Liniers', cat:'estacion', addr:'Av. Rivadavia 11500, Liniers, CABA', kmIda:3.2, stars:3,
     fact:'Un paradero llamado Liniers fue autorizado en enero de 1872, pero el servicio regular arrancó recién con la inauguración de la estación en noviembre de 1887, hecho que le dio origen al barrio. Los andenes laterales, usados antes para descargar los tarros de leche de los tambos de la zona, se conocían como andenes "lecheros".', source:'es.wikipedia.org' },
-  { id:'biblioteca-floresta', name:'Biblioteca Popular de Floresta', cat:'biblioteca', addr:'Av. Avellaneda 3885, Floresta, CABA', km:6.4, stars:3,
-    fact:'El edificio data de 1876 y originalmente albergó la escuela más antigua del barrio, incluidas sus primeras clases de violín. Desde 1975 funciona también ahí la Junta de Estudios Históricos de Floresta junto con la biblioteca pública.', source:'la-floresta.com.ar' },
-  { id:'estacion-floresta', name:'Estación Floresta', cat:'estacion', addr:'Yerbal, entre Bahía Blanca y Joaquín V. González, Floresta, CABA', km:7.0, stars:3,
+  { id:'estacion-floresta', name:'Estación Floresta', cat:'estacion', addr:'Yerbal, entre Bahía Blanca y Joaquín V. González, Floresta, CABA', kmIda:3.8, stars:3,
     fact:'Esta parada, entonces llamada "La Floresta", fue la terminal oeste del Ferrocarril Oeste — el primer ferrocarril de Argentina, inaugurado el 29 de agosto de 1857 en un tramo de unos 10km desde Plaza del Parque. Se llamó Vélez Sarsfield entre 1888 y 1944, hasta volver a su nombre original.', source:'es.wikipedia.org' },
-  { id:'jardin-botanico-agronomia', name:'Facultad de Agronomía UBA · Jardín Botánico Lucien Hauman', cat:'parque', addr:'Av. San Martín 4453, Agronomía, CABA', km:7.8, stars:4,
+  { id:'biblioteca-floresta', name:'Biblioteca Popular de Floresta', cat:'biblioteca', addr:'Av. Avellaneda 3885, Floresta, CABA', kmIda:4.2, stars:3,
+    fact:'El edificio data de 1876 y originalmente albergó la escuela más antigua del barrio, incluidas sus primeras clases de violín. Desde 1975 funciona también ahí la Junta de Estudios Históricos de Floresta junto con la biblioteca pública.', source:'la-floresta.com.ar' },
+  { id:'jardin-botanico-agronomia', name:'Facultad de Agronomía UBA · Jardín Botánico Lucien Hauman', cat:'parque', addr:'Av. San Martín 4453, Agronomía, CABA', kmIda:4.3, stars:4,
     fact:'Este campus le dio nombre al barrio de Agronomía. Su jardín botánico, plantado desde julio de 1922 bajo la dirección del botánico Lorenzo Parodi, ocupa cerca de una hectárea. El campus también aloja el Museo Universitario de Maquinaria Agrícola (2010), con una niveladora de tierra de 1894.', source:'agro.uba.ar / lanacion.com.ar' },
-  { id:'casona-olivera', name:'Casona de los Olivera (Parque Avellaneda)', cat:'casa-historica', addr:'Av. Directorio y Lacarra, Parque Avellaneda, CABA', km:8.2, stars:5,
+  { id:'casona-olivera', name:'Casona de los Olivera (Parque Avellaneda)', cat:'casa-historica', addr:'Av. Directorio y Lacarra, Parque Avellaneda, CABA', kmIda:4.8, stars:5,
     fact:'Construida en 1870 por el ingeniero Carlos Olivera sobre una casa anterior de 1838 de su padre Domingo, es el único casco de estancia que sobrevive dentro de la Ciudad de Buenos Aires. La familia Olivera vendió el terreno a la ciudad en 1912; el parque abrió en 1914 como Parque Domingo Olivera y se rebautizó Parque Avellaneda en 1917.', source:'buenosaires.gob.ar / es.wikipedia.org' },
-  { id:'estadio-maradona', name:'Estadio Diego Armando Maradona (Argentinos Juniors)', cat:'estadio', addr:'Gavilán 2151, Villa General Mitre, CABA', km:8.4, stars:4,
+  { id:'estadio-maradona', name:'Estadio Diego Armando Maradona (Argentinos Juniors)', cat:'estadio', addr:'Gavilán 2151, Villa General Mitre, CABA', kmIda:5.2, stars:4,
     fact:'En este predio, un Diego Maradona de 15 años debutó en primera para Argentinos Juniors el 20 de octubre de 1976, entrando como suplente con la camiseta 16 ante 7.736 espectadores. El estadio actual de hormigón se inauguró en 2003 y se renombró en su honor el 10 de agosto de 2004, centenario del club.', source:'ambito.com / argentinosjuniors.com.ar' },
-  { id:'basilica-san-jose-flores', name:'Basílica de San José de Flores', cat:'iglesia', addr:'Av. Rivadavia 6950, Flores, CABA', km:10.0, stars:4,
+  { id:'basilica-san-jose-flores', name:'Basílica de San José de Flores', cat:'iglesia', addr:'Av. Rivadavia 6950, Flores, CABA', kmIda:6.2, stars:4,
     fact:'La parroquia se creó en 1806; el edificio actual, de estilo ecléctico, es obra de los arquitectos Rómulo y Benito Ginocchio e se inauguró en 1883. Una placa dorada marca el confesionario donde, el 21 de septiembre de 1953, un Jorge Mario Bergoglio de 17 años —el futuro Papa Francisco— sintió su llamado al sacerdocio.', source:'lanacion.com.ar / eldiario.es' },
-  { id:'plaza-irlanda', name:'Plaza Irlanda', cat:'plaza', addr:'Av. Gaona, Donato Álvarez, Neuquén y Seguí, Caballito, CABA', km:10.6, stars:3,
-    fact:'La ciudad le compró este terreno a la Asociación Católica Irlandesa en diciembre de 1922 y el parque abrió el 12 de octubre de 1927. Su monumento de bronce y granito a la Confraternidad Argentino-Irlandesa, del escultor Luis Perlotti, se develó en 1935 y muestra a dos mujeres sosteniendo el escudo argentino y el arpa irlandesa de Brian Boru.', source:'buenosaires.gob.ar (Museo Perlotti)' },
-  { id:'museo-criollo-corrales', name:'Museo Criollo de los Corrales', cat:'museo', addr:'Av. de los Corrales 6476, Mataderos, CABA', km:10.8, stars:4,
-    fact:'Funciona en las viejas recovas del antiguo Mercado Nacional de Hacienda y Matadero Municipal, cuyos primeros edificios se levantaron en 1889 y abrieron en 1900. El museo se fundó el 9 de julio de 1964 y el complejo fue declarado monumento histórico nacional en 1979. Sus seis salas guardan indumentaria y armas gauchas, más de 3.000 piezas, una pulpería y una capilla reconstruidas.', source:'buenosaires.gob.ar' },
-  { id:'feria-mataderos', name:'Feria de Mataderos', cat:'mercado', addr:'Av. Lisandro de la Torre y Av. de los Corrales, Mataderos, CABA', km:11.0, stars:5,
-    fact:'Creada el 8 de junio de 1986 por Sara Vinocur apenas vuelta la democracia, la feria se instaló frente a la recova histórica del antiguo Mercado Nacional de Hacienda —el centro de faena que le dio al barrio su apodo de "Nueva Chicago". Hoy es una feria de folclore, artesanías y gastronomía declarada Patrimonio Cultural de la Ciudad.', source:'infobae.com / canal26.com' },
-  { id:'mural-punto-chacarita', name:'Mural "Punto Chacarita"', cat:'mural', addr:'Av. Jorge Newbery y Girardot (muro del Cementerio de la Chacarita, frente a Plaza Benito Nazar), CABA', km:12.0, stars:3,
-    fact:'Pintado el 27 de enero de 2022 por siete artistas —Alan Myers, Gabi Boghaliu, David Petroni, Sofía Mele, Cabaio Spirito, Sisa Soldati y Eugenia Petre— directamente sobre el muro exterior del cementerio, como primera obra de un plan de la ciudad para desarrollar Chacarita como destino cultural, turístico y gastronómico.', source:'buenosaires.gob.ar (Comuna 15)' },
-  { id:'parque-los-andes', name:'Parque Los Andes', cat:'parque', addr:'Av. Dorrego y Av. Federico Lacroze, Chacarita, CABA', km:13.4, stars:3,
-    fact:'Enfrenta al Barrio Parque Los Andes, un conjunto de vivienda pública pionero de 1928 diseñado por el arquitecto Fermín Bereterbide dentro de un plan municipal aprobado en 1924. El parque y las manzanas que lo rodean (Leiva, Rodney, Concepción Arenal, Guzmán) siguen siendo un ejemplo bien conservado del urbanismo municipal de los años 20.', source:'es.wikipedia.org / infobae.com' },
-  { id:'chacarita-gardel', name:'Cementerio de la Chacarita · Mausoleo de Carlos Gardel', cat:'monumento', addr:'Av. Guzmán 680, Chacarita, CABA', km:13.0, stars:5,
-    fact:'El cementerio se creó a las apuradas en 1871 para hacer frente a una epidemia de fiebre amarilla; el predio actual de 97 hectáreas abrió en 1887. El mausoleo de Gardel, construido entre 1936 y 1937, está coronado por una estatua de tamaño real a la que los fans todavía le encienden un cigarrillo entre los dedos de bronce.', source:'fundacioncarlosgardel.org' },
-  { id:'estadio-ferro', name:'Estadio Arq. Ricardo Etcheverri (Club Ferro Carril Oeste)', cat:'estadio', addr:'Av. Avellaneda 1240, Caballito, CABA', km:15.4, stars:3,
+  { id:'estadio-ferro', name:'Estadio Arq. Ricardo Etcheverri (Club Ferro Carril Oeste)', cat:'estadio', addr:'Av. Avellaneda 1240, Caballito, CABA', kmIda:6.4, stars:3,
     fact:'Ferro Carril Oeste fue fundado el 28 de julio de 1904 por 95 trabajadores ferroviarios; su estadio abrió el 8 de diciembre de ese año, lo que lo convierte en la cancha de fútbol en uso más antigua de Argentina y la segunda más antigua de Sudamérica. Las tribunas cubiertas, inauguradas en 1971 por el arquitecto Ricardo Etcheverri, le dieron después su nombre al estadio.', source:'en.wikipedia.org / billiken.lat' },
-  { id:'mercado-pulgas', name:'Mercado de las Pulgas', cat:'mercado', addr:'Av. Álvarez Thomas y Av. Dorrego, Chacarita, CABA', km:15.4, stars:4,
-    fact:'Construido sobre terrenos ferroviarios, el "Mercado Dorrego" original abrió en 1928. Se convirtió en feria de antigüedades en 1988, cerró en 2005 y reabrió en 2011 en Álvarez Thomas y Dorrego con puestos renovados; la legislatura porteña lo declaró Sitio de Interés Cultural.', source:'buenosaires.gob.ar' },
-  { id:'biblioteca-alberdi', name:'Biblioteca Popular Alberdi', cat:'biblioteca', addr:'Acevedo 666, Villa Crespo, CABA', km:15.2, stars:2,
-    fact:'Fundada por vecinos el 8 de julio de 1910, cuando fábricas y curtiembres poblaban la zona, la biblioteca se mudó diez veces antes de instalarse definitivamente en su dirección actual. Desde su fundación fue construida y sostenida enteramente por trabajo voluntario del barrio, de ahí el "Popular" en su nombre.', source:'rumbosur.org / CONABIP' }
+  { id:'museo-criollo-corrales', name:'Museo Criollo de los Corrales', cat:'museo', addr:'Av. de los Corrales 6476, Mataderos, CABA', kmIda:6.5, stars:4,
+    fact:'Funciona en las viejas recovas del antiguo Mercado Nacional de Hacienda y Matadero Municipal, cuyos primeros edificios se levantaron en 1889 y abrieron en 1900. El museo se fundó el 9 de julio de 1964 y el complejo fue declarado monumento histórico nacional en 1979. Sus seis salas guardan indumentaria y armas gauchas, más de 3.000 piezas, una pulpería y una capilla reconstruidas.', source:'buenosaires.gob.ar' },
+  { id:'feria-mataderos', name:'Feria de Mataderos', cat:'mercado', addr:'Av. Lisandro de la Torre y Av. de los Corrales, Mataderos, CABA', kmIda:6.5, stars:5,
+    fact:'Creada el 8 de junio de 1986 por Sara Vinocur apenas vuelta la democracia, la feria se instaló frente a la recova histórica del antiguo Mercado Nacional de Hacienda —el centro de faena que le dio al barrio su apodo de "Nueva Chicago". Hoy es una feria de folclore, artesanías y gastronomía declarada Patrimonio Cultural de la Ciudad.', source:'infobae.com / canal26.com' },
+  { id:'plaza-irlanda', name:'Plaza Irlanda', cat:'plaza', addr:'Av. Gaona, Donato Álvarez, Neuquén y Seguí, Caballito, CABA', kmIda:6.8, stars:3,
+    fact:'La ciudad le compró este terreno a la Asociación Católica Irlandesa en diciembre de 1922 y el parque abrió el 12 de octubre de 1927. Su monumento de bronce y granito a la Confraternidad Argentino-Irlandesa, del escultor Luis Perlotti, se develó en 1935 y muestra a dos mujeres sosteniendo el escudo argentino y el arpa irlandesa de Brian Boru.', source:'buenosaires.gob.ar (Museo Perlotti)' },
+  { id:'chacarita-gardel', name:'Cementerio de la Chacarita · Mausoleo de Carlos Gardel', cat:'monumento', addr:'Av. Guzmán 680, Chacarita, CABA', kmIda:6.8, stars:5,
+    fact:'El cementerio se creó a las apuradas en 1871 para hacer frente a una epidemia de fiebre amarilla; el predio actual de 97 hectáreas abrió en 1887. El mausoleo de Gardel, construido entre 1936 y 1937, está coronado por una estatua de tamaño real a la que los fans todavía le encienden un cigarrillo entre los dedos de bronce.', source:'fundacioncarlosgardel.org' },
+  { id:'mural-punto-chacarita', name:'Mural "Punto Chacarita"', cat:'mural', addr:'Muro del Cementerio de la Chacarita sobre Av. Jorge Newbery, frente a Plaza Gral. Benito Nazar, CABA', mapsDest:'Plaza Benito Nazar, CABA', kmIda:7.7, stars:3,
+    fact:'Pintado el 27 de enero de 2022 por siete artistas —Alan Myers, Gabi Boghaliu, David Petroni, Sofía Mele, Cabaio Spirito, Sisa Soldati y Eugenia Petre— directamente sobre el muro exterior del cementerio, como primera obra de un plan de la ciudad para desarrollar Chacarita como destino cultural, turístico y gastronómico.', source:'buenosaires.gob.ar (Comuna 15)' },
+  { id:'parque-los-andes', name:'Parque Los Andes', cat:'parque', addr:'Av. Dorrego y Av. Federico Lacroze, Chacarita, CABA', kmIda:8.0, stars:3,
+    fact:'Enfrenta al Barrio Parque Los Andes, un conjunto de vivienda pública pionero de 1928 diseñado por el arquitecto Fermín Bereterbide dentro de un plan municipal aprobado en 1924. El parque y las manzanas que lo rodean (Leiva, Rodney, Concepción Arenal, Guzmán) siguen siendo un ejemplo bien conservado del urbanismo municipal de los años 20.', source:'es.wikipedia.org / infobae.com' },
+  { id:'biblioteca-alberdi', name:'Biblioteca Popular Alberdi', cat:'biblioteca', addr:'Acevedo 666, Villa Crespo, CABA', kmIda:8.8, stars:2,
+    fact:'Fundada por vecinos el 8 de julio de 1910, cuando fábricas y curtiembres poblaban la zona, la biblioteca se mudó diez veces antes de instalarse definitivamente en su dirección actual. Desde su fundación fue construida y sostenida enteramente por trabajo voluntario del barrio, de ahí el "Popular" en su nombre.', source:'rumbosur.org / CONABIP' },
+  { id:'mercado-pulgas', name:'Mercado de las Pulgas', cat:'mercado', addr:'Av. Álvarez Thomas y Av. Dorrego, Chacarita, CABA', kmIda:9.0, stars:4,
+    fact:'Construido sobre terrenos ferroviarios, el "Mercado Dorrego" original abrió en 1928. Se convirtió en feria de antigüedades en 1988, cerró en 2005 y reabrió en 2011 en Álvarez Thomas y Dorrego con puestos renovados; la legislatura porteña lo declaró Sitio de Interés Cultural.', source:'buenosaires.gob.ar' }
 ];
-CHALLENGES.sort((a,b) => a.km - b.km);
+CHALLENGES.forEach(c => { c.km = Math.round(c.kmIda * 2 * 10) / 10; });
+CHALLENGES.sort((a,b) => a.kmIda - b.kmIda);
 
 let progress = {};
 
@@ -284,7 +286,7 @@ function cardHtml(c) {
       <div class="card-actions"><button class="btn undo-btn" data-action="undo" data-id="${c.id}">Deshacer</button></div>`;
   } else {
     statusBlock = `<div class="card-actions">
-        <a class="btn maps" href="${mapsUrl(c.addr)}" target="_blank" rel="noopener">🗺️ Ver en Maps</a>
+        <a class="btn maps" href="${mapsUrl(c.mapsDest || c.addr)}" target="_blank" rel="noopener">🗺️ Ver en Maps</a>
         <button class="btn done-btn" data-action="open-form" data-id="${c.id}">Marcar como completado</button>
       </div>
       <div class="complete-form" id="form-${c.id}" style="display:none">
@@ -308,7 +310,7 @@ function cardHtml(c) {
       <h3>${c.name}</h3>
       <div class="card-addr">${c.addr}</div>
       <div class="stars">${stars(c.stars)}</div>
-      <div class="card-dist">🚶 ${c.km} km ida y vuelta (aprox.)</div>
+      <div class="card-dist">🚶 ${c.km} km ida y vuelta · ${c.kmIda} km ida (ruta real de Maps)</div>
       <div class="card-fact">${c.fact}</div>
       <div class="card-source">Fuente: ${c.source}</div>
     </div>
