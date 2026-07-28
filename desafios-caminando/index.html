@@ -132,11 +132,11 @@
   <div class="hero">
     <div class="eyebrow">Entrenamiento caminando</div>
     <h1>Desafíos Caminando<br>desde Devoto</h1>
-    <div class="hero-sub">28 lugares reales de nicho — casas de escritores, santuarios poco conocidos, casonas escondidas — en 6 niveles de distancia (5 a 30km ida y vuelta) desde Calderón de la Barca 2752, ruta real caminando según Google Maps</div>
+    <div class="hero-sub">25 lugares reales de nicho — casas de escritores, santuarios poco conocidos, casonas escondidas — en 6 niveles de distancia (5 a 30km ida y vuelta) desde Calderón de la Barca 2752, ruta real caminando según Google Maps</div>
   </div>
 
   <div class="info-strip">
-    <div class="info-card"><div class="info-val" id="statDone">0/28</div><div class="info-label">Completados</div></div>
+    <div class="info-card"><div class="info-val" id="statDone">0/25</div><div class="info-label">Completados</div></div>
     <div class="info-card"><div class="info-val" id="statKm">0</div><div class="info-label">Km recorridos</div></div>
     <div class="info-card"><div class="info-val" id="statCat">0/10</div><div class="info-label">Categorías</div></div>
   </div>
@@ -198,10 +198,6 @@ const CHALLENGES = [
     fact:'Construida hacia 1890 por Onorio Stoppani y luego adquirida por el Dr. Francisco Tamini, en 1896 albergó la fundación de la Sociedad de Fomento de Villa Devoto. Desde 1929 es parte del Hospital Zubizarreta, escondida en plena vista como oficinas administrativas.',
     queVer:'Mirá la fachada sobre Nueva York — hoy son oficinas del Hospital Zubizarreta, pero se nota que fue una casona señorial de 1890.',
     source:'devotohistoria.com.ar' },
-  { id:'biblioteca-antonio-devoto', name:'Biblioteca Popular Antonio Devoto', cat:'biblioteca', tier:5, addr:'Bahía Blanca 4025, Villa Devoto, CABA', kmIda:2.4, stars:3,
-    fact:'Inaugurada el 24 de mayo de 1938 como "Biblioteca Estudiantil Nro. 1"; hoy tiene más de 25.000 volúmenes y un anexo infantil llamado "La Alfombra Mágica".',
-    queVer:'Asomate a la entrada de la biblioteca de 1938 — si está abierta, mirá el anexo infantil "La Alfombra Mágica".',
-    source:'nochedevoto.com.ar' },
   { id:'palacio-ceci', name:'Palacio Ceci', cat:'casa-historica', tier:5, addr:'Av. Lincoln 4300, Villa Devoto, CABA', kmIda:2.5, stars:4,
     fact:'Construido entre 1913 y 1918 por el constructor italiano Alfredo Ceci — exterior renacentista, interior barroco. Desde 1938 funciona ahí una escuela de educación especial; el mito de barrio dice que una pasajera del Titanic trabajó en la casa.',
     queVer:'Mirá la fachada renacentista desde la vereda — el mito de barrio dice que una pasajera del Titanic trabajó ahí adentro.',
@@ -234,10 +230,6 @@ const CHALLENGES = [
     fact:'En 1937 el compositor de tangos Mariano Mores alquiló este cuartito cerca de la casa de su novia; sus paredes descascaradas, parchadas con cal y jabón azul de lavar, le inspiraron su primer éxito, "Cuartito Azul" (1938). Sin museo ni cartel — solo la casa real, que hasta hace poco estuvo en venta.',
     queVer:'Buscá la casa real en Terrada 2410 — sin cartel ni museo, es solo el cuartito donde Mariano Mores compuso su primer tango.',
     source:'La Nación / es.wikipedia.org' },
-  { id:'biblioteca-floresta', name:'Biblioteca Popular de Floresta', cat:'biblioteca', tier:10, addr:'Av. Avellaneda 3885, Floresta, CABA', kmIda:4.2, stars:3,
-    fact:'El edificio data de 1876 y originalmente albergó la escuela más antigua del barrio, incluidas sus primeras clases de violín. Desde 1975 funciona también ahí la Junta de Estudios Históricos de Floresta junto con la biblioteca pública.',
-    queVer:'Mirá el edificio de 1876, la escuela más antigua del barrio — adentro funciona también la Junta de Estudios Históricos de Floresta.',
-    source:'la-floresta.com.ar' },
   { id:'casona-olivera', name:'Casona de los Olivera (Parque Avellaneda)', cat:'casa-historica', tier:10, addr:'Av. Directorio y Lacarra, Parque Avellaneda, CABA', kmIda:4.8, stars:5,
     fact:'Construida en 1870 por el ingeniero Carlos Olivera sobre una casa anterior de 1838 de su padre Domingo, es el único casco de estancia que sobrevive dentro de la Ciudad de Buenos Aires. La familia Olivera vendió el terreno a la ciudad en 1912; el parque abrió en 1914 como Parque Domingo Olivera y se rebautizó Parque Avellaneda en 1917.',
     queVer:'Entrá al Parque Avellaneda y mirá la casona de 1870 — el único casco de estancia que sobrevive dentro de la Ciudad.',
@@ -270,10 +262,6 @@ const CHALLENGES = [
     source:'buenosaires.gob.ar (Comuna 15)' },
 
   // ~20 km
-  { id:'biblioteca-alberdi', name:'Biblioteca Popular Alberdi', cat:'biblioteca', tier:20, addr:'Acevedo 666, Villa Crespo, CABA', kmIda:8.8, stars:2,
-    fact:'Fundada por vecinos el 8 de julio de 1910, cuando fábricas y curtiembres poblaban la zona, la biblioteca se mudó diez veces antes de instalarse definitivamente en su dirección actual. Desde su fundación fue construida y sostenida enteramente por trabajo voluntario del barrio, de ahí el "Popular" en su nombre.',
-    queVer:'Mirá el edificio construido y sostenido enteramente por trabajo voluntario del barrio desde 1910.',
-    source:'rumbosur.org / CONABIP' },
   { id:'parroquia-caacupe', name:'Parroquia y Santuario Ntra. Sra. de Caacupé', cat:'iglesia', tier:20, addr:'Av. Rivadavia 4879, Caballito, CABA', kmIda:9.2, stars:3,
     fact:'Diseñada por el arquitecto Alejandro Christophersen sobre el terreno de una capilla de 1885; en 1984 recibió la imagen venerada de la Virgen de Caacupé, patrona de Paraguay, traída personalmente por un obispo paraguayo. Muy conocida en la comunidad paraguaya, casi invisible para el resto de la ciudad.',
     queVer:'Mirá la iglesia diseñada por Christophersen — muy conocida en la comunidad paraguaya, casi invisible para el resto de la ciudad.',
