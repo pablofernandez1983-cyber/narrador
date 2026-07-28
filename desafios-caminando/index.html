@@ -13,6 +13,7 @@
     --green-soft: #e8f5ee;
     --teal:       #2a9d8f;
     --gold:       #c07d28;
+    --gold-soft:  #fbf3e6;
     --orange:     #c2560f;
     --bg:         #f5f2e8;
     --card:       #fffef9;
@@ -92,7 +93,10 @@
   .card-addr { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .stars { color: var(--gold); font-size: 13px; letter-spacing: 1px; margin-bottom: 8px; }
   .card-dist { display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--green); background: var(--green-soft); padding: 3px 9px; border-radius: 8px; margin-bottom: 10px; }
-  .card-fact { font-size: 13px; color: var(--ink); margin-bottom: 4px; }
+  .card-quever { background: var(--gold-soft); border: 1px solid #f0dcb8; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+  .card-quever .label { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+  .card-quever .text { font-size: 13px; color: var(--ink); }
+  .card-fact { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
   .card-note { font-size: 11.5px; color: var(--orange); font-weight: 700; margin-bottom: 6px; }
   .card-source { font-size: 10.5px; color: var(--muted); font-style: italic; margin-bottom: 12px; }
   .card-actions { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px 14px; }
@@ -105,8 +109,9 @@
   .btn.done-btn.active { background: var(--green); color: white; }
   .btn.undo-btn { border-color: var(--muted); color: var(--muted); font-size: 11px; padding: 6px 10px; }
 
-  .done-summary { font-size: 12px; color: var(--green); font-weight: 700; padding: 0 16px 12px; }
+  .done-summary { font-size: 12px; color: var(--green); font-weight: 700; padding: 0 16px 4px; }
   .done-summary .meta { color: var(--muted); font-weight: 500; }
+  .done-badge { font-size: 11px; font-weight: 700; color: var(--gold); padding: 0 16px 12px; }
 
   /* FORM */
   .complete-form { padding: 0 16px 16px; display: grid; gap: 8px; border-top: 1px dashed var(--border); margin-top: 4px; padding-top: 12px; }
@@ -125,15 +130,15 @@
 <div class="wrap">
 
   <div class="hero">
-    <div class="eyebrow">Entrenamiento · Camino de Santiago Sept 2026</div>
+    <div class="eyebrow">Entrenamiento caminando</div>
     <h1>Desafíos Caminando<br>desde Devoto</h1>
-    <div class="hero-sub">34 lugares reales de nicho — casas de escritores, santuarios poco conocidos, casonas escondidas — en 6 niveles de distancia (5 a 30km ida y vuelta) desde Calderón de la Barca 2752, ruta real caminando según Google Maps</div>
+    <div class="hero-sub">28 lugares reales de nicho — casas de escritores, santuarios poco conocidos, casonas escondidas — en 6 niveles de distancia (5 a 30km ida y vuelta) desde Calderón de la Barca 2752, ruta real caminando según Google Maps</div>
   </div>
 
   <div class="info-strip">
-    <div class="info-card"><div class="info-val" id="statDone">0/34</div><div class="info-label">Completados</div></div>
+    <div class="info-card"><div class="info-val" id="statDone">0/28</div><div class="info-label">Completados</div></div>
     <div class="info-card"><div class="info-val" id="statKm">0</div><div class="info-label">Km recorridos</div></div>
-    <div class="info-card"><div class="info-val" id="statCat">0/12</div><div class="info-label">Categorías</div></div>
+    <div class="info-card"><div class="info-val" id="statCat">0/10</div><div class="info-label">Categorías</div></div>
   </div>
   <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar" style="width:0%"></div></div>
 
@@ -178,119 +183,130 @@ const TIERS = [
 
 // kmIda = distancia real caminando según Google Maps (misma ruta que abre "Ver en Maps"), no línea recta.
 // tier = nivel de distancia al que pertenece el desafío (etiqueta editorial, no el km exacto redondeado).
+// queVer = qué mirar puntualmente al llegar — la idea es un vistazo rápido, no una visita con horarios ni turnos.
 const CHALLENGES = [
   // ~5 km — Villa Devoto, a un paso de casa
   { id:'casa-beiro', name:'Casona de Francisco Beiró', cat:'casa-historica', tier:5, addr:'José Luis Cantilo 4500, Villa Devoto, CABA', kmIda:1.6, stars:4,
     fact:'Mansión de los años 20 del líder radical Francisco Beiró, electo vicepresidente junto a Hipólito Yrigoyen en 1928. Tras su muerte la visitaron Illia, Frondizi y Balbín; protegida desde 2008, hoy está en ruinas mientras los vecinos de Devoto luchan por salvarla como futuro "Museo de la Democracia".',
+    queVer:'Mirá la fachada de la mansión desde la vereda — hoy está en ruinas y cercada, pero todavía se nota el porte que tuvo.',
     source:'Infobae / Canal26' },
   { id:'iglesia-anglicana-buen-pastor', name:'Iglesia Anglicana El Buen Pastor', cat:'iglesia', tier:5, addr:'José Luis Cantilo 4232, Villa Devoto, CABA', kmIda:1.8, stars:3,
     fact:'Construida por la pequeña comunidad inglesa de Devoto; su piedra fundamental se colocó el 3 de febrero de 1912 con la presencia del embajador británico y un obispo que viajó especialmente desde las Malvinas. Sigue siendo una parroquia activa, casi desconocida fuera del barrio.',
+    queVer:'Fijate en la piedra fundamental de 1912 en la entrada y la arquitectura inglesa, bien distinta a las iglesias católicas del barrio.',
     source:'Devoto Magazine' },
   { id:'palacio-tamini', name:'Casona / Palacio Tamini', cat:'casa-historica', tier:5, addr:'Nueva York 3952, Villa Devoto, CABA', kmIda:2.4, stars:3,
     fact:'Construida hacia 1890 por Onorio Stoppani y luego adquirida por el Dr. Francisco Tamini, en 1896 albergó la fundación de la Sociedad de Fomento de Villa Devoto. Desde 1929 es parte del Hospital Zubizarreta, escondida en plena vista como oficinas administrativas.',
+    queVer:'Mirá la fachada sobre Nueva York — hoy son oficinas del Hospital Zubizarreta, pero se nota que fue una casona señorial de 1890.',
     source:'devotohistoria.com.ar' },
   { id:'biblioteca-antonio-devoto', name:'Biblioteca Popular Antonio Devoto', cat:'biblioteca', tier:5, addr:'Bahía Blanca 4025, Villa Devoto, CABA', kmIda:2.4, stars:3,
     fact:'Inaugurada el 24 de mayo de 1938 como "Biblioteca Estudiantil Nro. 1"; hoy tiene más de 25.000 volúmenes y un anexo infantil llamado "La Alfombra Mágica".',
+    queVer:'Asomate a la entrada de la biblioteca de 1938 — si está abierta, mirá el anexo infantil "La Alfombra Mágica".',
     source:'nochedevoto.com.ar' },
   { id:'palacio-ceci', name:'Palacio Ceci', cat:'casa-historica', tier:5, addr:'Av. Lincoln 4300, Villa Devoto, CABA', kmIda:2.5, stars:4,
     fact:'Construido entre 1913 y 1918 por el constructor italiano Alfredo Ceci — exterior renacentista, interior barroco. Desde 1938 funciona ahí una escuela de educación especial; el mito de barrio dice que una pasajera del Titanic trabajó en la casa.',
+    queVer:'Mirá la fachada renacentista desde la vereda — el mito de barrio dice que una pasajera del Titanic trabajó ahí adentro.',
     source:'La Nación / Buenos Aires Ciudad' },
 
   // ~7.5 km
   { id:'casa-de-los-bichos', name:'Casa de los Bichos (Palacio de los Bichos)', cat:'casa-historica', tier:7.5, addr:'Campana 3220, Villa del Parque, CABA', kmIda:2.8, stars:4,
     fact:'Construida en 1910 por el arquitecto Muñoz González como regalo de bodas del aristócrata italiano Rafael Giordano a su hija. De cinco pisos con torre y cúpula, estuvo cubierta de figuras de animales y gárgolas —hoy removidas— que le dieron el apodo con el que la bautizaron los vecinos.',
+    queVer:'Mirá la torre y la cúpula del edificio de cinco pisos — tenía animales y gárgolas talladas, hoy removidas pero la estructura se nota igual.',
     source:'Buenos Aires Ciudad / Wikipedia' },
   { id:'casa-de-sabato', name:'Casa Museo Ernesto Sábato', cat:'casa-historica', tier:7.5, addr:'Ernesto Sábato 3135, Santos Lugares, Buenos Aires', kmIda:2.9, stars:5,
     fact:'Acá vivió y escribió Ernesto Sábato desde 1945 hasta su muerte en 2011 — la mayor parte de su obra salió de esta casa. Hoy la manejan sus nietos; entrar requiere coordinar antes por la capacidad limitada, pero se puede apreciar perfectamente desde la vereda.',
+    queVer:'Mirá la casa desde la vereda, sin necesidad de coordinar entrada — acá escribió Sábato desde 1945 hasta su muerte en 2011.',
     source:'La Nación' },
-  { id:'estacion-liniers', name:'Estación Liniers', cat:'estacion', tier:7.5, addr:'Av. Rivadavia 11500, Liniers, CABA', kmIda:3.2, stars:3,
-    fact:'Un paradero llamado Liniers fue autorizado en enero de 1872, pero el servicio regular arrancó recién con la inauguración de la estación en noviembre de 1887, hecho que le dio origen al barrio. Los andenes laterales, usados antes para descargar los tarros de leche de los tambos de la zona, se conocían como andenes "lecheros".',
-    source:'es.wikipedia.org' },
   { id:'cementerio-israelita-liniers', name:'Cementerio Israelita de Liniers', cat:'monumento', tier:7.5, addr:'Reconquista 10, Ciudadela, Buenos Aires', kmIda:3.5, stars:3,
     fact:'Los terrenos se compraron en 1910 frente a la estación de Liniers para uno de los primeros cementerios judíos organizados de Argentina. Hoy lo administra AMIA, con más de 20.000 sepulturas registradas.',
+    queVer:'Mirá el frente y el portón de entrada — uno de los primeros cementerios judíos organizados del país, con más de 20.000 sepulturas.',
     source:'AMIA / Find a Grave' },
   { id:'mil-casitas', name:'Las Mil Casitas', cat:'barrio', tier:7.5, addr:'Timoteo Gordillo 475, Liniers, CABA', mapsDest:'Plaza Sarmiento, Liniers, CABA', kmIda:3.6, stars:4,
-    fact:'Un rincón escondido de Liniers con casas bajas de estilo holandés, construido desde 1922 por el Gobierno porteño para obreros ferroviarios (unión de los antiguos barrios Falcón y Tellier). La sede de la asociación vecinal que lo administra sigue funcionando en el mismo lugar. El punto de llegada sugerido es la Plaza Sarmiento, el pulmón verde del barrio.',
+    fact:'Un rincón escondido de Liniers con casas bajas de estilo holandés, construido desde 1922 por el Gobierno porteño para obreros ferroviarios (unión de los antiguos barrios Falcón y Tellier). La sede de la asociación vecinal que lo administra sigue funcionando en el mismo lugar.',
+    queVer:'Caminá por las callecitas bajas de estilo holandés y llegá a la Plaza Sarmiento, el pulmón verde del barrio.',
     source:'Infobae / La Nación' },
-  { id:'estacion-floresta', name:'Estación Floresta', cat:'estacion', tier:7.5, addr:'Yerbal, entre Bahía Blanca y Joaquín V. González, Floresta, CABA', kmIda:3.8, stars:3,
-    fact:'Esta parada, entonces llamada "La Floresta", fue la terminal oeste del Ferrocarril Oeste — el primer ferrocarril de Argentina, inaugurado el 29 de agosto de 1857 en un tramo de unos 10km desde Plaza del Parque. Se llamó Vélez Sarsfield entre 1888 y 1944, hasta volver a su nombre original.',
-    source:'es.wikipedia.org' },
   { id:'santuario-lourdes', name:'Santuario Nuestra Señora de Lourdes', cat:'iglesia', tier:7.5, addr:'Av. La Plata 3757, Santos Lugares, Buenos Aires', kmIda:3.9, stars:5,
     fact:'Una réplica de la gruta de Lourdes (Francia), con dos templos, construida entre 1921 y 1957 por los padres Asuncionistas. Cada 11 de febrero llegan miles de peregrinos de todo el país para la fiesta patronal.',
+    queVer:'Mirá la réplica de la gruta de Lourdes y los dos templos, construidos entre 1921 y 1957.',
     source:'La Nación / santuariodelourdes.org.ar' },
 
   // ~10 km
   { id:'cuartito-azul', name:'"Cuartito Azul" de Mariano Mores', cat:'casa-historica', tier:10, addr:'Terrada 2410, Villa del Parque, CABA', kmIda:4.2, stars:3,
     fact:'En 1937 el compositor de tangos Mariano Mores alquiló este cuartito cerca de la casa de su novia; sus paredes descascaradas, parchadas con cal y jabón azul de lavar, le inspiraron su primer éxito, "Cuartito Azul" (1938). Sin museo ni cartel — solo la casa real, que hasta hace poco estuvo en venta.',
+    queVer:'Buscá la casa real en Terrada 2410 — sin cartel ni museo, es solo el cuartito donde Mariano Mores compuso su primer tango.',
     source:'La Nación / es.wikipedia.org' },
   { id:'biblioteca-floresta', name:'Biblioteca Popular de Floresta', cat:'biblioteca', tier:10, addr:'Av. Avellaneda 3885, Floresta, CABA', kmIda:4.2, stars:3,
     fact:'El edificio data de 1876 y originalmente albergó la escuela más antigua del barrio, incluidas sus primeras clases de violín. Desde 1975 funciona también ahí la Junta de Estudios Históricos de Floresta junto con la biblioteca pública.',
+    queVer:'Mirá el edificio de 1876, la escuela más antigua del barrio — adentro funciona también la Junta de Estudios Históricos de Floresta.',
     source:'la-floresta.com.ar' },
-  { id:'jardin-botanico-agronomia', name:'Facultad de Agronomía UBA · Jardín Botánico Lucien Hauman', cat:'parque', tier:10, addr:'Av. San Martín 4453, Agronomía, CABA', kmIda:4.3, stars:4,
-    fact:'Este campus le dio nombre al barrio de Agronomía. Su jardín botánico, plantado desde julio de 1922 bajo la dirección del botánico Lorenzo Parodi, ocupa cerca de una hectárea. El campus también aloja el Museo Universitario de Maquinaria Agrícola (2010), con una niveladora de tierra de 1894.',
-    source:'agro.uba.ar / lanacion.com.ar' },
   { id:'casona-olivera', name:'Casona de los Olivera (Parque Avellaneda)', cat:'casa-historica', tier:10, addr:'Av. Directorio y Lacarra, Parque Avellaneda, CABA', kmIda:4.8, stars:5,
     fact:'Construida en 1870 por el ingeniero Carlos Olivera sobre una casa anterior de 1838 de su padre Domingo, es el único casco de estancia que sobrevive dentro de la Ciudad de Buenos Aires. La familia Olivera vendió el terreno a la ciudad en 1912; el parque abrió en 1914 como Parque Domingo Olivera y se rebautizó Parque Avellaneda en 1917.',
+    queVer:'Entrá al Parque Avellaneda y mirá la casona de 1870 — el único casco de estancia que sobrevive dentro de la Ciudad.',
     source:'buenosaires.gob.ar / es.wikipedia.org' },
   { id:'carmelo-santa-teresita', name:'Carmelo Santa Teresita', cat:'iglesia', tier:10, addr:'Ezeiza 3054, Villa Pueyrredón, CABA', kmIda:5.1, stars:3,
     fact:'Monasterio de Carmelitas Descalzas fundado entre 1927 y 1931 en tierras donadas por los herederos de Luis María Saavedra. Sus 18 monjas llevan una vida contemplativa dedicada a la oración y talleres de costura, imaginería religiosa y dulces — se puede visitar la capilla pública.',
+    queVer:'Mirá la capilla pública del monasterio de Carmelitas Descalzas, fundado entre 1927 y 1931.',
     source:'elbarriopueyrredon.com.ar / carmelitas.com.ar' },
 
   // ~15 km
   { id:'casa-arlt', name:'Casa de Roberto Arlt', cat:'casa-historica', tier:15, addr:'Méndez de Andes 2138, Flores, CABA', kmIda:6.2, stars:4,
     fact:'Arlt, nacido en 1900 en Flores, pasó buena parte de su infancia y juventud en esta casa "casi en Boyacá". En el año 2000 la ciudad la declaró Sitio de Interés Cultural — sigue siendo una casa particular, solo se aprecia desde afuera.',
+    queVer:'Mirá la casa desde afuera — sigue siendo una casa particular, acá pasó su infancia y juventud Roberto Arlt.',
     source:'Billiken / Museo Barrio de Flores' },
   { id:'museo-criollo-corrales', name:'Museo Criollo de los Corrales', cat:'museo', tier:15, addr:'Av. de los Corrales 6476, Mataderos, CABA', kmIda:6.5, stars:4,
     fact:'Funciona en las viejas recovas del antiguo Mercado Nacional de Hacienda y Matadero Municipal, cuyos primeros edificios se levantaron en 1889 y abrieron en 1900. El museo se fundó el 9 de julio de 1964 y el complejo fue declarado monumento histórico nacional en 1979. Sus seis salas guardan indumentaria y armas gauchas, más de 3.000 piezas, una pulpería y una capilla reconstruidas.',
+    queVer:'Mirá las viejas recovas del antiguo Mercado de Hacienda y Matadero Municipal — el edificio en sí ya vale la vuelta.',
     source:'buenosaires.gob.ar' },
   { id:'museo-saavedra', name:'Museo Histórico Cornelio de Saavedra', cat:'museo', tier:15, addr:'Crisólogo Larralde 6309, Saavedra, CABA', kmIda:6.7, stars:3,
     fact:'Casona de 1870 construida por Luis María Saavedra, hoy museo dentro del Parque General Paz con diez salas sobre historia, política y sociedad porteñas de fines del siglo XIX.',
+    queVer:'Mirá la casona de 1870 dentro del Parque General Paz.',
     source:'buenosaires.gob.ar' },
-  { id:'plaza-irlanda', name:'Plaza Irlanda', cat:'plaza', tier:15, addr:'Av. Gaona, Donato Álvarez, Neuquén y Seguí, Caballito, CABA', kmIda:6.8, stars:3,
-    fact:'La ciudad le compró este terreno a la Asociación Católica Irlandesa en diciembre de 1922 y el parque abrió el 12 de octubre de 1927. Su monumento de bronce y granito a la Confraternidad Argentino-Irlandesa, del escultor Luis Perlotti, se develó en 1935 y muestra a dos mujeres sosteniendo el escudo argentino y el arpa irlandesa de Brian Boru.',
-    source:'buenosaires.gob.ar (Museo Perlotti)' },
   { id:'casa-fernandez-moreno', name:'Casa de Baldomero Fernández Moreno', cat:'casa-historica', tier:15, addr:'Francisco Bilbao 2384, Flores, CABA', kmIda:6.8, stars:3,
     fact:'El poeta y médico Fernández Moreno compró esta casa de 1925-26 en 1938, tras ganar el Premio Nacional de Literatura; vivió y murió ahí en 1950. Restaurada en 2002, es Monumento Histórico Artístico Nacional.',
+    queVer:'Mirá la casa restaurada donde vivió y murió el poeta Fernández Moreno, hoy Monumento Histórico Artístico Nacional.',
     source:'argentina.gob.ar / La Nación' },
-  { id:'estacion-villa-bosch', name:'Estación Villa Bosch', cat:'estacion', tier:15, addr:'Antártida Argentina 5399, Martín Coronado, Buenos Aires', kmIda:7.1, stars:3,
-    fact:'Construida en 1932 para el Ferrocarril Urquiza; en 1934 su salón fue sede de la fundación de la asociación vecinal del barrio. Restaurada recientemente por el municipio de Tres de Febrero, un plebiscito vecinal en 2023 decidió convertirla en museo de historia local.',
-    source:'Municipalidad de Tres de Febrero' },
   { id:'mural-punto-chacarita', name:'Mural "Punto Chacarita"', cat:'mural', tier:15, addr:'Muro del Cementerio de la Chacarita sobre Av. Jorge Newbery, frente a Plaza Gral. Benito Nazar, CABA', mapsDest:'Plaza Benito Nazar, CABA', kmIda:7.7, stars:3,
     fact:'Pintado el 27 de enero de 2022 por siete artistas —Alan Myers, Gabi Boghaliu, David Petroni, Sofía Mele, Cabaio Spirito, Sisa Soldati y Eugenia Petre— directamente sobre el muro exterior del cementerio, como primera obra de un plan de la ciudad para desarrollar Chacarita como destino cultural, turístico y gastronómico.',
+    queVer:'Mirá el mural pintado por siete artistas en 2022 sobre el muro exterior del cementerio, frente a la Plaza Gral. Benito Nazar.',
     source:'buenosaires.gob.ar (Comuna 15)' },
-  { id:'parque-los-andes', name:'Parque Los Andes', cat:'parque', tier:15, addr:'Av. Dorrego y Av. Federico Lacroze, Chacarita, CABA', kmIda:8.0, stars:3,
-    fact:'Enfrenta al Barrio Parque Los Andes, un conjunto de vivienda pública pionero de 1928 diseñado por el arquitecto Fermín Bereterbide dentro de un plan municipal aprobado en 1924. El parque y las manzanas que lo rodean (Leiva, Rodney, Concepción Arenal, Guzmán) siguen siendo un ejemplo bien conservado del urbanismo municipal de los años 20.',
-    source:'es.wikipedia.org / infobae.com' },
 
   // ~20 km
   { id:'biblioteca-alberdi', name:'Biblioteca Popular Alberdi', cat:'biblioteca', tier:20, addr:'Acevedo 666, Villa Crespo, CABA', kmIda:8.8, stars:2,
     fact:'Fundada por vecinos el 8 de julio de 1910, cuando fábricas y curtiembres poblaban la zona, la biblioteca se mudó diez veces antes de instalarse definitivamente en su dirección actual. Desde su fundación fue construida y sostenida enteramente por trabajo voluntario del barrio, de ahí el "Popular" en su nombre.',
+    queVer:'Mirá el edificio construido y sostenido enteramente por trabajo voluntario del barrio desde 1910.',
     source:'rumbosur.org / CONABIP' },
   { id:'parroquia-caacupe', name:'Parroquia y Santuario Ntra. Sra. de Caacupé', cat:'iglesia', tier:20, addr:'Av. Rivadavia 4879, Caballito, CABA', kmIda:9.2, stars:3,
     fact:'Diseñada por el arquitecto Alejandro Christophersen sobre el terreno de una capilla de 1885; en 1984 recibió la imagen venerada de la Virgen de Caacupé, patrona de Paraguay, traída personalmente por un obispo paraguayo. Muy conocida en la comunidad paraguaya, casi invisible para el resto de la ciudad.',
+    queVer:'Mirá la iglesia diseñada por Christophersen — muy conocida en la comunidad paraguaya, casi invisible para el resto de la ciudad.',
     source:'baiglesias.com / En Camino' },
   { id:'museo-carnacini', name:'Museo Casa Carnacini', cat:'museo', tier:20, addr:'Av. Pueyrredón 2720, Villa Ballester, Buenos Aires', kmIda:9.4, stars:4,
     fact:'Casa de 1914 diseñada por el propio pintor Ceferino Carnacini, quien vivió ahí 50 años. Sus paredes interiores tienen 16 murales que pintó de San Juan, Mar del Plata, Córdoba, Río Negro y Venecia; museo municipal desde 2007.',
+    queVer:'Mirá la casa que el propio Carnacini diseñó y decoró — si está abierta, adentro hay 16 murales que pintó él mismo.',
     source:'es.wikipedia.org / Zorzal Diario' },
   { id:'museo-yrurtia', name:'Museo Casa de Rogelio Yrurtia', cat:'museo', tier:20, addr:"O'Higgins 2390, Belgrano, CABA", kmIda:9.7, stars:4,
     fact:'Casa y taller del escultor Rogelio Yrurtia y su esposa, la pintora Lía Correa Morales. Entre esculturas propias hay obras de Picasso, Quinquela Martín y Sívori, en un jardín-oasis con fuente; entrada gratuita.',
+    queVer:'Mirá el jardín-oasis con la fuente desde la vereda — entrada gratuita si querés ver las esculturas de adentro.',
     source:'turismo.buenosaires.gob.ar' },
   { id:'iglesia-merced-ballester', name:'Iglesia Nuestra Señora de la Merced', cat:'iglesia', tier:20, addr:'Lamadrid 2560, Villa Ballester, Buenos Aires', kmIda:10.2, stars:3,
     fact:'La iglesia católica más antigua de Villa Ballester; su piedra fundamental se puso en 1891, pero la obra se frenó por falta de fondos y recién se retomó en 1919, con un diseño más chico al original (una sola nave en vez de dos torres). Restaurada en 2008 para su centenario.',
+    queVer:'Mirá la iglesia católica más antigua de Villa Ballester, con su diseño de una sola nave en vez de dos torres.',
     source:'Iglesia del Pilar' },
   { id:'quinta-trabucco', name:'Quinta Trabucco', cat:'casa-historica', tier:20, addr:'Melo 3050, Florida, Buenos Aires', kmIda:10.4, stars:3,
     fact:'En 1892 José Antonio Trabucco compró estas 10 hectáreas como quinta de descanso; la casona de 1900 (estilo neoclásico) fue punto de encuentro de la vida social porteña y con los años recibió a Mercedes Sosa y Mariano Mores. Municipal desde 1991, hoy es centro cultural y espacio verde.',
+    queVer:'Recorré el parque y mirá la casona de 1900 — 10 hectáreas que fueron una quinta de descanso, hoy centro cultural.',
     source:'quepasaweb.com.ar / Zonales' },
 
   // ~30 km
   { id:'museo-lumiton', name:'Museo del Cine Lumiton', cat:'museo', tier:30, addr:'Av. Mitre 2531, Munro, Buenos Aires', kmIda:11.5, stars:5,
     fact:'En la quinta "La Algovia" fundaron en los años 20 los estudios Lumiton tres médicos conocidos como "los locos de la azotea", pioneros de la radio en Argentina. Ahí se filmó "Los tres berretines" (1933), la primera película sonora argentina; hoy es un museo municipal sobre esa historia.',
+    queVer:'Mirá el edificio donde se filmó "Los tres berretines" (1933), la primera película sonora argentina.',
     source:'La Nación / Página 12' },
   { id:'museo-ricardo-rojas', name:'Museo Casa de Ricardo Rojas', cat:'museo', tier:30, addr:'Charcas 2837, Belgrano, CABA', kmIda:12.0, stars:4,
     fact:'Casa del escritor y académico Ricardo Rojas (1882-1957), diseñada por el arquitecto Ángel Guido entre 1927 y 1928 con una fuerte impronta americanista. Hoy es museo nacional, abierto de martes a sábado.',
+    queVer:'Mirá la fachada de fuerte impronta americanista diseñada por Ángel Guido.',
     source:'argentina.gob.ar' },
   { id:'museo-los-olivos', name:'Museo de los Olivos y Centro de Investigación', cat:'museo', tier:30, addr:'Rawson 2855, Olivos, Buenos Aires', kmIda:15.0, stars:3,
     fact:'Casona de 1907 que un grupo de vecinos convirtió en 2011 en museo comunitario de historia local, con monedas antiguas y objetos de más de un siglo.',
+    queVer:'Mirá la casona de 1907 — si no coordinaste entrada, alcanza con verla desde afuera.',
     note:'Ojo: abre solo martes y jueves por la tarde (o coordinando antes) — no es de paso libre como el resto.',
     source:'quepasaweb.com.ar' }
 ];
@@ -384,7 +400,9 @@ function cardHtml(c) {
   if (done) {
     const kmShown = (p.km_reales != null && p.km_reales !== '') ? p.km_reales : c.km;
     const tiempoShown = (p.minutos_reales != null && p.minutos_reales !== '') ? ` · ${p.minutos_reales} min` : '';
+    const badgeText = p.verificado_gps === true ? '🛰️ Verificado por GPS (app)' : '✍️ Completado a mano';
     statusBlock = `<div class="done-summary">✅ Completado${p.fecha_completado ? ' el ' + p.fecha_completado : ''} <span class="meta">· ${kmShown}km${tiempoShown}${p.nota ? ' · "' + escapeHtml(p.nota) + '"' : ''}</span></div>
+      <div class="done-badge">${badgeText}</div>
       <div class="card-actions"><button class="btn undo-btn" data-action="undo" data-id="${c.id}">Deshacer</button></div>`;
   } else {
     statusBlock = `<div class="card-actions">
@@ -414,6 +432,7 @@ function cardHtml(c) {
       <div class="card-addr">${c.addr}</div>
       <div class="stars">${stars(c.stars)}</div>
       <div class="card-dist">🚶 ${c.km} km ida y vuelta · ${c.kmIda} km ida (ruta real de Maps)</div>
+      <div class="card-quever"><div class="label">Qué ver</div><div class="text">${c.queVer}</div></div>
       <div class="card-fact">${c.fact}</div>
       ${c.note ? '<div class="card-note">⚠️ ' + c.note + '</div>' : ''}
       <div class="card-source">Fuente: ${c.source}</div>
@@ -490,10 +509,11 @@ function onCardAction(e) {
       fecha_completado: fecha,
       km_reales: kmVal ? Number(kmVal) : null,
       minutos_reales: minVal ? Number(minVal) : null,
+      verificado_gps: false,
       nota: nota || null
     });
   } else if (action === 'undo') {
-    saveRemote(id, { completado: false, fecha_completado: null, km_reales: null, minutos_reales: null, nota: null });
+    saveRemote(id, { completado: false, fecha_completado: null, km_reales: null, minutos_reales: null, verificado_gps: null, nota: null });
   }
 }
 
