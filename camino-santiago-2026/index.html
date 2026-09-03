@@ -264,6 +264,21 @@
   .rtag-no { background: #fce8e8; color: #8b2020; }
   .rtag-ok { background: #ddf0e4; color: #1a6b4a; }
 
+  /* ── CONTACTOS ── */
+  .alb-grid { display: grid; gap: 10px; }
+  @media (min-width: 620px) { .alb-grid { grid-template-columns: 1fr 1fr; } }
+  .alb-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 15px; }
+  .alb-town { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+  .alb-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: var(--green); margin-top: 1px; }
+  .alb-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .alb-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+  .alb-btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; border: 1.5px solid var(--border); background: white; color: var(--ink); touch-action: manipulation; }
+  .alb-btn.wa { background: #25D366; border-color: #25D366; color: #fff; }
+  .alb-btn.map { background: var(--green-soft); border-color: #cfe7da; color: var(--green); }
+  .alb-badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+  .alb-badge.a { background: #ddf0e4; color: #1a6b4a; }
+  .alb-badge.b { background: #efe9dc; color: #7a6a45; }
+
   /* ── ETAPAS ── */
   .franco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (min-width: 560px) { .franco-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -519,15 +534,95 @@
   <!-- CONTACTOS DE EMERGENCIA -->
   <section class="section" id="contactos">
     <h2>Contactos — camas de emergencia</h2>
-    <p class="section-note">Si un día se complica, reservás cama por teléfono/WhatsApp y podés redirigir la mochila de Correos a ese albergue (se avisa esa misma mañana antes de las 8:00, o desde la app de Correos). Los números 6xx/7xx son móviles y suelen tener WhatsApp; los 98x/981 son fijos, solo llamada.</p>
-    <div class="reserva-list">
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Portomarín · Ferramenteiro</div><div class="ri-sub">Macroalbergue, 130 plazas — el más difícil de que se llene · Tel <strong>+34 982 545 362</strong> (fijo) · Rúa Chantada 3 · info@albergueferramenteiro.com</div></div><span class="rtag rtag-si">Plan A</span></div>
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Portomarín · Pons Minea</div><div class="ri-sub">Moderno, céntrico · <strong>+34 686 456 931</strong> (móvil/WhatsApp) o 982 545 364 · info@ponsminea.es</div></div><span class="rtag rtag-si">Backup</span></div>
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Portomarín · Ultreia / Aqua</div><div class="ri-sub">Ultreia: <strong>676 607 292</strong> (móvil) / 982 545 067 · Aqua: <strong>608 921 372</strong> (móvil)</div></div><span class="rtag rtag-si">Backup</span></div>
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Vilachá · Casa Banderas</div><div class="ri-sub">El clásico del pueblo, muy recomendado, chico — reservar sí o sí · <strong>+34 682 179 589</strong> (móvil/WhatsApp) · As Cortes 5 · casabanderascamino@gmail.com</div></div><span class="rtag rtag-si">Plan A</span></div>
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Vilachá · Albergue Vilachá («A Nave»)</div><div class="ri-sub">Casa rehabilitada con jardín · <strong>696 004 491</strong> / 630 038 048 / 697 221 605 (móviles) · As Cortes 10</div></div><span class="rtag rtag-si">Backup</span></div>
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Melide · O Cruceiro</div><div class="ri-sub">88 plazas, ascensor, en el centro — el más grande y seguro de Melide · <strong>+34 616 764 896</strong> (móvil/WhatsApp) · Ronda da Coruña 2 · info@albergueocruceiro.es</div></div><span class="rtag rtag-si">Plan A</span></div>
-      <div class="reserva-item"><span class="ri-ico">🛏️</span><div><div class="ri-name">Melide · Montoto</div><div class="ri-sub">52 plazas, gestión familiar · <strong>646 941 887</strong> (móvil/WhatsApp) / 981 507 337 · Rúa Codeseira 31 · alberguemontoto@gmail.com</div></div><span class="rtag rtag-si">Backup</span></div>
+    <p class="section-note">Si un día se complica, reservás cama y podés redirigir la mochila de Correos a ese albergue (se avisa esa misma mañana antes de las 8:00, o desde la app de Correos). Tocá <strong>📍 Cómo llegar</strong> para abrir Google Maps, o <strong>💬 WhatsApp</strong> / <strong>📞 Llamar</strong> para contactar. <br><strong>¿Contestan por WhatsApp?</strong> Casa Banderas lo pide expresamente («contact us through WhatsApp»). El resto: los móviles (6xx) casi siempre lo tienen abierto pero no todos lo miran rápido — si en 15–20 min no responden, llamá. Los fijos (98x/981) son solo llamada.</p>
+    <div class="alb-grid">
+
+      <div class="alb-card">
+        <div class="alb-town">Portomarín · <span class="alb-badge a">Plan A</span></div>
+        <div class="alb-name">Albergue Ferramenteiro</div>
+        <div class="alb-sub">Macroalbergue de 130 plazas — el más difícil de que se llene. Rúa Chantada 3 · €15 · info@albergueferramenteiro.com</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Ferramenteiro%20Portomar%C3%ADn">📍 Cómo llegar</a>
+          <a class="alb-btn" href="tel:+34982545362">📞 Llamar</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Portomarín · <span class="alb-badge b">Backup</span></div>
+        <div class="alb-name">Albergue Pons Minea</div>
+        <div class="alb-sub">Moderno y céntrico. info@ponsminea.es · fijo alternativo 982 545 364</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Pons%20Minea%20Portomar%C3%ADn">📍 Cómo llegar</a>
+          <a class="alb-btn wa" href="https://wa.me/34686456931?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
+          <a class="alb-btn" href="tel:+34686456931">📞 Llamar</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Portomarín · <span class="alb-badge b">Backup</span></div>
+        <div class="alb-name">Albergue Ultreia</div>
+        <div class="alb-sub">info@ultreiaportomarin.com · fijo alternativo 982 545 067</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Ultreia%20Portomar%C3%ADn">📍 Cómo llegar</a>
+          <a class="alb-btn wa" href="https://wa.me/34676607292?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
+          <a class="alb-btn" href="tel:+34676607292">📞 Llamar</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Portomarín · <span class="alb-badge b">Backup</span></div>
+        <div class="alb-name">Albergue Aqua</div>
+        <div class="alb-sub">albergueaquaportomarin@hotmail.com</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Aqua%20Portomar%C3%ADn">📍 Cómo llegar</a>
+          <a class="alb-btn wa" href="https://wa.me/34608921372?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
+          <a class="alb-btn" href="tel:+34608921372">📞 Llamar</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Vilachá as Cortes · <span class="alb-badge a">Plan A</span></div>
+        <div class="alb-name">Casa Banderas</div>
+        <div class="alb-sub">El clásico del pueblo, muy recomendado pero <strong>chico — reservá sí o sí</strong>. Piden contacto por WhatsApp. As Cortes 5 (Paradela) · casabanderascamino@gmail.com</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Casa%20Banderas%20Vilach%C3%A1%20As%20Cortes%20Paradela">📍 Cómo llegar</a>
+          <a class="alb-btn wa" href="https://wa.me/34682179589?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Vilachá as Cortes · <span class="alb-badge b">Backup</span></div>
+        <div class="alb-name">Albergue Vilachá («A Nave»)</div>
+        <div class="alb-sub">Casa rehabilitada con jardín. As Cortes 10 · otros móviles: 630 038 048 / 697 221 605</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Vilach%C3%A1%20As%20Cortes%20Paradela">📍 Cómo llegar</a>
+          <a class="alb-btn wa" href="https://wa.me/34696004491?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
+          <a class="alb-btn" href="tel:+34696004491">📞 Llamar</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Melide · <span class="alb-badge a">Plan A</span></div>
+        <div class="alb-name">Albergue O Cruceiro</div>
+        <div class="alb-sub">88 plazas, ascensor, en el centro — el más grande y seguro de Melide. Ronda da Coruña 2 · €13 · info@albergueocruceiro.es (también reserva web). El móvil es para llamar; WhatsApp no lo publicitan.</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20O%20Cruceiro%20Melide">📍 Cómo llegar</a>
+          <a class="alb-btn" href="tel:+34616764896">📞 Llamar</a>
+          <a class="alb-btn wa" href="https://wa.me/34616764896?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 Probar WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="alb-card">
+        <div class="alb-town">Melide · <span class="alb-badge b">Backup</span></div>
+        <div class="alb-name">Albergue Montoto</div>
+        <div class="alb-sub">52 plazas, gestión familiar (Sandra Montoto). Rúa Codeseira 31 · alberguemontoto@gmail.com · fijo alternativo 981 507 337</div>
+        <div class="alb-actions">
+          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Montoto%20Melide">📍 Cómo llegar</a>
+          <a class="alb-btn wa" href="https://wa.me/34646941887?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
+          <a class="alb-btn" href="tel:+34646941887">📞 Llamar</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
