@@ -291,6 +291,25 @@
   .alb-badge.a { background: #ddf0e4; color: #1a6b4a; }
   .alb-badge.b { background: #efe9dc; color: #7a6a45; }
 
+  .alb-viewbar { display: flex; gap: 6px; margin-bottom: 14px; }
+  .alb-vb { flex: 1; padding: 9px 8px; border: 1.5px solid var(--border); border-radius: 10px; background: #fff; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--muted); cursor: pointer; }
+  .alb-vb.on { background: var(--green); border-color: var(--green); color: #fff; }
+  .alb-townbox { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 9px; background: var(--card); overflow: hidden; }
+  .alb-townbox > summary { list-style: none; cursor: pointer; padding: 12px 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .alb-townbox > summary::-webkit-details-marker { display: none; }
+  .alb-townbox > summary::after { content: "▾"; margin-left: auto; color: var(--muted); font-size: 11px; transition: transform .15s; }
+  .alb-townbox[open] > summary::after { transform: rotate(180deg); }
+  .alb-townname { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: var(--green); }
+  .alb-townkm { font-size: 11px; font-weight: 700; color: var(--gold); }
+  .alb-star { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #7a6a45; background: #efe9dc; padding: 2px 7px; border-radius: 99px; }
+  .alb-nightbadge { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #1a6b4a; background: #ddf0e4; padding: 2px 7px; border-radius: 99px; }
+  .alb-townitems { padding: 0 12px 12px; display: grid; gap: 9px; }
+  .alb-townitems .alb-card { position: relative; }
+  .alb-card.picked { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
+  .alb-pick { position: absolute; top: 10px; right: 10px; padding: 4px 9px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font: inherit; font-size: 10px; font-weight: 800; color: var(--muted); cursor: pointer; text-transform: uppercase; letter-spacing: .03em; }
+  .alb-card.picked .alb-pick { background: var(--green); border-color: var(--green); color: #fff; }
+  .alb-townitems .alb-name { padding-right: 92px; }
+
   /* ── ETAPAS ── */
   .franco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (min-width: 560px) { .franco-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -616,99 +635,11 @@
   </div>
 
   <div class="tab-panel" id="tab-contactos" hidden>
-  <!-- CONTACTOS DE EMERGENCIA -->
+  <!-- CONTACTOS -->
   <section class="section" id="contactos">
-    <h2>Contactos — camas de emergencia</h2>
-    <p class="section-note">Si un día se complica, reservás cama y podés redirigir la mochila de Correos a ese albergue (se avisa esa misma mañana antes de las 8:00, o desde la app de Correos). Tocá <strong>📍 Cómo llegar</strong> para abrir Google Maps, o <strong>💬 WhatsApp</strong> / <strong>📞 Llamar</strong> para contactar. <br><strong>¿Contestan por WhatsApp?</strong> Casa Banderas lo pide expresamente («contact us through WhatsApp»). El resto: los móviles (6xx) casi siempre lo tienen abierto pero no todos lo miran rápido — si en 15–20 min no responden, llamá. Los fijos (98x/981) son solo llamada.</p>
-    <div class="alb-grid">
-
-      <div class="alb-card">
-        <div class="alb-town">Portomarín · <span class="alb-badge a">Plan A</span></div>
-        <div class="alb-name">Albergue Ferramenteiro</div>
-        <div class="alb-sub">Macroalbergue de 130 plazas — el más difícil de que se llene. Rúa Chantada 3 · €15 · info@albergueferramenteiro.com</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Ferramenteiro%20Portomar%C3%ADn">📍 Cómo llegar</a>
-          <a class="alb-btn" href="tel:+34982545362">📞 Llamar</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Portomarín · <span class="alb-badge b">Backup</span></div>
-        <div class="alb-name">Albergue Pons Minea</div>
-        <div class="alb-sub">Moderno y céntrico. info@ponsminea.es · fijo alternativo 982 545 364</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Pons%20Minea%20Portomar%C3%ADn">📍 Cómo llegar</a>
-          <a class="alb-btn wa" href="https://wa.me/34686456931?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
-          <a class="alb-btn" href="tel:+34686456931">📞 Llamar</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Portomarín · <span class="alb-badge b">Backup</span></div>
-        <div class="alb-name">Albergue Ultreia</div>
-        <div class="alb-sub">info@ultreiaportomarin.com · fijo alternativo 982 545 067</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Ultreia%20Portomar%C3%ADn">📍 Cómo llegar</a>
-          <a class="alb-btn wa" href="https://wa.me/34676607292?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
-          <a class="alb-btn" href="tel:+34676607292">📞 Llamar</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Portomarín · <span class="alb-badge b">Backup</span></div>
-        <div class="alb-name">Albergue Aqua</div>
-        <div class="alb-sub">albergueaquaportomarin@hotmail.com</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Aqua%20Portomar%C3%ADn">📍 Cómo llegar</a>
-          <a class="alb-btn wa" href="https://wa.me/34608921372?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
-          <a class="alb-btn" href="tel:+34608921372">📞 Llamar</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Vilachá as Cortes · <span class="alb-badge a">Plan A</span></div>
-        <div class="alb-name">Casa Banderas</div>
-        <div class="alb-sub">El clásico del pueblo, muy recomendado pero <strong>chico — reservá sí o sí</strong>. Piden contacto por WhatsApp. As Cortes 5 (Paradela) · casabanderascamino@gmail.com</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Casa%20Banderas%20Vilach%C3%A1%20As%20Cortes%20Paradela">📍 Cómo llegar</a>
-          <a class="alb-btn wa" href="https://wa.me/34682179589?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Vilachá as Cortes · <span class="alb-badge b">Backup</span></div>
-        <div class="alb-name">Albergue Vilachá («A Nave»)</div>
-        <div class="alb-sub">Casa rehabilitada con jardín. As Cortes 10 · otros móviles: 630 038 048 / 697 221 605</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Vilach%C3%A1%20As%20Cortes%20Paradela">📍 Cómo llegar</a>
-          <a class="alb-btn wa" href="https://wa.me/34696004491?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
-          <a class="alb-btn" href="tel:+34696004491">📞 Llamar</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Melide · <span class="alb-badge a">Plan A</span></div>
-        <div class="alb-name">Albergue O Cruceiro</div>
-        <div class="alb-sub">88 plazas, ascensor, en el centro — el más grande y seguro de Melide. Ronda da Coruña 2 · €13 · info@albergueocruceiro.es (también reserva web). El móvil es para llamar; WhatsApp no lo publicitan.</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20O%20Cruceiro%20Melide">📍 Cómo llegar</a>
-          <a class="alb-btn" href="tel:+34616764896">📞 Llamar</a>
-          <a class="alb-btn wa" href="https://wa.me/34616764896?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 Probar WhatsApp</a>
-        </div>
-      </div>
-
-      <div class="alb-card">
-        <div class="alb-town">Melide · <span class="alb-badge b">Backup</span></div>
-        <div class="alb-name">Albergue Montoto</div>
-        <div class="alb-sub">52 plazas, gestión familiar (Sandra Montoto). Rúa Codeseira 31 · alberguemontoto@gmail.com · fijo alternativo 981 507 337</div>
-        <div class="alb-actions">
-          <a class="alb-btn map" href="https://www.google.com/maps/search/?api=1&query=Albergue%20Montoto%20Melide">📍 Cómo llegar</a>
-          <a class="alb-btn wa" href="https://wa.me/34646941887?text=Hola%2C%20%C2%BFtienen%20plaza%20libre%20para%20hoy%3F">💬 WhatsApp</a>
-          <a class="alb-btn" href="tel:+34646941887">📞 Llamar</a>
-        </div>
-      </div>
-
-    </div>
+    <h2>Albergues del Camino</h2>
+    <p class="section-note">Contactos por pueblo, en orden desde Sarria. Guardá los que te sirvan (<strong>＋ Guardar</strong>) y cambiá a <strong>Mi lista</strong> para verlos solos. <br><strong>WhatsApp:</strong> los móviles (6xx/7xx) casi siempre lo tienen abierto — si no responden en 15–20 min, llamá. Los fijos (98x/881) son solo llamada. Los municipales de la Xunta no toman reserva: hay que llegar y anotarse. <br>Para redirigir la mochila de Correos a un albergue se avisa esa misma mañana antes de las 8:00 (o desde la app de Correos).</p>
+    <div id="contactos-list"></div>
   </section>
   </div>
 
@@ -1053,6 +984,7 @@ function showTab(name) {
     setTimeout(redo, 90);
     setTimeout(redo, 350);
   }
+  if (name === 'contactos' && window.renderContactos) window.renderContactos();
 }
 document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 document.getElementById('walk-fullroute').addEventListener('click', showWholeRoute);
@@ -1061,6 +993,190 @@ renderAll();
 const initial = (location.hash || '').replace('#', '') ||
   (() => { try { return localStorage.getItem('camino_tab'); } catch (e) { return null; } })() || 'viaje';
 showTab(initial);
+
+</script>
+<script>
+/* ===== Contactos de albergues · data + render ===== */
+window.ALBERGUES = [
+ { town:'Barbadelo', km:4, classic:false, items:[
+   {id:'bar-carmen', n:'A Casa de Carmen', tel:'+34982532294', wa:'34606156705', beds:26, note:'con piscina y cena casera', addr:'O Mosteiro, Barbadelo'},
+   {id:'bar-barbadelo', n:'Casa Barbadelo', tel:'+34982531934', wa:'', beds:88, note:'complejo grande con piscina', addr:'Barbadelo'},
+ ]},
+ { town:'Ferreiros', km:13, classic:false, items:[
+   {id:'fer-cruceiro', n:'Casa Cruceiro de Ferreiros', tel:'+34982541240', wa:'34639020064', beds:26, note:'con bar y cena', addr:'Ferreiros, Paradela'},
+   {id:'fer-xunta', n:'Albergue de la Xunta (Ferreiros)', tel:'+34982157496', wa:'', beds:22, note:'municipal, sin reserva, llegás y ves', addr:'Ferreiros'},
+ ]},
+ { town:'Mercadoiro', km:15, classic:false, items:[
+   {id:'mer-mercadoiro', n:'Albergue Mercadoiro', tel:'+34982545359', wa:'', beds:32, note:'aldea de una sola casa, con bar-restaurante', addr:'Mercadoiro, Paradela'},
+ ]},
+ { town:'Vilachá as Cortes', km:19, classic:false, items:[
+   {id:'vil-banderas', n:'Casa Banderas', tel:'', wa:'34682179589', beds:0, note:'el clásico del pueblo, chico — reservá sí o sí, piden contacto por WhatsApp', addr:'As Cortes 5, Paradela'},
+   {id:'vil-anave', n:'Albergue Vilachá («A Nave»)', tel:'+34696004491', wa:'34696004491', beds:0, note:'casa rehabilitada con jardín · otros móviles 630 038 048 / 697 221 605', addr:'As Cortes 10, Paradela'},
+ ]},
+ { town:'Portomarín', km:22, classic:true, items:[
+   {id:'por-ferramenteiro', n:'Ferramenteiro', tel:'+34982545362', wa:'', beds:130, note:'macroalbergue — el más difícil de que se llene', addr:'Rúa Chantada 3'},
+   {id:'por-ultreia', n:'Ultreia', tel:'+34982545067', wa:'34676607292', beds:39, note:'céntrico', addr:'Rúa Deputación 9'},
+   {id:'por-ponsminea', n:'Pons Minea', tel:'+34982545364', wa:'34686456931', beds:0, note:'moderno, también pensión', addr:'Avenida de Sarria 11'},
+   {id:'por-aqua', n:'Aqua Portomarín', tel:'', wa:'34608921372', beds:0, note:'a 100 m del centro', addr:'Portomarín'},
+   {id:'por-novoporto', n:'Novo Porto', tel:'+34610436736', wa:'34610436736', beds:0, note:'céntrico, dormitorios chicos', addr:'Benigno Quiroga 12'},
+   {id:'por-xunta', n:'Albergue de la Xunta (Portomarín)', tel:'', wa:'', beds:110, note:'municipal, sin reserva', addr:'centro'},
+ ]},
+ { town:'Gonzar', km:30, classic:false, items:[
+   {id:'gon-garcia', n:'Casa García', tel:'+34982545789', wa:'', beds:30, note:'con bar y cena, en la aldea', addr:'Gonzar'},
+   {id:'gon-xunta', n:'Albergue de la Xunta (Gonzar)', tel:'+34982157840', wa:'', beds:30, note:'municipal, sin reserva', addr:'Gonzar'},
+ ]},
+ { town:'Ventas de Narón', km:35, classic:false, items:[
+   {id:'ven-molar', n:'Casa Molar', tel:'', wa:'34696794507', beds:18, note:'chico, con bar', addr:'Ventas de Narón 8'},
+   {id:'ven-cruceiro', n:'O Cruceiro', tel:'', wa:'34658064917', beds:22, note:'chico, con bar', addr:'Ventas 6'},
+ ]},
+ { town:'Eirexe (Airexe)', km:38, classic:false, items:[
+   {id:'eir-xunta', n:'Albergue de la Xunta (Airexe)', tel:'+34982153483', wa:'34660396819', beds:20, note:'municipal, en las antiguas escuelas', addr:'Airexe 17'},
+   {id:'eir-pension', n:'Pensión Eirexe', tel:'+34982153475', wa:'', beds:0, note:'privado, al lado del municipal', addr:'Airexe'},
+ ]},
+ { town:'Palas de Rei', km:43, classic:true, items:[
+   {id:'pal-buencamino', n:'Buen Camino', tel:'', wa:'34639882229', beds:0, note:'céntrico, buena cocina', addr:'Rúa do Peregrino 3'},
+   {id:'pal-sanmarcos', n:'San Marcos', tel:'', wa:'34606726356', beds:0, note:'céntrico', addr:'Travesía da Igrexa s/n'},
+   {id:'pal-benito', n:'Mesón de Benito', tel:'+34982103386', wa:'34636834065', beds:0, note:'con restaurante propio · otro móvil 667 232 184', addr:'Palas de Rei'},
+   {id:'pal-zendoira', n:'Zendoira', tel:'', wa:'', beds:50, note:'grande, también habitaciones · reserva por Booking', addr:'Palas de Rei'},
+   {id:'pal-outeiro', n:'Outeiro', tel:'', wa:'', beds:64, note:'grande · reserva por Booking', addr:'Palas de Rei'},
+   {id:'pal-xunta', n:'Albergue de la Xunta (Palas de Rei)', tel:'', wa:'', beds:60, note:'municipal, sin reserva', addr:'centro'},
+ ]},
+ { town:'Casanova / Mato', km:48, classic:false, items:[
+   {id:'cas-xunta', n:'Albergue de la Xunta (Mato-Casanova)', tel:'+34982173483', wa:'', beds:20, note:'aislado, sin pueblo alrededor — reservá o llegá temprano', addr:'Mato, Palas de Rei'},
+ ]},
+ { town:'Melide', km:58, classic:true, items:[
+   {id:'mel-cruceiro', n:'O Cruceiro', tel:'+34616764896', wa:'34616764896', beds:88, note:'el más grande de Melide, ascensor, centro', addr:'Ronda da Coruña 2'},
+   {id:'mel-montoto', n:'Montoto', tel:'+34981507337', wa:'34646941887', beds:52, note:'gestión familiar', addr:'Rúa Codeseira 31'},
+   {id:'mel-sananton', n:'San Antón', tel:'+34981506427', wa:'34698153672', beds:0, note:'céntrico', addr:'Rúa San Antón 6'},
+   {id:'mel-pereiro', n:'Pereiro', tel:'+34981506314', wa:'', beds:40, note:'también habitaciones', addr:'Rúa Progreso 43'},
+   {id:'mel-alfonso', n:'Alfonso II el Casto', tel:'', wa:'', beds:34, note:'a la salida hacia Santiago · reserva por Booking', addr:'Av. Toques e Friol 52'},
+   {id:'mel-xunta', n:'Albergue de la Xunta (Melide)', tel:'', wa:'', beds:156, note:'municipal grande, sin reserva', addr:'Rúa San Antón'},
+ ]},
+ { town:'Boente', km:63, classic:false, items:[
+   {id:'boe-aleman', n:'El Alemán', tel:'+34981501984', wa:'34677251300', beds:0, note:'con jardín y cena, junto a la iglesia', addr:'Boente de Arriba s/n'},
+ ]},
+ { town:'Ribadiso da Baixa', km:68, classic:false, items:[
+   {id:'rib-xunta', n:'Albergue de la Xunta (Ribadiso)', tel:'+34981501185', wa:'', beds:70, note:'histórico, junto al río — precioso, sin reserva, llená temprano', addr:'Ribadiso da Baixa'},
+   {id:'rib-caminantes', n:'Los Caminantes (Ribadiso)', tel:'', wa:'34647020600', beds:0, note:'privado, con piscina', addr:'Ribadiso 16'},
+ ]},
+ { town:'Arzúa', km:70, classic:true, items:[
+   {id:'arz-caminantes', n:'Los Caminantes', tel:'', wa:'34647020600', beds:0, note:'céntrico', addr:'Rúa de Santiago 14'},
+   {id:'arz-dafonte', n:'Da Fonte', tel:'+34981501118', wa:'', beds:0, note:'céntrico, con patio', addr:'Rúa do Carme 18'},
+   {id:'arz-decamino', n:'De Camino', tel:'+34981500415', wa:'34678758296', beds:0, note:'sobre la avenida de entrada', addr:'Av. de Lugo 118'},
+   {id:'arz-ultreia', n:'Ultreia', tel:'+34981500471', wa:'', beds:39, note:'desde 2007, céntrico', addr:'Rúa Cima do Lugar 6'},
+   {id:'arz-xunta', n:'Albergue de la Xunta (Arzúa)', tel:'', wa:'', beds:46, note:'municipal, sin reserva', addr:'Rúa Cima do Lugar'},
+ ]},
+ { town:'A Salceda', km:81, classic:false, items:[
+   {id:'sal-turistico', n:'Albergue Turístico Salceda', tel:'+34981502767', wa:'', beds:0, note:'sobre la N-547, con restaurante', addr:'A Salceda, O Pino'},
+   {id:'sal-alborada', n:'Alborada', tel:'+34981502956', wa:'34620151209', beds:0, note:'también pensión', addr:'A Salceda, O Pino'},
+ ]},
+ { town:'A Brea', km:84, classic:false, items:[
+   {id:'abr-brea', n:'Albergue A Brea', tel:'+34617195121', wa:'34617195121', beds:0, note:'pequeño, sobre el Camino · verificá disponibilidad en Gronze', addr:'A Brea, O Pino'},
+ ]},
+ { town:'Santa Irene', km:86, classic:false, items:[
+   {id:'sir-xunta', n:'Albergue de la Xunta (Santa Irene)', tel:'+34981511330', wa:'34660396825', beds:36, note:'municipal, en el bosque, muy tranquilo', addr:'Santa Irene, O Pino'},
+   {id:'sir-privado', n:'Albergue Santa Irene (privado)', tel:'+34981511000', wa:'', beds:0, note:'con jardín y piscina, enfrente del municipal', addr:'Santa Irene 6'},
+   {id:'sir-astrar', n:'Albergue Rural Astrar', tel:'+34981511463', wa:'34608092820', beds:0, note:'a ~400 m del Camino, rural · otro móvil 690 105 299', addr:'Astrar, O Pino'},
+ ]},
+ { town:'O Pedrouzo (Arca)', km:90, classic:true, items:[
+   {id:'ped-porta', n:'Porta de Santiago', tel:'', wa:'34607835354', beds:0, note:'a la entrada del pueblo', addr:'Av. de Lugo 11'},
+   {id:'ped-burgo', n:'O Burgo', tel:'+34981511406', wa:'34630404138', beds:0, note:'céntrico', addr:'Av. de Lugo 47'},
+   {id:'ped-rem', n:'REM Hostel', tel:'+34981510407', wa:'34673381721', beds:0, note:'moderno', addr:'Av. da Igrexa 7'},
+   {id:'ped-mirador', n:'Mirador de Pedrouzo', tel:'', wa:'34686871215', beds:0, note:'con vistas', addr:'O Pedrouzo'},
+   {id:'ped-otero', n:'Otero', tel:'', wa:'34671663374', beds:0, note:'chico y familiar', addr:'O Pedrouzo'},
+   {id:'ped-edreira', n:'Edreira', tel:'+34981511365', wa:'34660234995', beds:0, note:'a la salida hacia Santiago', addr:'Rúa da Fonte 19'},
+   {id:'ped-xunta', n:'Albergue de la Xunta (O Pedrouzo / Arca)', tel:'', wa:'', beds:120, note:'municipal grande, sin reserva', addr:'O Pedrouzo'},
+ ]},
+ { town:'O Amenal', km:93, classic:false, items:[
+   {id:'ame-amenal', n:'Albergue O Amenal', tel:'+34981510431', wa:'', beds:32, note:'un solo albergue, aislado, con bar-restaurante', addr:'O Amenal, O Pino'},
+ ]},
+ { town:'Lavacolla', km:100, classic:false, items:[
+   {id:'lav-fabrica', n:'Albergue A Fábrica', tel:'', wa:'34681075647', beds:0, note:'cerca del aeropuerto, con jardín', addr:'Lavacolla'},
+ ]},
+ { town:'Monte do Gozo', km:110, classic:false, items:[
+   {id:'mdg-reaj', n:'Albergue Monte do Gozo', tel:'+34881255386', wa:'34682270622', beds:300, note:'enorme (complejo de la Xunta), a 4,5 km de la catedral', addr:'Rúa do Gozo 18'},
+ ]},
+];
+
+(function () {
+  const KEY_PICK = 'camino_alb_pick_v1';
+  const KEY_VIEW = 'camino_alb_view_v1';
+  const MSG = '?text=' + encodeURIComponent('Hola, ¿tienen plaza libre para hoy?');
+  let picked = new Set(load(KEY_PICK) || []);
+  let view = (() => { try { return localStorage.getItem(KEY_VIEW); } catch (e) { return null; } })() || 'todos';
+
+  function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+  function savePick() { try { localStorage.setItem(KEY_PICK, JSON.stringify([...picked])); } catch (e) { } }
+  function saveView() { try { localStorage.setItem(KEY_VIEW, view); } catch (e) { } }
+
+  function nightTowns() {
+    try {
+      const n = JSON.parse(localStorage.getItem('camino_nights_v1')) || (window.CAMINO && window.CAMINO.default_nights) || [];
+      const map = {};
+      (window.CAMINO ? window.CAMINO.stops : []).forEach(s => { if (n.includes(s.id)) map[s.name] = 'Noche ' + (n.indexOf(s.id) + 1); });
+      return map;
+    } catch (e) { return {}; }
+  }
+
+  function gmap(q) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Albergue ' + q); }
+
+  function cardHTML(it, townName) {
+    const on = picked.has(it.id);
+    const acts = [];
+    acts.push(`<a class="alb-btn map" href="${gmap(it.n + ' ' + townName)}">📍 Cómo llegar</a>`);
+    if (it.wa) acts.push(`<a class="alb-btn wa" href="https://wa.me/${it.wa}${MSG}">💬 WhatsApp</a>`);
+    if (it.tel) acts.push(`<a class="alb-btn" href="tel:${it.tel}">📞 Llamar</a>`);
+    if (!it.wa && !it.tel) acts.push(`<span class="alb-btn" style="opacity:.6;cursor:default">Reserva por Booking</span>`);
+    const bits = [];
+    if (it.beds) bits.push(it.beds + ' plazas');
+    if (it.note) bits.push(it.note);
+    if (it.addr) bits.push(it.addr);
+    return `<div class="alb-card${on ? ' picked' : ''}" data-id="${it.id}">
+      <button class="alb-pick" data-pick="${it.id}" title="Guardar en mi lista">${on ? '✓ En mi lista' : '＋ Guardar'}</button>
+      <div class="alb-name">${it.n}</div>
+      <div class="alb-sub">${bits.join(' · ')}</div>
+      <div class="alb-actions">${acts.join('')}</div>
+    </div>`;
+  }
+
+  function render() {
+    const host = document.getElementById('contactos-list');
+    if (!host) return;
+    const nt = nightTowns();
+    const showAll = view === 'todos';
+    let html = `<div class="alb-viewbar">
+      <button class="alb-vb${showAll ? ' on' : ''}" data-view="todos">Todos</button>
+      <button class="alb-vb${showAll ? '' : ' on'}" data-view="elegidos">Mi lista${picked.size ? ' (' + picked.size + ')' : ''}</button>
+    </div>`;
+    let anyShown = false;
+    window.ALBERGUES.forEach(g => {
+      const items = showAll ? g.items : g.items.filter(it => picked.has(it.id));
+      if (!items.length) return;
+      anyShown = true;
+      const open = showAll ? (g.classic || g.town.startsWith('Vilach')) : true;
+      const badge = nt[g.town] ? `<span class="alb-nightbadge">🌙 tu ${nt[g.town]}</span>` : (g.classic ? `<span class="alb-star">★ etapa clásica</span>` : '');
+      html += `<details class="alb-townbox"${open ? ' open' : ''}>
+        <summary><span class="alb-townname">${g.town}</span> <span class="alb-townkm">km ${g.km}</span> ${badge}</summary>
+        <div class="alb-townitems">${items.map(it => cardHTML(it, g.town)).join('')}</div>
+      </details>`;
+    });
+    if (!anyShown) html += `<p class="section-note">Todavía no guardaste ningún albergue. Cambiá a «Todos», tocá <strong>＋ Guardar</strong> en los que te sirvan y volvé acá.</p>`;
+    host.innerHTML = html;
+
+    host.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', e => {
+      e.preventDefault();
+      const id = b.dataset.pick;
+      picked.has(id) ? picked.delete(id) : picked.add(id);
+      savePick(); render();
+    }));
+    host.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+      view = b.dataset.view; saveView(); render();
+    }));
+  }
+
+  window.renderContactos = render;
+  render();
+})();
 
 </script>
 </body>
