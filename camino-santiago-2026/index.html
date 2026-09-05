@@ -1305,7 +1305,9 @@ window.ALBERGUES = [
     <p class="alb-legend"><span class="alb-tag env">📦 Correos · Jacotrans</span> quién te lleva la mochila hasta ahí · <span class="alb-tag noenv">📦 no listado</span> no figura en ninguna de las dos, pero se arregla por teléfono: coordinador de Jacotrans para Galicia <a href="tel:+34606049858">+34 606 049 858</a>, o pedíselo a tu alojamiento y ellos avisan. Comprobado el 5/9/2026 contra los listados de las dos empresas.</p>`;
     let anyShown = false;
     window.ALBERGUES.forEach(g => {
-      const items = showAll ? g.items : g.items.filter(it => picked.has(it.id));
+      const base = showAll ? g.items : g.items.filter(it => picked.has(it.id));
+      // los de la Xunta primero; el resto conserva su orden
+      const items = base.slice().sort((a, b) => (b.muni ? 1 : 0) - (a.muni ? 1 : 0));
       if (!items.length) return;
       anyShown = true;
       const open = showAll ? openTowns.has(g.town) : true;
