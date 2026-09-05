@@ -79,6 +79,65 @@
   .tab-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
   .tab-btn.docs { flex: 0 0 auto; padding: 10px 12px; text-decoration: none; display: inline-flex; align-items: center; background: var(--gold); border-color: var(--gold); color: #fff; }
   .tab-panel[hidden] { display: none; }
+  @media (max-width: 560px) {
+    .tabbar { flex-wrap: wrap; gap: 5px; }
+    .tab-btn { flex: 1 1 30%; padding: 9px 4px; font-size: 11.5px; }
+    .tab-btn.docs { flex: 1 1 30%; justify-content: center; }
+  }
+
+  /* ── SOLAPA MADRID ── */
+  .mad-clock { display: flex; align-items: stretch; gap: 8px; margin: 4px 0 14px; }
+  .mc-item { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 10px; text-align: center; }
+  .mc-item.danger { background: #fdf0ec; border-color: #e8bfae; }
+  .mc-num { display: block; font-family: 'Fraunces', serif; font-size: clamp(19px, 5.2vw, 26px); font-weight: 700; color: var(--green); line-height: 1.05; }
+  .mc-item.danger .mc-num { color: #a33d18; }
+  .mc-lbl { display: block; font-size: 10.5px; color: var(--muted); margin-top: 5px; line-height: 1.3; }
+  .mc-arrow { align-self: center; color: var(--border); font-size: 17px; flex-shrink: 0; }
+  .mad-warn { background: #fdf0ec; border: 1px solid #e8bfae; border-left: 4px solid #c2571f; border-radius: 10px; padding: 11px 14px; font-size: 13px; color: #7a3312; margin: 12px 0; line-height: 1.5; }
+  .mad-warn strong { color: #8d2f06; }
+
+  .mad-tabla { display: grid; gap: 5px; margin-top: 10px; }
+  .mt-row { display: grid; grid-template-columns: 74px 96px 1fr; gap: 8px; align-items: center; background: var(--card); border: 1px solid var(--border); border-radius: 9px; padding: 9px 12px; font-size: 12.5px; }
+  .mt-head { background: transparent; border: none; padding: 0 12px; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .mt-ok { background: var(--green-soft); border-color: #b8ddc8; }
+  .mt-si { color: #1a6b4a; font-weight: 700; }
+  .mt-no { color: var(--muted); }
+
+  .mad-steps { display: grid; gap: 7px; margin-top: 10px; }
+  .ms { display: flex; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; }
+  .ms-h { flex: 0 0 50px; font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: var(--gold); line-height: 1.3; }
+  .ms strong { display: block; font-size: 13px; }
+  .ms span:not(.ms-h) { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.45; }
+  .ms-fin { background: var(--green-soft); border-color: #b8ddc8; }
+  .ms-fin .ms-h { color: var(--green); }
+
+  .mad-rule { display: grid; gap: 9px; margin-top: 10px; }
+  .mr { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--card); }
+  .mr-h { padding: 9px 14px; font-size: 12.5px; font-weight: 800; color: #fff; }
+  .mr-b { padding: 11px 14px; font-size: 12.5px; line-height: 1.5; }
+  .mr-verde .mr-h { background: #1a6b4a; }
+  .mr-ambar .mr-h { background: #b5892b; }
+  .mr-rojo  .mr-h { background: #9c3b1c; }
+
+  .mad-risk { display: grid; gap: 8px; margin-top: 10px; }
+  .mrk { display: flex; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 13px; }
+  .mrk-n { flex: 0 0 24px; height: 24px; border-radius: 50%; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .mrk strong { display: block; font-size: 13px; }
+  .mrk span:not(.mrk-n) { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.45; }
+
+  .mad-opt { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 15px; margin-top: 10px; box-shadow: var(--shadow); }
+  .mo-tag { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+  .mo-title { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; color: var(--green); margin: 2px 0 9px; }
+  .mo-line { font-size: 12.5px; padding: 4px 0; border-top: 1px dashed var(--border); }
+  .mo-line span { display: inline-block; min-width: 58px; font-weight: 800; color: var(--gold); }
+  .mo-nota { margin-top: 10px; padding: 10px 12px; background: var(--green-soft); border-radius: 9px; font-size: 12px; color: #1a5038; line-height: 1.5; }
+  .mad-h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; color: var(--green); margin: 22px 0 2px; }
+
+  @media (max-width: 430px) {
+    .mad-clock { flex-direction: column; }
+    .mc-arrow { transform: rotate(90deg); }
+    .mt-row { grid-template-columns: 64px 82px 1fr; font-size: 11.5px; padding: 8px 10px; }
+  }
 
   /* ── PLANNER ── */
   .planner { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px; margin-bottom: 16px; box-shadow: var(--shadow); }
@@ -379,6 +438,7 @@
   <!-- TABS -->
   <nav class="tabbar">
     <button class="tab-btn" data-tab="viaje">🗺️ Viaje</button>
+    <button class="tab-btn" data-tab="madrid">⏱️ Madrid</button>
     <button class="tab-btn" data-tab="etapas">🥾 Etapas</button>
     <button class="tab-btn" data-tab="contactos">📞 Contactos</button>
     <a class="tab-btn docs" href="./documentos.html" title="Tickets y reservas en PDF">🔐 Papeles</a>
@@ -547,6 +607,141 @@
     <strong>La clave del viaje:</strong> dormir cerca de la terminal en Düsseldorf (ibis, 10-12min caminando) la noche del viernes 11/9 y dejar la valija grande en el depósito oficial del aeropuerto al otro día. El vuelo DUS-MAD (06:20→09:00, ya reservado) sale justo para llegar con margen ajustado pero viable al AVE de las 10:04 — y el billete es cambiable (queda por confirmar si la tarifa es Básico o Elige, ver la nota de la reserva). Viajando solo con equipaje de mano en ese vuelo se evita la espera de valijas en Madrid.
   </div>
   </div><!-- /tab-viaje -->
+
+  <!-- ══════════ SOLAPA MADRID ══════════ -->
+  <div class="tab-panel" id="tab-madrid" hidden>
+
+  <section class="section" id="mad-reloj">
+    <h2>El cambio en Madrid</h2>
+    <p class="section-note">Sábado 12/9. Aterrizás en la T4 a las 09:00 y el AVE sale de Chamartín a las 10:04. Es el tramo más ajustado del viaje y de esta hora depende que camines el día 1.</p>
+
+    <div class="mad-clock">
+      <div class="mc-item"><span class="mc-num">09:00</span><span class="mc-lbl">Llegás a puerta<br>en la T4</span></div>
+      <div class="mc-arrow">→</div>
+      <div class="mc-item danger"><span class="mc-num">09:59</span><span class="mc-lbl">Cierra el control<br>en Chamartín</span></div>
+      <div class="mc-arrow">→</div>
+      <div class="mc-item"><span class="mc-num">10:04</span><span class="mc-lbl">Sale el AVE<br>a Ourense</span></div>
+    </div>
+    <p class="mad-warn"><strong>Tenés 59 minutos, no 64.</strong> En Chamartín el control de acceso a los trenes de Galicia cierra <strong>5 minutos antes</strong> de la salida, no 2. Ese es tu límite real.</p>
+    <p class="section-note">A favor: venís de Alemania, así que es <strong>vuelo Schengen</strong> — no hay control de pasaportes. Y llegás a la T4 principal, no al satélite T4S: no tenés que tomar el tren interno.</p>
+  </section>
+
+  <section class="section" id="mad-trenes">
+    <h2>Los Cercanías de ese sábado</h2>
+    <p class="section-note">Horario real de Renfe para el 12/9/2026, T4 → Chamartín. El viaje son 15 minutos. <strong>No pasa cada 15 minutos en tu ventana</strong>: hay un hueco de 18 min justo cuando lo necesitás.</p>
+    <div class="mad-tabla">
+      <div class="mt-row mt-head"><span>Sale T4</span><span>Llega Chamartín</span><span>¿Sirve?</span></div>
+      <div class="mt-row"><span>08:57</span><span>09:12</span><span class="mt-no">Salís antes de aterrizar</span></div>
+      <div class="mt-row"><span>09:03</span><span>09:18</span><span class="mt-no">No llegás a bajar</span></div>
+      <div class="mt-row"><span>09:10</span><span>09:25</span><span class="mt-no">No llegás a bajar</span></div>
+      <div class="mt-row mt-ok"><span><strong>09:24</strong></span><span><strong>09:39</strong></span><span class="mt-si">✅ Tu tren. El último.</span></div>
+      <div class="mt-row"><span>09:42</span><span>09:57</span><span class="mt-no">❌ 2 min para cruzar Chamartín</span></div>
+      <div class="mt-row"><span>09:55</span><span>10:10</span><span class="mt-no">❌ Tarde</span></div>
+    </div>
+    <p class="mad-warn"><strong>El de las 09:24 es el último que sirve.</strong> No hay red atrás: si lo perdés, el siguiente ya no llega. Desde que el avión frena tenés <strong>24 minutos</strong> para bajar, cruzar la T4, sacar el billete y estar en el andén.</p>
+  </section>
+
+  <section class="section" id="mad-paso">
+    <h2>Paso a paso</h2>
+    <p class="section-note">Así se ve si todo sale bien. Cada casillero tiene su margen; el que se rompe es el que te saca del tren.</p>
+    <div class="mad-steps">
+      <div class="ms"><span class="ms-h">09:00</span><div><strong>El avión llega a puerta</strong><span>Sentate adelante: entre la fila 3 y la 20 de un regional hay 5 minutos.</span></div></div>
+      <div class="ms"><span class="ms-h">09:08</span><div><strong>Terminás de bajar</strong><span>Sin control de pasaportes. Si te despacharon la mochila en la puerta, pedí que te la devuelvan <strong>en pasarela</strong> y no en la cinta.</span></div></div>
+      <div class="ms"><span class="ms-h">09:18</span><div><strong>Llegás a Cercanías</strong><span>La estación está dentro de la propia T4. Seguí los carteles de <em>Cercanías Renfe</em>.</span></div></div>
+      <div class="ms"><span class="ms-h">09:22</span><div><strong>Sacás el billete</strong><span>Gratis con el <strong>Combinado Cercanías</strong>: el localizador y la contraseña están impresos en tu billete del AVE. Si hay cola, comprá un sencillo y listo — son dos euros, no es momento de ahorrarlos.</span></div></div>
+      <div class="ms"><span class="ms-h">09:24</span><div><strong>Sale el C-1</strong><span>Andén dentro de la T4.</span></div></div>
+      <div class="ms"><span class="ms-h">09:39</span><div><strong>Llegás a Chamartín</strong><span>Te quedan 20 minutos para llegar al control. Alcanzan si no te distraés.</span></div></div>
+      <div class="ms ms-fin"><span class="ms-h">09:52</span><div><strong>Estás en el control de acceso</strong><span>Margen: 7 minutos.</span></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="mad-regla">
+    <h2>La regla, para decidir sin pensar</h2>
+    <p class="section-note">Cuando salgas a la zona pública de la T4 con tu mochila en la mano, mirá el reloj. Esto es lo único que hay que recordar.</p>
+    <div class="mad-rule">
+      <div class="mr mr-verde">
+        <div class="mr-h">Antes de las 09:20</div>
+        <div class="mr-b"><strong>Cercanías.</strong> Andá al andén y tomá el 09:24. Es gratis y llegás.</div>
+      </div>
+      <div class="mr mr-ambar">
+        <div class="mr-h">Entre 09:20 y 09:35</div>
+        <div class="mr-b"><strong>Taxi, sin dudarlo.</strong> Tarifa fija <strong>€33</strong> de la T4 a cualquier punto dentro de la M-30, y Chamartín entra. Sin recargo de fin de semana. Parada a la salida de llegadas, 15-20 min de viaje un sábado a la mañana. No esperes el Cercanías de las 09:42 porque no llega.</div>
+      </div>
+      <div class="mr mr-rojo">
+        <div class="mr-h">Después de las 09:35</div>
+        <div class="mr-b"><strong>Ya está, no corras.</strong> Perdiste el AVE. Andá tranquilo al mostrador de Renfe en Chamartín y pasá al plan de recuperación de acá abajo.</div>
+      </div>
+    </div>
+    <p class="section-note">El taxi no es el plan pobre: puerta a puerta es <strong>más rápido y con menos varianza</strong> que el Cercanías. Los €33 son baratos comparados con perder la primera etapa.</p>
+  </section>
+
+  <section class="section" id="mad-riesgos">
+    <h2>Lo que te puede romper el plan</h2>
+    <div class="mad-risk">
+      <div class="mrk"><span class="mrk-n">1</span><div><strong>Estacionamiento remoto</strong><span>Air Nostrum opera aviones regionales y seguido los dejan lejos, con traslado en bus. Son <strong>10-15 minutos</strong> y no los controlás. Es lo que más te puede arruinar el plan.</span></div></div>
+      <div class="mrk"><span class="mrk-n">2</span><div><strong>La mochila a bodega</strong><span>Tu tarifa incluye una pieza de 10 kg que va "en cabina o bodega según espacio". Si termina en la cinta de Madrid son <strong>15-25 minutos</strong> y no llegás. Embarcá temprano y, si insisten, pedí entrega en pasarela.</span></div></div>
+      <div class="mrk"><span class="mrk-n">3</span><div><strong>La cola de la máquina de billetes</strong><span>Con este margen, la máquina es literalmente donde se decide entre tren y taxi. Si ves cola, ya sabés qué hacer.</span></div></div>
+    </div>
+    <p class="section-note">Y una duda abierta que conviene cerrar antes: <strong>no sabemos si el AVE es tarifa Básico o Elige.</strong> Básico no permite cambiarlo el mismo día. Está en el PDF del billete, en la solapa Papeles.</p>
+  </section>
+
+  <section class="section" id="mad-recuperar">
+    <h2>Si igual lo perdés</h2>
+    <p class="section-note">Horarios reales del sábado. El problema no es llegar a Ourense — hay trenes toda la tarde — sino que <strong>el tren a Sarria de las 12:32 no se repite hasta las 16:22</strong>. Tenés dos caminos.</p>
+
+    <div class="mad-opt">
+      <div class="mo-tag">Opción A · la más rápida</div>
+      <div class="mo-title">AVE de las 11:17 + taxi desde Ourense</div>
+      <div class="mo-line"><span>11:17</span> sale de Chamartín el AVE 4515 (va a Vigo, para en Ourense)</div>
+      <div class="mo-line"><span>13:39</span> llegás a Ourense</div>
+      <div class="mo-line"><span>~15:00</span> taxi Ourense → Sarria: ~100 km, 1h20, unos <strong>€130-160</strong></div>
+      <div class="mo-nota">Te deja casi 5 horas de luz. <strong>Con esto todavía llegás a Vilachá</strong> (19,9 km) antes del anochecer, que en Galicia a mediados de septiembre es cerca de las 20:50. El día 1 se salva entero.</div>
+    </div>
+
+    <div class="mad-opt">
+      <div class="mo-tag">Opción B · la más simple</div>
+      <div class="mo-title">Alvia directo Madrid → Sarria, sin transbordos</div>
+      <div class="mo-line"><span>13:20</span> sale de Chamartín el Alvia 4325</div>
+      <div class="mo-line"><span>16:15</span> pasa por Ourense</div>
+      <div class="mo-line"><span>17:38</span> llegás a Sarria — <strong>es el único tren directo Madrid-Sarria del día</strong></div>
+      <div class="mo-nota">Sin cambios, sin taxi, más barato. Te quedan ~2 horas de luz: comprás la credencial, caminás hasta Barbadelo o Morgade (4-8 km) y dormís ahí. Perdés unos 12 km del día 1, no el día entero.</div>
+    </div>
+
+    <p class="section-note"><strong>Cuál elegir:</strong> si tenés fuerza después de haberte levantado a las 4:30, la A te devuelve el día completo por unos €140. Si venís fundido, la B es la sensata y el Plan B de las etapas absorbe la diferencia.</p>
+
+    <h3 class="mad-h3">Todos los trenes de ese sábado</h3>
+    <div class="mad-tabla">
+      <div class="mt-row mt-head"><span>Sale Chamartín</span><span>Llega Ourense</span><span>Tren</span></div>
+      <div class="mt-row"><span>08:26</span><span>10:51</span><span>AVE 4475</span></div>
+      <div class="mt-row mt-ok"><span><strong>10:04</strong></span><span><strong>12:18</strong></span><span>AVE 5273 · el tuyo</span></div>
+      <div class="mt-row"><span>11:17</span><span>13:39</span><span>AVE 4515</span></div>
+      <div class="mt-row"><span>13:20</span><span>16:15</span><span>Alvia 4325 · sigue a Sarria 17:38</span></div>
+      <div class="mt-row"><span>14:40</span><span>17:00</span><span>AVE 4345</span></div>
+      <div class="mt-row"><span>18:06</span><span>20:42</span><span>AVLO 4975</span></div>
+      <div class="mt-row"><span>19:17</span><span>21:37</span><span>AVE 4395</span></div>
+    </div>
+
+    <h3 class="mad-h3">Ourense → Sarria, solo 4 por día</h3>
+    <div class="mad-tabla">
+      <div class="mt-row mt-head"><span>Sale Ourense</span><span>Llega Sarria</span><span>Tren</span></div>
+      <div class="mt-row mt-ok"><span><strong>12:32</strong></span><span><strong>13:47</strong></span><span>MD 12694 · el tuyo (WGG4YR)</span></div>
+      <div class="mt-row"><span>16:22</span><span>17:38</span><span>Alvia 4325</span></div>
+      <div class="mt-row"><span>16:22</span><span>~17:40</span><span>MD 37325</span></div>
+      <div class="mt-row"><span>19:50</span><span>~21:05</span><span>MD 12646 · llegás de noche</span></div>
+    </div>
+    <p class="section-note">Horarios consultados el 5/9/2026 para un sábado. <strong>Volvé a mirarlos el viernes a la noche</strong> en la app de Renfe, por si hubo obras o cambios.</p>
+  </section>
+
+  <section class="section" id="mad-antes">
+    <h2>Tres cosas para hacer antes de volar</h2>
+    <div class="mad-risk">
+      <div class="mrk"><span class="mrk-n">✓</span><div><strong>Elegí asiento adelante</strong><span>En el check-in online de IB1326, que abre 24h antes.</span></div></div>
+      <div class="mrk"><span class="mrk-n">✓</span><div><strong>Embarcá temprano</strong><span>Para que la mochila entre en cabina y nadie te la quiera despachar.</span></div></div>
+      <div class="mrk"><span class="mrk-n">✓</span><div><strong>Billete del AVE abierto en el celu</strong><span>Antes de bajar del avión, con el localizador y la contraseña del Combinado Cercanías a la vista. Está en la solapa Papeles.</span></div></div>
+    </div>
+  </section>
+
+  </div><!-- /tab-madrid -->
 
   <div class="tab-panel" id="tab-etapas" hidden>
     <section class="section">
@@ -898,7 +1093,7 @@ function renderAll() {
 
 /* ---------- tabs ---------- */
 function showTab(name) {
-  if (!['viaje', 'etapas', 'contactos'].includes(name)) name = 'viaje';
+  if (!['viaje', 'madrid', 'etapas', 'contactos'].includes(name)) name = 'viaje';
   document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = (p.id !== 'tab-' + name); });
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
   try { localStorage.setItem('camino_tab', name); } catch (e) { }
