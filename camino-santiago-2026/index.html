@@ -85,6 +85,10 @@
     .tab-btn.docs { flex: 1 1 30%; justify-content: center; }
   }
 
+  /* ── TRENES EN VIVO ── */
+  .vivo-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 10px; }
+  .vivo-btn { flex: 1 1 30%; text-align: center; padding: 12px 10px; border-radius: 11px; background: var(--green); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none; }
+
   /* ── HORARIOS DE ETAPA ── */
   .hr-box { margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px; }
   .hr-box h4 { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
@@ -490,20 +494,12 @@
     <button class="tab-btn" data-tab="viaje">🗺️ Viaje</button>
     <button class="tab-btn" data-tab="madrid">⏱️ Madrid</button>
     <button class="tab-btn" data-tab="etapas">🥾 Etapas</button>
+    <button class="tab-btn" data-tab="clima">🌦️ Clima</button>
     <button class="tab-btn" data-tab="contactos">📞 Contactos</button>
     <a class="tab-btn docs" href="./documentos.html" title="Tickets y reservas en PDF">🔐 Papeles</a>
   </nav>
 
   <div class="tab-panel" id="tab-viaje">
-
-  <!-- CLIMA -->
-  <section class="section" id="clima">
-    <h2>Clima</h2>
-    <p class="section-note">Pronóstico en vivo, promediando hasta cinco modelos (europeo, americano, alemán, francés y británico). Cada día usa el punto donde terminás la etapa. Tocá un día para ver hora por hora.</p>
-    <div id="wx-cards" class="wx-cards"><div class="wx-loading">Consultando el pronóstico…</div></div>
-    <div id="wx-hourly"></div>
-    <p class="wx-foot" id="wx-foot"></p>
-  </section>
 
   <!-- CRONOGRAMA -->
   <section class="section" id="cronograma">
@@ -812,6 +808,17 @@
     <p class="mad-warn" style="background:var(--green-soft);border-color:#b8ddc8;border-left-color:#1a6b4a;color:#1a5038"><strong style="color:#1a6b4a">El taxi es el comodín de todo el sábado.</strong> Cubre perder el Cercanías en Madrid (€33 a Chamartín), perder el AVE (desde Ourense, €130-160) y perder la conexión de Ourense (el mismo). Andá con esos €160 disponibles y la decisión ya tomada, para no estar evaluándola con la mochila puesta.</p>
   </section>
 
+  <section class="section" id="mad-vivo">
+    <h2>Trenes en vivo</h2>
+    <p class="section-note">El sábado, antes de cada tramo, mirá si tu tren viene en hora. Sale directo del dato abierto de Renfe: salidas, llegadas, demora y vía cuando la publican.</p>
+    <div class="vivo-row">
+      <a class="vivo-btn" href="https://railscope.es/es/station/17000" target="_blank" rel="noopener">🚆 Madrid-Chamartín</a>
+      <a class="vivo-btn" href="https://railscope.es/es/station/22100" target="_blank" rel="noopener">🚉 Ourense</a>
+      <a class="vivo-btn" href="https://railscope.es/es/station/20305" target="_blank" rel="noopener">🚉 Sarria</a>
+    </div>
+    <p class="section-note">Tus trenes de ese día son el <strong>AVE 5273</strong> (Chamartín 10:04) y el <strong>MD 12694</strong> (Ourense 12:32). En la estación, los paneles oficiales también están en la <strong>app de Adif</strong>, y hay un QR en las pantallas que te los abre en el celular.</p>
+  </section>
+
   <section class="section" id="mad-antes">
     <h2>Tres cosas para hacer antes de volar</h2>
     <div class="mad-risk">
@@ -822,6 +829,18 @@
   </section>
 
   </div><!-- /tab-madrid -->
+
+  <div class="tab-panel" id="tab-clima" hidden>
+  <!-- CLIMA -->
+  <section class="section" id="clima">
+    <h2>Clima</h2>
+    <p class="section-note">Pronóstico en vivo, promediando hasta cinco modelos (europeo, americano, alemán, francés y británico). Cada día usa el punto donde terminás la etapa. Tocá un día para ver hora por hora.</p>
+    <div id="wx-cards" class="wx-cards"><div class="wx-loading">Consultando el pronóstico…</div></div>
+    <div id="wx-hourly"></div>
+    <p class="wx-foot" id="wx-foot"></p>
+  </section>
+
+  </div>
 
   <div class="tab-panel" id="tab-etapas" hidden>
     <section class="section">
@@ -1061,7 +1080,7 @@ const LUZ = [
   { amanece: '08:11', anochece: '20:45' },
   { amanece: '08:13', anochece: '20:44' }
 ];
-const SAL_DEF = ['14:30', '07:00', '07:00', '07:00'];
+const SAL_DEF = ['14:30', '08:00', '08:00', '08:00'];
 let salidas = (() => { try { return JSON.parse(localStorage.getItem('camino_salidas_v1')) || SAL_DEF.slice(); } catch (e) { return SAL_DEF.slice(); } })();
 let pausas = (() => { try { const v = localStorage.getItem('camino_pausas_v1'); return v === null || isNaN(+v) ? 60 : +v; } catch (e) { return 60; } })();
 const saveHoras = () => { try { localStorage.setItem('camino_salidas_v1', JSON.stringify(salidas)); localStorage.setItem('camino_pausas_v1', pausas); } catch (e) { } };
@@ -1214,7 +1233,7 @@ function renderAll() {
 
 /* ---------- tabs ---------- */
 function showTab(name) {
-  if (!['viaje', 'madrid', 'etapas', 'contactos'].includes(name)) name = 'viaje';
+  if (!['viaje', 'madrid', 'clima', 'etapas', 'contactos'].includes(name)) name = 'viaje';
   document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = (p.id !== 'tab-' + name); });
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
   try { localStorage.setItem('camino_tab', name); } catch (e) { }
