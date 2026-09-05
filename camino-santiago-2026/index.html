@@ -249,23 +249,6 @@
     }
   }
 
-  /* ── PLAN EQUIPAJE ── */
-  .plan-pair { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-  .plan-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .plan-head { padding: 14px 16px; color: white; }
-  .plan-head.valija { background: linear-gradient(135deg, #2d6b9e, #1e4f7a); }
-  .plan-head.carryon  { background: linear-gradient(135deg, #b5892b, #8a6720); }
-  .plan-head.daypack  { background: linear-gradient(135deg, #3f8f63, #276244); }
-  .plan-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; opacity: .85; }
-  .plan-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; margin-top: 3px; }
-  .plan-sub { font-size: 12px; margin-top: 4px; opacity: .9; }
-  .plan-body { padding: 14px 16px; display: grid; gap: 9px; }
-  .plan-item { display: flex; gap: 10px; }
-  .pi-ico { font-size: 16px; flex-shrink: 0; }
-  .plan-item strong { display: block; font-size: 13px; font-weight: 700; }
-  .plan-item span { color: var(--muted); font-size: 12px; }
-  .pack-h { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; color: var(--green); margin: 22px 0 4px; }
-
   /* ── RESERVAS ── */
   .reserva-list { display: grid; gap: 8px; }
   .reserva-item { display: flex; align-items: center; gap: 12px; padding: 13px 15px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
@@ -356,14 +339,6 @@
   .etapa-note { font-size: 11px; color: var(--muted); margin-top: 10px; line-height: 1.4; }
 
   /* ── CHECKLIST ── */
-  .check-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 440px) { .check-cols { grid-template-columns: 1fr; } }
-  .check-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
-  .check-box h3 { font-size: 13px; font-weight: 800; color: var(--green); margin-bottom: 10px; }
-  .check-box ul { list-style: none; display: grid; gap: 7px; }
-  .check-box li { display: flex; gap: 8px; font-size: 12px; align-items: flex-start; line-height: 1.35; }
-  .check-box li::before { content: "□"; color: var(--teal); font-size: 14px; flex-shrink: 0; line-height: 1.15; }
-
   .nota-final { margin-top: 20px; padding: 16px 18px; background: linear-gradient(135deg,#eaf6f0,#ddf0e8); border: 1px solid #b8ddc8; border-radius: 12px; font-size: 13px; color: #1a5038; }
   .nota-final strong { color: var(--green); }
 </style>
@@ -422,7 +397,7 @@
           <div class="dc-num"><span class="n">Día 1</span><span class="d">lun 7/9</span></div>
           <div><div class="dc-title">Vuelo a Alemania</div><span class="dc-badge">Vuelo</span></div>
         </div>
-        <div class="dc-slot s-man"><span class="s-ico">🧳</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Preparativos: la mochila de 30 L (Camino + cabina) y la valija grande (oficina + vuelta) listas</span></div></div>
+        <div class="dc-slot s-man"><span class="s-ico">🧳</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Check-in online de Iberia (se abre 24h antes) · asiento 05L ya asignado, localizador <strong>B5R735</strong></span></div></div>
         <div class="dc-slot s-tar"><span class="s-ico">🚕</span><div><span class="s-lbl">Tarde</span><span class="s-txt">Traslado a Ezeiza — el vuelo es internacional, conviene estar ~3h antes (~18:40)</span></div></div>
         <div class="dc-slot s-noc"><span class="s-ico">✈️</span><div><span class="s-lbl">Noche</span><span class="s-txt">21:40 salida Buenos Aires (EZE) · Iberia IB108 a Madrid · 11h50 de vuelo · asiento 05L, clase Ejecutiva</span></div></div>
         <div class="dc-nota">✔ Billete electrónico emitido: 0755283543063, localizador de agencia HORYMB, localizador de Iberia <strong>B5R735</strong>. Los cuatro tramos (IB108 / IB755 / IB756 / IB103) están confirmados en Ejecutiva, con <strong>1 valija despachada de hasta 23 kg incluida</strong> y 2 piezas de mano de hasta 14 kg.</div>
@@ -466,7 +441,7 @@
           <div><div class="dc-title">Último día de oficina</div><span class="dc-badge">Trabajo</span></div>
         </div>
         <div class="dc-slot s-man"><span class="s-ico">💼</span><div><span class="s-lbl">Todo el día</span><span class="s-txt">Último día de trabajo en Leverkusen</span></div></div>
-        <div class="dc-slot s-noc"><span class="s-ico">🚄</span><div><span class="s-lbl">Noche</span><span class="s-txt">Tren a Düsseldorf (~20-25min) → check-in en el ibis Düsseldorf Airport (Wanheimer Strasse 80, ~0,9km/10-12min caminando de la terminal) → valija grande al depósito oficial del aeropuerto al otro día (Car park 3, planta baja, €10/día, abierto 06:00-21:30)</span></div></div>
+        <div class="dc-slot s-noc"><span class="s-ico">🚄</span><div><span class="s-lbl">Noche</span><span class="s-txt">Tren a Düsseldorf (~20-25min) → check-in en el ibis Düsseldorf Airport (Wanheimer Strasse 80, ~0,9km/10-12min caminando de la terminal) → valija grande al depósito oficial del aeropuerto al otro día (Car park 3, planta baja, €10/día, abierto 06:00-21:30, <strong>solo tarjeta</strong>)</span></div></div>
         <div class="dc-nota">✔ Hotel reservado: ibis Düsseldorf Airport, reserva QNCHBGNH, €58,08. Hacer el check-in online del vuelo antes de dormir, para ir directo a seguridad al otro día.</div>
       </div>
 
@@ -476,10 +451,10 @@
           <div class="dc-num"><span class="n">Día 6</span><span class="d">sáb 12/9</span></div>
           <div><div class="dc-title">Düsseldorf → Sarria → Vilachá</div><span class="dc-badge">⭐ Día 1 Camino</span></div>
         </div>
-        <div class="dc-slot s-man"><span class="s-ico">🚄</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Caminata desde el ibis a la terminal (~10-12min) → pasar la laptop y lo pesado a la valija grande y dejarla en el depósito oficial (Car park 3) → vuelo Iberia IB1326, 06:20 DUS → 09:00 MAD (solo la mochila de 30 L, sin facturar) → Cercanías a Chamartín → 10:04 AVE Madrid→Ourense</span></div></div>
+        <div class="dc-slot s-man"><span class="s-ico">🚄</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Caminata desde el ibis a la terminal (~10-12min) → pasar la laptop y lo pesado a la valija grande y dejarla en el depósito oficial (Car park 3, planta baja, solo tarjeta) → vuelo Iberia IB1326, 06:20 DUS → 09:00 MAD (solo la mochila de 30 L, sin facturar) → Cercanías a Chamartín → 10:04 AVE Madrid→Ourense</span></div></div>
         <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">12:18 llegada del AVE a Ourense → 12:32 tren MD Ourense→Sarria (localizador WGG4YR) → 13:47 llegada a Sarria → comprar credencial del peregrino y bastones → 15hs caminata Sarria→Vilachá con la mochila de 30 L (~19,9km, ~5-5,5h con pausas)</span></div></div>
         <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Dormís en Vilachá (o antes, en Ferreiros, si el ritmo pide parar un poco antes)</span></div></div>
-        <div class="dc-nota">✔ Vuelo DUS→MAD reservado: Iberia IB1326, reserva KECBX, pagado US$194,30 (vía iberia.com/us en dólares, evitando la percepción del 30%). Llega a Madrid Terminal 4, que es de donde sale el Cercanías: margen ajustado pero viable hasta el AVE (~25-35 min hasta Chamartín). El billete del AVE ya está comprado; queda por confirmar si la tarifa es Básico o Elige, porque Básico no admite cambio el mismo día si el vuelo se atrasa. Se camina con la mochila de 30 L, que es también el bolso de cabina: la valija grande queda en el depósito del aeropuerto de Düsseldorf con la ropa de oficina y de la vuelta, y la mochila chica de 10 L viaja plegada adentro hasta Melide.<br><br>🪪 <strong>Credencial y bastones en Sarria:</strong> llegás en pleno horario de siesta (~14hs) y lo "oficial" está cerrado (turismo solo lun-vie, iglesias y monasterio cierran 13-16:30/18hs). Lo seguro: <strong>cualquier albergue de la Rúa Maior</strong> vende la credencial (~€2) y da el primer sello, ahí mismo — la estación queda a 5-10 min a pie de esa calle, que ya es el Camino. Bastones en la Peregrinoteca (Benigno Quiroga 16) u otra tienda de la Rúa Maior si están abiertas; si no, se camina sin ellos el día 1 (etapa corta y suave) y se compran con calma al otro día en Portomarín. Para la Compostela hacen falta 2 sellos por día en estos últimos 100 km — bares, albergues e iglesias sellan sin problema.<br><br>✔ Tren MD Ourense → Sarria reservado: sábado 12/9, 12:32 → 13:47, localizador WGG4YR, €8,40. La conexión en Ourense es de 14 min (AVE llega 12:18) — es la misma estación, andén a andén.<br><br>🅱️ <strong>Plan B — si el tren se atrasa y no llegás a caminar hoy:</strong> se pierde el día 1 entero, y los ~115km hay que repartirlos en los 3 días que quedan (~38km/día, exigente pero es lo que hay). Domingo Sarria→Eirexe (~40km, dos albergues confirmados ahí), lunes Eirexe→Arzúa (~37km, de largo por Palas de Rei y Melide sin parar), martes Arzúa→Santiago (38,7km) — mismo horario de llegada final, martes 15/9.</div>
+        <div class="dc-nota">✔ Vuelo DUS→MAD reservado: Iberia IB1326, reserva KECBX, pagado US$194,30 (vía iberia.com/us en dólares, evitando la percepción del 30%). Queda por confirmar si la tarifa del AVE es Básico o Elige, porque Básico no admite cambio el mismo día si el vuelo se atrasa.<br><br>🚆 <strong>La conexión en Madrid (09:00 → 10:04, es lo más ajustado del viaje):</strong> el vuelo llega a la <strong>Terminal 4</strong>, y la estación de Cercanías está dentro de la propia T4 — seguí los carteles de <em>Cercanías Renfe</em>. Tomás la <strong>línea C-1 hasta Chamartín</strong>, que pasa cada ~15 min y tarda poco más de 10. <strong>El viaje es gratis:</strong> tu billete del AVE incluye el <em>Combinado Cercanías</em>, válido desde 4 horas antes de la salida. Sacás el ticket en una máquina autoventa o en taquilla con el localizador y la contraseña que figuran en el billete del AVE bajo el epígrafe "Combinado Cercanías" (o pasando el código de barras). <strong>Tené el billete del AVE abierto en el celular antes de bajar del avión</strong> — no querés estar buscándolo en la máquina. Si perdés el AVE, hay salidas más tarde a Ourense; el tren a Sarria de las 12:32 es el que no se repite hasta la tarde.<br><br>🪪 <strong>Credencial y bastones en Sarria:</strong> llegás en pleno horario de siesta (~14hs) y lo "oficial" está cerrado (turismo solo lun-vie, iglesias y monasterio cierran 13-16:30/18hs). Lo seguro: <strong>cualquier albergue de la Rúa Maior</strong> vende la credencial (~€2) y da el primer sello, ahí mismo — la estación queda a 5-10 min a pie de esa calle, que ya es el Camino. Bastones en la Peregrinoteca (Benigno Quiroga 16) u otra tienda de la Rúa Maior si están abiertas; si no, se camina sin ellos el día 1 (etapa corta y suave) y se compran con calma al otro día en Portomarín. Para la Compostela hacen falta 2 sellos por día en estos últimos 100 km — bares, albergues e iglesias sellan sin problema.<br><br>✔ Tren MD Ourense → Sarria reservado: sábado 12/9, 12:32 → 13:47, localizador WGG4YR, €8,40. La conexión en Ourense es de 14 min (AVE llega 12:18) — es la misma estación, andén a andén.<br><br>🅱️ <strong>Plan B — si el tren se atrasa y no llegás a caminar hoy:</strong> se pierde el día 1 entero, y los ~115km hay que repartirlos en los 3 días que quedan (~38km/día, exigente pero es lo que hay). Domingo Sarria→Eirexe (~40km, dos albergues confirmados ahí), lunes Eirexe→Arzúa (~37km, de largo por Palas de Rei y Melide sin parar), martes Arzúa→Santiago (38,7km) — mismo horario de llegada final, martes 15/9.</div>
       </div>
 
       <!-- DÍA 7 -->
@@ -546,151 +521,6 @@
     <h2>Mapa del viaje</h2>
     <p class="section-note">Todo el viaje de un vistazo — vuelos, trenes y el tramo a pie. Tocá cada punto para ver el detalle. El recorrido del Camino día por día, con perfiles de altura, está en la solapa <strong>Etapas</strong>.</p>
     <div id="map" style="height:380px;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);"></div>
-  </section>
-
-  <!-- PLAN EQUIPAJE -->
-  <section class="section" id="equipaje">
-    <h2>Plan de equipaje</h2>
-    <p class="section-note">Tres bultos, y cada uno hace un tramo distinto: la <strong>valija grande</strong> no camina (queda en el aeropuerto de Düsseldorf), la <strong>mochila de 30 L</strong> es tu bolso de cabina en los vuelos y la cargás los dos primeros días del Camino, y desde Melide la despachás a Santiago para hacer los dos últimos días con la <strong>mochila chica de 10 L</strong>.</p>
-    <div class="plan-pair">
-      <div class="plan-card">
-        <div class="plan-head valija">
-          <div class="plan-eyebrow">Valija grande</div>
-          <div class="plan-title">Guardada en el aeropuerto 🔒</div>
-          <div class="plan-sub">Ropa de oficina y de la vuelta — no camina</div>
-        </div>
-        <div class="plan-body">
-          <div class="plan-item"><span class="pi-ico">🧳</span><div><strong>Antes del sábado 12/9</strong><span>Pasás acá la laptop y todo lo que no quieras cargar 115 km</span></div></div>
-          <div class="plan-item"><span class="pi-ico">🔓</span><div><strong>Depósito oficial del aeropuerto de Düsseldorf</strong><span>Car park 3, planta baja · 06:00-21:30 · €10/día · solo tarjeta</span></div></div>
-          <div class="plan-item"><span class="pi-ico">📅</span><div><strong>Se retira el miércoles 16/9</strong><span>Al volver de Santiago, antes del vuelo a Buenos Aires — misma terminal</span></div></div>
-        </div>
-      </div>
-      <div class="plan-card">
-        <div class="plan-head carryon">
-          <div class="plan-eyebrow">Mochila 30 L</div>
-          <div class="plan-title">Los días 1 y 2 🎒</div>
-          <div class="plan-sub">Bolso de cabina en los vuelos · se despacha en Melide</div>
-        </div>
-        <div class="plan-body">
-          <div class="plan-item"><span class="pi-ico">✈️</span><div><strong>Equipaje de mano en todos los vuelos</strong><span>En el DUS-MAD sin valija facturada, así no hay espera de cinta en Madrid</span></div></div>
-          <div class="plan-item"><span class="pi-ico">🥾</span><div><strong>La cargás los días 1 y 2</strong><span>Sarria→Vilachá y el día largo hasta Melide · ~6-8 kg con agua</span></div></div>
-          <div class="plan-item"><span class="pi-ico">📮</span><div><strong>Lunes 14/9: la despachás en Melide</strong><span>Paq Peregrino de Correos → Santiago · la retirás el martes al llegar</span></div></div>
-          <div class="plan-item"><span class="pi-ico">🥢</span><div><strong>Bastones: se compran en Sarria</strong><span>No se pueden llevar en cabina · ~€15-20, se donan al llegar a Santiago</span></div></div>
-        </div>
-      </div>
-      <div class="plan-card">
-        <div class="plan-head daypack">
-          <div class="plan-eyebrow">Mochila 10 L</div>
-          <div class="plan-title">Los días 3 y 4 🧳</div>
-          <div class="plan-sub">Quechua Arpenaz 10 L · 190 g · viaja plegada dentro de la grande</div>
-        </div>
-        <div class="plan-body">
-          <div class="plan-item"><span class="pi-ico">⚖️</span><div><strong>~3,3 kg cargada</strong><span>A ese peso no hace falta cinturón de cadera — gana la mochila liviana</span></div></div>
-          <div class="plan-item"><span class="pi-ico">🧷</span><div><strong>Comprá aparte la correa de pecho</strong><span>No la trae · sin ella los tirantes se abren con las horas · correa esternal universal</span></div></div>
-          <div class="plan-item"><span class="pi-ico">☔</span><div><strong>No es impermeable</strong><span>Muda, celular y pasaporte siempre dentro de bolsa estanca o ziplocs</span></div></div>
-          <div class="plan-item"><span class="pi-ico">🧪</span><div><strong>Probala antes de viajar</strong><span>3,5 kg y dos horas caminando acá · si molesta ahí, molesta en Arzúa</span></div></div>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="pack-h">Qué va en la mochila de 30 L</h3>
-    <p class="section-note">Objetivo: ~6-8 kg con el agua. Septiembre en Galicia: días templados, mañanas frescas y lluvia probable. Todo esto lo cargás los días 1 y 2; el lunes en Melide sale para Santiago y solo seguís con lo de la última tarjeta.</p>
-    <div class="check-cols">
-      <div class="check-box">
-        <h3>Puesto (no pesa en la mochila)</h3>
-        <ul>
-          <li>Zapatillas de trekking ya usadas + calcetines técnicos</li>
-          <li>Pantalón o short técnico, remera, gorra, lentes de sol</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Ropa de caminar</h3>
-        <ul>
-          <li>2 remeras técnicas más (lavás y rotás cada noche)</li>
-          <li>2-3 pares de calcetines anti-ampollas</li>
-          <li>1 pantalón o short técnico extra</li>
-          <li>2-3 mudas de ropa interior técnica</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Abrigo y lluvia</h3>
-        <ul>
-          <li>Chaqueta impermeable o poncho compactable — clave en Galicia</li>
-          <li>1 capa cálida liviana (micro-fleece o plumón compactable)</li>
-          <li>Buff y gorro fino</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Descanso / albergue</h3>
-        <ul>
-          <li>Sandalias o chanclas (post-caminata y duchas)</li>
-          <li>1 muda para dormir (sirve también de ropa "de civil")</li>
-          <li>Toalla de microfibra chica</li>
-          <li><span><em>Sin saco de dormir ni sábana-saco:</em> los albergues de la Xunta dan sábana y funda de almohada desechables, mantas y calefacción, incluidas en los €10</span></li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Neceser · líquidos &lt;100 ml por los vuelos</h3>
-        <ul>
-          <li>Cepillo y pasta, jabón o champú sólido, desodorante</li>
-          <li>Protector solar y labial, papel higiénico, toallitas</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Botiquín</h3>
-        <ul>
-          <li>Compeed / apósitos de ampollas, aguja e hilo, tijeritas</li>
-          <li>Vaselina o crema anti-rozaduras, esparadrapo</li>
-          <li>Ibuprofeno, antihistamínico, tus medicamentos</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Documentos y plata</h3>
-        <ul>
-          <li>Pasaporte, DNI, tarjetas, efectivo (bares y albergues a veces solo cash)</li>
-          <li>Credencial del peregrino — se sella cada día, la comprás en Sarria</li>
-          <li>Reservas en el celu + backup impreso (Parador, vuelos, tren)</li>
-          <li>Seguro de viaje / cobertura médica</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Electrónica</h3>
-        <ul>
-          <li>Celular y cargador · power bank 10.000 mAh (siempre en cabina)</li>
-          <li>Adaptador de enchufe europeo</li>
-          <li>Auriculares · linterna frontal chica (arranques temprano)</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Varios</h3>
-        <ul>
-          <li>Botella blanda (soft flask) de 0,75-1 L — se aplasta vacía y va en el bolsillo externo de la chica</li>
-          <li>Bolsa estanca o ziplocs (la mochila de 10 L no es impermeable)</li>
-          <li>Correa de pecho universal para la mochila de 10 L</li>
-          <li>Un par de imperdibles (colgar ropa a secar en la mochila)</li>
-          <li>Snacks / barras</li>
-        </ul>
-      </div>
-      <div class="check-box">
-        <h3>Para la cena del Parador</h3>
-        <ul>
-          <li>1 muda "linda" enrollada: pantalón limpio + camisa o remera decente</li>
-          <li>Las sandalias hacen de calzado de vestir</li>
-        </ul>
-      </div>
-      <div class="check-box" style="border-color:#cfe7da;background:var(--green-soft)">
-        <h3>Los días 3 y 4 · en la mochila de 10 L</h3>
-        <ul>
-          <li>Soft flask de 0,75 L en el bolsillo externo (rellenás en cada bar)</li>
-          <li>Impermeable liviano + capa fina + buff</li>
-          <li>1 muda para la noche 3 en Brea: remera, ropa interior, medias</li>
-          <li>Neceser mínimo, botiquín, protector solar</li>
-          <li>Pasaporte, plata, tarjetas, credencial, celular, cargador, power bank</li>
-          <li>Snacks · frontal para la salida de noche</li>
-        </ul>
-      </div>
-    </div>
-    <p class="section-note" style="margin-top:10px"><strong>Queda en la valija grande:</strong> laptop y cosas de trabajo, ropa de oficina, ropa de la vuelta a BA, todo lo pesado o voluminoso. Navaja o cuchillo: no va en cabina — compralo en Sarria si lo querés, o dejalo.<br><br><strong>Viaja a Santiago dentro de la de 30 L (lunes, desde Melide):</strong> las mudas de caminar de los últimos dos días, sandalias, toalla, la muda linda del Parador y todo lo que no necesites en el camino. La recuperás el martes a la tarde, antes de entrar al Parador.</p>
   </section>
 
   <!-- RESERVAS / PENDIENTES -->
