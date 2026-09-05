@@ -85,6 +85,54 @@
     .tab-btn.docs { flex: 1 1 30%; justify-content: center; }
   }
 
+  /* ── HORARIOS DE ETAPA ── */
+  .hr-box { margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px; }
+  .hr-box h4 { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .hr-sub { font-size: 11.5px; color: var(--muted); line-height: 1.45; margin-bottom: 9px; }
+  .hr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  @media (max-width: 480px) { .hr-grid { grid-template-columns: repeat(2, 1fr); } }
+  .hr-cell { text-align: center; }
+  .hr-cell label { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+  .hr-cell input { width: 100%; padding: 7px 4px; font: inherit; font-size: 13px; text-align: center; border: 1.5px solid var(--border); border-radius: 9px; background: #fff; color: var(--ink); }
+  .hr-pausa { display: flex; align-items: center; gap: 8px; margin-top: 9px; font-size: 12px; color: var(--muted); }
+  .hr-pausa select { padding: 6px 9px; font: inherit; font-size: 12.5px; border: 1.5px solid var(--border); border-radius: 9px; background: #fff; }
+  .eta { display: inline-block; font-weight: 800; }
+  .eta.ok { color: #1a6b4a; }
+  .eta.tarde { color: #b5892b; }
+  .eta.noche { color: #9c3b1c; }
+
+  /* ── CLIMA ── */
+  .wx-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+  @media (max-width: 620px) { .wx-cards { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 380px) { .wx-cards { grid-template-columns: repeat(2, 1fr); } }
+  .wx-loading { grid-column: 1 / -1; padding: 22px; text-align: center; color: var(--muted); font-size: 13px; }
+  .wx-day { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 8px; text-align: center; cursor: pointer; transition: border-color .15s; }
+  .wx-day.on { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
+  .wx-dow { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+  .wx-place { font-size: 10px; color: var(--muted); margin-top: 1px; line-height: 1.2; min-height: 12px; }
+  .wx-ico { font-size: 24px; line-height: 1.35; }
+  .wx-t { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .wx-t small { font-weight: 400; color: var(--muted); font-size: 12px; }
+  .wx-rain { font-size: 10.5px; color: #2a6fa8; margin-top: 2px; }
+  .wx-rain.dry { color: var(--muted); }
+  .wx-wind { font-size: 10px; color: var(--muted); }
+
+  .wx-detail { margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; }
+  .wx-dtitle { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 9px; }
+  .wx-hours { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 4px; }
+  .wx-h { flex: 0 0 auto; min-width: 44px; text-align: center; font-size: 10.5px; }
+  .wx-h .hh { color: var(--muted); font-weight: 700; }
+  .wx-h .ee { font-size: 15px; line-height: 1.5; }
+  .wx-h .tt { font-weight: 700; }
+  .wx-h .pp { color: #2a6fa8; font-size: 9.5px; }
+  .wx-h.walk { background: var(--green-soft); border-radius: 7px; }
+  .wx-note { margin-top: 9px; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+  .wx-foot { margin-top: 10px; font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .wx-badge { display: inline-block; padding: 1px 7px; border-radius: 99px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+  .wx-badge.alto { background: #ddf0e4; color: #1a6b4a; }
+  .wx-badge.medio { background: #fdf0da; color: #9a6b16; }
+  .wx-badge.bajo { background: #fce8e8; color: #8b2020; }
+
   /* ── SOLAPA MADRID ── */
   .mad-clock { display: flex; align-items: stretch; gap: 8px; margin: 4px 0 14px; }
   .mc-item { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 10px; text-align: center; }
@@ -447,6 +495,15 @@
   </nav>
 
   <div class="tab-panel" id="tab-viaje">
+
+  <!-- CLIMA -->
+  <section class="section" id="clima">
+    <h2>Clima</h2>
+    <p class="section-note">Pronóstico en vivo, promediando hasta cinco modelos (europeo, americano, alemán, francés y británico). Cada día usa el punto donde terminás la etapa. Tocá un día para ver hora por hora.</p>
+    <div id="wx-cards" class="wx-cards"><div class="wx-loading">Consultando el pronóstico…</div></div>
+    <div id="wx-hourly"></div>
+    <p class="wx-foot" id="wx-foot"></p>
+  </section>
 
   <!-- CRONOGRAMA -->
   <section class="section" id="cronograma">
@@ -949,7 +1006,8 @@ function segments() {
     segs.push({
       i, from: fromN[i], to: toN[i], day: DAYS[i], dist, up: gl.up, down: gl.down,
       emin: Math.round(Math.min.apply(null, eles)), emax: Math.round(Math.max.apply(null, eles)),
-      hours: fmtH(dist / 4.6 + gl.up / 500), diff: tier(dist, gl.up), warn,
+      hours: fmtH(dist / 4.6 + gl.up / 500), hnum: dist / 4.6 + gl.up / 500,
+      diff: tier(dist, gl.up), warn,
       prof: decimate(loc, 170), landmarks: lm,
       coords: TRACK.filter(t => t[2] >= a - 0.05 && t[2] <= c + 0.05).map(t => [t[0], t[1]])
     });
@@ -997,6 +1055,25 @@ function profileSVG(s) {
 /* ---------- render ---------- */
 const DIFFC = { 'Suave': 'd-moderada', 'Moderada': 'd-moderada', 'Exigente': 'd-exigente', 'Dura': 'd-dura', 'Muy dura': 'd-muydura' };
 
+const LUZ = [
+  { amanece: '08:06', anochece: '20:45' },
+  { amanece: '08:09', anochece: '20:45' },
+  { amanece: '08:11', anochece: '20:45' },
+  { amanece: '08:13', anochece: '20:44' }
+];
+const SAL_DEF = ['14:30', '07:00', '07:00', '07:00'];
+let salidas = (() => { try { return JSON.parse(localStorage.getItem('camino_salidas_v1')) || SAL_DEF.slice(); } catch (e) { return SAL_DEF.slice(); } })();
+let pausas = (() => { try { const v = localStorage.getItem('camino_pausas_v1'); return v === null || isNaN(+v) ? 60 : +v; } catch (e) { return 60; } })();
+const saveHoras = () => { try { localStorage.setItem('camino_salidas_v1', JSON.stringify(salidas)); localStorage.setItem('camino_pausas_v1', pausas); } catch (e) { } };
+const min2hm = m => String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(Math.round(m % 60)).padStart(2, '0');
+const hm2min = t => { const p = (t || '').split(':'); return (+p[0]) * 60 + (+p[1] || 0); };
+function llegada(i, seg) {
+  const sale = hm2min(salidas[i]);
+  const fin = sale + seg.hnum * 60 + pausas;
+  const oscurece = hm2min(LUZ[i].anochece);
+  return { sale: salidas[i], llega: min2hm(fin), pasado: fin - oscurece, finMin: fin };
+}
+
 function renderControls() {
   const box = document.getElementById('planner-controls');
   let h = `<div class="planner"><h3>Elegí dónde dormís cada noche</h3>
@@ -1009,6 +1086,14 @@ function renderControls() {
       <select data-night="${i}">${opts}</select></div>`;
   }
   h += `<div class="night-row"><span class="night-lbl">Meta</span><span class="night-fixed">Santiago · martes</span></div>
+    <div class="hr-box">
+      <h4>A qué hora salís cada día</h4>
+      <p class="hr-sub">Cambiá la hora y abajo ves a qué hora llegarías. Si te da muy tarde, probá mover la parada de esa noche: así vas viendo hasta dónde te conviene llegar. Amanece ~08:08 y anochece ~20:45.</p>
+      <div class="hr-grid">${[0,1,2,3].map(i => `<div class="hr-cell"><label>Día ${i+1}</label><input type="time" data-sal="${i}" value="${salidas[i]}" step="300"></div>`).join('')}</div>
+      <div class="hr-pausa"><span>Pausas por día</span>
+        <select id="sel-pausa">${[30,45,60,90,120].map(v => `<option value="${v}"${v===pausas?' selected':''}>${v} min</option>`).join('')}</select>
+      </div>
+    </div>
     <div class="planner-actions">
       <button class="planner-btn primary" id="planner-reset">Volver al plan sugerido</button>
     </div></div>`;
@@ -1019,8 +1104,17 @@ function renderControls() {
       sanitize(); saveNights(); renderAll();
     });
   });
+  box.querySelectorAll('input[data-sal]').forEach(inp => {
+    inp.addEventListener('change', () => {
+      salidas[+inp.dataset.sal] = inp.value || SAL_DEF[+inp.dataset.sal];
+      saveHoras(); renderAll();
+    });
+  });
+  const selP = document.getElementById('sel-pausa');
+  if (selP) selP.addEventListener('change', () => { pausas = +selP.value; saveHoras(); renderAll(); });
   document.getElementById('planner-reset').addEventListener('click', () => {
-    nights = C.default_nights.slice(); saveNights(); renderAll();
+    nights = C.default_nights.slice(); salidas = SAL_DEF.slice(); pausas = 60;
+    saveNights(); saveHoras(); renderAll();
   });
 }
 
@@ -1030,6 +1124,7 @@ function renderCards(segs) {
   segs.forEach((s, i) => {
     const el = document.createElement('div');
     el.className = 'etapa' + (i === 0 ? ' open' : '');
+    const L = llegada(i, s);
     const lms = s.landmarks.map(l =>
       `<div class="etapa-lm"><span class="lm-km">${KM(l.km)} km</span><span><b>${l.name}</b> · ${l.ele} m${l.classic ? ' · ★' : ''}</span></div>`).join('');
     el.innerHTML = `
@@ -1038,6 +1133,7 @@ function renderCards(segs) {
         <span class="etapa-headmain">
           <span class="etapa-route">${s.from} → ${s.to}</span>
           <span class="etapa-meta">${s.day} · ${KM(s.dist)} km · ${s.hours}${s.warn ? ` <span class="warn-tag">${s.warn}</span>` : ''}</span>
+          <span class="etapa-meta">sale ${L.sale} → llega <span class="eta ${L.pasado > 30 ? 'noche' : L.pasado > -60 ? 'tarde' : 'ok'}">${L.llega}</span>${L.pasado > 30 ? ' · de noche' : L.pasado > -60 ? ' · justo con la luz' : ''}</span>
         </span>
         <span class="etapa-diff ${DIFFC[s.diff]}">${s.diff}</span>
         <span class="etapa-chev">▼</span>
@@ -1048,6 +1144,9 @@ function renderCards(segs) {
           <div class="es-cell"><div class="es-k">Subida</div><div class="es-v">+${NF(s.up)} m</div></div>
           <div class="es-cell"><div class="es-k">Bajada</div><div class="es-v">−${NF(s.down)} m</div></div>
           <div class="es-cell"><div class="es-k">Tiempo est.</div><div class="es-v">${s.hours.replace(' ', '')}</div></div>
+          <div class="es-cell"><div class="es-k">Sale</div><div class="es-v">${L.sale}</div></div>
+          <div class="es-cell"><div class="es-k">Llega</div><div class="es-v eta ${L.pasado > 30 ? 'noche' : L.pasado > -60 ? 'tarde' : 'ok'}">${L.llega}</div></div>
+          <div class="es-cell"><div class="es-k">Anochece</div><div class="es-v">${LUZ[i].anochece}</div></div>
         </div>
         <div class="prof-wrap">${profileSVG(s)}</div>
         <div class="etapa-lms">${lms || '<div class="etapa-lm">Sin pueblos intermedios en este tramo</div>'}</div>
@@ -1341,6 +1440,157 @@ window.ALBERGUES = [
   render();
 })();
 
+</script>
+<script>
+/* ===== Clima · pronóstico en vivo promediando modelos (Open-Meteo) ===== */
+(function () {
+  const DIAS = [
+    { f: '2026-09-12', dow: 'sáb 12', lugar: 'Portomarín',  lat: 42.8072, lon: -7.6156, camina: [15, 21] },
+    { f: '2026-09-13', dow: 'dom 13', lugar: 'Melide',      lat: 42.9147, lon: -8.0147, camina: [7, 19] },
+    { f: '2026-09-14', dow: 'lun 14', lugar: 'O Pedrouzo',  lat: 42.9075, lon: -8.3617, camina: [7, 18] },
+    { f: '2026-09-15', dow: 'mar 15', lugar: 'Santiago',    lat: 42.8805, lon: -8.5457, camina: [7, 16] },
+    { f: '2026-09-16', dow: 'mié 16', lugar: 'vuelo 09:15', lat: 42.8805, lon: -8.5457, camina: null }
+  ];
+  const MODELOS = ['ecmwf_ifs025', 'gfs_seamless', 'icon_seamless', 'meteofrance_seamless', 'ukmo_seamless'];
+  const CACHE = 'camino_wx_v1';
+  const VIGENCIA = 3 * 3600 * 1000;
+
+  const WMO = c =>
+    c === 0 ? ['☀️', 'despejado'] :
+    c <= 2 ? ['🌤️', 'algo nublado'] :
+    c === 3 ? ['☁️', 'nublado'] :
+    c <= 48 ? ['🌫️', 'niebla'] :
+    c <= 57 ? ['🌦️', 'llovizna'] :
+    c <= 67 ? ['🌧️', 'lluvia'] :
+    c <= 77 ? ['🌨️', 'nieve'] :
+    c <= 82 ? ['🌧️', 'chaparrones'] :
+    c <= 99 ? ['⛈️', 'tormenta'] : ['🌡️', ''];
+
+  const prom = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const $ = id => document.getElementById(id);
+
+  function valores(daily, campo) {
+    return MODELOS.map(m => daily[campo + '_' + m] && daily[campo + '_' + m][0])
+                  .filter(v => v !== null && v !== undefined);
+  }
+
+  async function pedirDia(d) {
+    const u = 'https://api.open-meteo.com/v1/forecast?latitude=' + d.lat + '&longitude=' + d.lon +
+      '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,windspeed_10m_max,weathercode' +
+      '&timezone=Europe%2FMadrid&start_date=' + d.f + '&end_date=' + d.f +
+      '&models=' + MODELOS.join(',');
+    const r = await fetch(u);
+    if (!r.ok) throw new Error('open-meteo ' + r.status);
+    const j = (await r.json()).daily;
+    const tmax = valores(j, 'temperature_2m_max'), tmin = valores(j, 'temperature_2m_min');
+    const mm = valores(j, 'precipitation_sum'), pp = valores(j, 'precipitation_probability_max');
+    const vv = valores(j, 'windspeed_10m_max'), cc = valores(j, 'weathercode');
+    if (!tmax.length) throw new Error('sin datos');
+    return {
+      f: d.f, dow: d.dow, lugar: d.lugar, camina: d.camina, lat: d.lat, lon: d.lon,
+      tmax: prom(tmax), tmin: prom(tmin), mm: prom(mm), pp: prom(pp), viento: prom(vv),
+      code: cc.sort((a, b) => cc.filter(x => x === a).length - cc.filter(x => x === b).length).pop(),
+      modelos: tmax.length,
+      spreadT: Math.max(...tmax) - Math.min(...tmax),
+      discrepa: mm.some(x => x >= 1) && mm.some(x => x < 0.2)
+    };
+  }
+
+  function acuerdo(d) {
+    if (d.spreadT <= 2 && !d.discrepa) return 'alto';
+    if (d.spreadT <= 4.5 && !d.discrepa) return 'medio';
+    return 'bajo';
+  }
+
+  function pintar(datos, cuando) {
+    const host = $('wx-cards');
+    host.innerHTML = datos.map((d, i) => {
+      const [ico] = WMO(d.code);
+      const seco = d.pp < 25 && d.mm < 0.5;
+      return `<div class="wx-day" data-i="${i}">
+        <div class="wx-dow">${d.dow}</div>
+        <div class="wx-place">${d.lugar}</div>
+        <div class="wx-ico">${ico}</div>
+        <div class="wx-t">${Math.round(d.tmax)}°<small> / ${Math.round(d.tmin)}°</small></div>
+        <div class="wx-rain${seco ? ' dry' : ''}">${seco ? 'sin lluvia' : Math.round(d.pp) + '% · ' + d.mm.toFixed(1) + ' mm'}</div>
+        <div class="wx-wind">${Math.round(d.viento)} km/h</div>
+      </div>`;
+    }).join('');
+
+    const peor = datos.reduce((a, b) => (acuerdo(b) === 'bajo' ? b : a), datos[0]);
+    const nivel = datos.some(d => acuerdo(d) === 'bajo') ? 'bajo'
+                : datos.some(d => acuerdo(d) === 'medio') ? 'medio' : 'alto';
+    const dias = Math.round((new Date(datos[0].f) - new Date()) / 86400000);
+    $('wx-foot').innerHTML =
+      `Acuerdo entre modelos: <span class="wx-badge ${nivel}">${nivel}</span> · promedio de ${datos[0].modelos} modelos · ` +
+      (dias > 7 ? 'a más de una semana vista esto es tendencia, no pronóstico. ' : dias > 3 ? 'todavía puede cambiar. ' : 'ya es pronóstico firme. ') +
+      `Actualizado ${cuando}. Datos de Open-Meteo.`;
+
+    host.querySelectorAll('.wx-day').forEach(el =>
+      el.addEventListener('click', () => detalle(datos[+el.dataset.i], +el.dataset.i)));
+    detalle(datos[0], 0);
+  }
+
+  async function detalle(d, i) {
+    document.querySelectorAll('.wx-day').forEach((el, k) => el.classList.toggle('on', k === i));
+    const box = $('wx-hourly');
+    box.innerHTML = `<div class="wx-detail"><div class="wx-dtitle">${d.dow} · ${d.lugar}</div><div class="wx-note">Cargando las horas…</div></div>`;
+    try {
+      const u = 'https://api.open-meteo.com/v1/forecast?latitude=' + d.lat + '&longitude=' + d.lon +
+        '&hourly=temperature_2m,precipitation_probability,weathercode&timezone=Europe%2FMadrid' +
+        '&start_date=' + d.f + '&end_date=' + d.f;
+      const h = (await (await fetch(u)).json()).hourly;
+      const desde = d.camina ? d.camina[0] : 6, hasta = d.camina ? d.camina[1] : 12;
+      let cel = '';
+      for (let k = 5; k <= 22; k++) {
+        const [e] = WMO(h.weathercode[k]);
+        const dentro = k >= desde && k <= hasta;
+        cel += `<div class="wx-h${dentro ? ' walk' : ''}">
+          <div class="hh">${String(k).padStart(2, '0')}</div>
+          <div class="ee">${e}</div>
+          <div class="tt">${Math.round(h.temperature_2m[k])}°</div>
+          <div class="pp">${h.precipitation_probability[k]}%</div></div>`;
+      }
+      box.innerHTML = `<div class="wx-detail">
+        <div class="wx-dtitle">${d.dow} · ${d.lugar}</div>
+        <div class="wx-hours">${cel}</div>
+        <div class="wx-note">${d.camina ? 'En verde, tu franja de caminata (' + d.camina[0] + ':00 a ' + d.camina[1] + ':00).' : 'En verde, la mañana del vuelo.'} Hora local española.</div>
+      </div>`;
+    } catch (e) {
+      box.innerHTML = `<div class="wx-detail"><div class="wx-dtitle">${d.dow} · ${d.lugar}</div><div class="wx-note">No pude traer el detalle por hora. Probá de nuevo con conexión.</div></div>`;
+    }
+  }
+
+  function guardar(datos) {
+    try { localStorage.setItem(CACHE, JSON.stringify({ t: Date.now(), datos })); } catch (e) { }
+  }
+  function leer() {
+    try { return JSON.parse(localStorage.getItem(CACHE) || 'null'); } catch (e) { return null; }
+  }
+  const hace = t => {
+    const m = Math.round((Date.now() - t) / 60000);
+    if (m < 2) return 'recién';
+    if (m < 60) return 'hace ' + m + ' min';
+    const h = Math.round(m / 60);
+    return h < 24 ? 'hace ' + h + ' h' : 'hace ' + Math.round(h / 24) + ' días';
+  };
+
+  async function init() {
+    const cache = leer();
+    if (cache && Date.now() - cache.t < VIGENCIA) { pintar(cache.datos, hace(cache.t)); return; }
+    try {
+      const datos = await Promise.all(DIAS.map(pedirDia));
+      guardar(datos);
+      pintar(datos, 'recién');
+    } catch (e) {
+      if (cache) pintar(cache.datos, hace(cache.t) + ' (sin conexión ahora)');
+      else $('wx-cards').innerHTML = '<div class="wx-loading">No pude traer el pronóstico. Necesita conexión.</div>';
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
 </script>
 </body>
 </html>
