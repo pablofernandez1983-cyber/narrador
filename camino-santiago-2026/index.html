@@ -77,6 +77,7 @@
     transition: all .15s;
   }
   .tab-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
+  .tab-btn.docs { flex: 0 0 auto; padding: 10px 12px; text-decoration: none; display: inline-flex; align-items: center; background: var(--gold); border-color: var(--gold); color: #fff; }
   .tab-panel[hidden] { display: none; }
 
   /* ── PLANNER ── */
@@ -380,6 +381,7 @@
     <button class="tab-btn" data-tab="viaje">🗺️ Viaje</button>
     <button class="tab-btn" data-tab="etapas">🥾 Etapas</button>
     <button class="tab-btn" data-tab="contactos">📞 Contactos</button>
+    <a class="tab-btn docs" href="./documentos.html" title="Tickets y reservas en PDF">🔐 Papeles</a>
   </nav>
 
   <div class="tab-panel" id="tab-viaje">
@@ -526,7 +528,7 @@
   <!-- RESERVAS / PENDIENTES -->
   <section class="section" id="reservas">
     <h2>Reservas y logística</h2>
-    <p class="section-note">Todo lo reservable ya está cerrado. Lo único que se resuelve sobre la marcha es dónde dormir cada noche del Camino, tal como se decidió.</p>
+    <p class="section-note">Todo lo reservable ya está cerrado. Lo único que se resuelve sobre la marcha es dónde dormir cada noche del Camino, tal como se decidió. Los PDF de todos los tickets están en <a href="./documentos.html" style="color:var(--teal);font-weight:700">🔐 Papeles</a>, cifrados con tu clave.</p>
     <div class="reserva-list">
       <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Düsseldorf → Madrid (12/9)</div><div class="ri-sub">✔ Reservado: Iberia IB1326, <strong>operado por Air Nostrum</strong>, reserva KECBX, 06:20→09:00, llega a Madrid <strong>Terminal 4</strong> · pagado US$194,30 (vía iberia.com/us en dólares, evitando la percepción del 30%) · cambios con penalización de 55€, sin reembolso · Economy: 1 bolso personal (40x30x15) + 1 pieza de hasta 10 kg (56x40x25). <strong>Ojo:</strong> esa pieza va "en cabina o bodega según espacio disponible" y es un avión regional — si te la mandan a bodega en el embarque, la recuperás en Madrid y ahí se complica el AVE de las 10:04. Embarcá temprano y llevá la mochila lo más comprimida posible</div></div><span class="rtag rtag-si">Listo</span></div>
       <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Santiago → Düsseldorf (16/9, 09:15)</div><div class="ri-sub">✔ Reservado: Vueling, reserva XLKJYJ · VY1681 SCQ 09:15 → BCN 10:55 · escala 1h10 · VY1894 BCN 12:05 → DUS 14:25 · €296,71 (incluye €65 de bolso de cabina en los dos tramos). Medidas de Vueling: 1 bolso bajo el asiento (40x30x20) + 1 de cabina de hasta 10 kg y <strong>55x40x20 cm</strong> — la de 30 L tiene que entrar comprimida en esas medidas o cobran hasta €75 en puerta</div></div><span class="rtag rtag-si">Listo</span></div>
