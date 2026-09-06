@@ -50,8 +50,8 @@ CATALOGO = [
      "noche del mar 15/9 \u00b7 26WEB10319079940 \u00b7 llevar la credencial sellada"),
     (8,  ("seguro", "asisten", "cobertura"), "\U0001F6E1\ufe0f",
      "Seguro de viaje", "cobertura m\u00e9dica \u00b7 tel\u00e9fono de asistencia"),
-    (9,  ("pasaporte", "dni"), "\U0001FAAA",
-     "Documentos personales", "copia de respaldo"),
+    (0,  ("pasaporte", "dni"), "\U0001FAAA",
+     "Pasaporte", "el número, para cuando te lo pidan"),
     (10, ("embarque", "boarding"), "\U0001F3AB",
      "Tarjetas de embarque", "se emiten 24h antes de cada vuelo"),
 ]
@@ -59,6 +59,7 @@ CATALOGO = [
 MIMES = {
     ".pdf": "application/pdf", ".png": "image/png", ".jpg": "image/jpeg",
     ".jpeg": "image/jpeg", ".webp": "image/webp",
+    ".txt": "text/plain; charset=utf-8",
 }
 
 
