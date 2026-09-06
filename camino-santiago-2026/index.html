@@ -90,16 +90,10 @@
   .vivo-btn { flex: 1 1 30%; text-align: center; padding: 12px 10px; border-radius: 11px; background: var(--green); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none; }
 
   /* ── HORARIOS DE ETAPA ── */
-  .hr-box { margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px; }
-  .hr-box h4 { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
-  .hr-sub { font-size: 11.5px; color: var(--muted); line-height: 1.45; margin-bottom: 9px; }
-  .hr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
-  @media (max-width: 480px) { .hr-grid { grid-template-columns: repeat(2, 1fr); } }
-  .hr-cell { text-align: center; }
-  .hr-cell label { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
-  .hr-cell input { width: 100%; padding: 7px 4px; font: inherit; font-size: 13px; text-align: center; border: 1.5px solid var(--border); border-radius: 9px; background: #fff; color: var(--ink); }
-  .hr-pausa { display: flex; align-items: center; gap: 8px; margin-top: 9px; font-size: 12px; color: var(--muted); }
-  .hr-pausa select { padding: 6px 9px; font: inherit; font-size: 12.5px; border: 1.5px solid var(--border); border-radius: 9px; background: #fff; }
+  .hr-line { grid-column: 2; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin: -4px 0 4px; font-size: 11px; color: var(--muted); }
+  .hr-line input[type=time] { padding: 3px 5px; font: inherit; font-size: 11.5px; font-weight: 700; border: 1.5px solid var(--border); border-radius: 7px; background: #fff; color: var(--ink); }
+  .hr-line select { padding: 3px 20px 3px 6px; font: inherit; font-size: 11.5px; border: 1.5px solid var(--border); border-radius: 7px; background: #fff; color: var(--ink); -webkit-appearance: none; appearance: none; }
+  @media (max-width: 430px) { .hr-line { grid-column: 1 / -1; } }
   .eta { display: inline-block; font-weight: 800; }
   .eta.ok { color: #1a6b4a; }
   .eta.tarde { color: #b5892b; }
@@ -571,7 +565,7 @@
         <div class="dc-slot s-man"><span class="s-ico">🚄</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Caminata desde el ibis a la terminal (~10-12min) → pasar la laptop y lo pesado a la valija grande y dejarla en el depósito oficial (Car park 3, planta baja, solo tarjeta) → vuelo Iberia IB1326, 06:20 DUS → 09:00 MAD (solo la mochila de 30 L, sin facturar) → Cercanías a Chamartín → 10:04 AVE Madrid→Ourense</span></div></div>
         <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">12:18 llegada del AVE a Ourense → 12:32 tren MD Ourense→Sarria (localizador WGG4YR) → 13:47 llegada a Sarria → comprar credencial del peregrino y bastones → 15hs caminata Sarria→Portomarín (22,3km, 5h43 de marcha + pausas) · llegada ~21:30, anochece 20:50: llevá la frontal a mano</span></div></div>
         <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Dormís en Portomarín (o antes, en Vilachá o Mercadoiro, si el ritmo pide cortar)</span></div></div>
-        <div class="dc-nota">✔ Vuelo DUS→MAD reservado: Iberia IB1326, reserva KECBX, pagado US$194,30 (vía iberia.com/us en dólares, evitando la percepción del 30%). El AVE es <strong>tarifa Elige</strong>, o sea que se puede cambiar el mismo día si el vuelo se atrasa — coche 5, plaza 5A.<br><br>🚆 <strong>La conexión en Madrid (09:00 → 10:04, es lo más ajustado del viaje):</strong> el vuelo llega a la <strong>Terminal 4</strong>, y la estación de Cercanías está dentro de la propia T4 — seguí los carteles de <em>Cercanías Renfe</em>. Tomás la <strong>línea C-1 hasta Chamartín</strong>, que pasa cada ~15 min y tarda 15. <strong>Es la única línea que llega a la T4</strong>, no busques otra: si en la app ves un montón de líneas y horarios cada 3 minutos, te quedó puesto Atocha como origen. <strong>El viaje es gratis:</strong> tu billete del AVE incluye el <em>Combinado Cercanías</em>, válido desde 4 horas antes de la salida. Sacás el ticket en una máquina autoventa o en taquilla con el código <strong>VN8S4</strong>, que es el que figura en tu billete del AVE como <em>CombinadoCercanias</em> (también sirve pasar el código de barras del billete). <strong>Tené el billete del AVE abierto en el celular antes de bajar del avión</strong> — no querés estar buscándolo en la máquina. Si perdés el AVE, hay salidas más tarde a Ourense; el tren a Sarria de las 12:32 es el que no se repite hasta la tarde.<br><br>🪪 <strong>Credencial y bastones en Sarria:</strong> llegás en pleno horario de siesta (~14hs) y lo "oficial" está cerrado (turismo solo lun-vie, iglesias y monasterio cierran 13-16:30/18hs). Lo seguro: <strong>cualquier albergue de la Rúa Maior</strong> vende la credencial (~€2) y da el primer sello, ahí mismo — la estación queda a 5-10 min a pie de esa calle, que ya es el Camino. Bastones en la Peregrinoteca (Benigno Quiroga 16) u otra tienda de la Rúa Maior si están abiertas; si no, se camina sin ellos el día 1 (etapa corta y suave) y se compran con calma al otro día en Portomarín. Para la Compostela hacen falta 2 sellos por día en estos últimos 100 km — bares, albergues e iglesias sellan sin problema.<br><br>✔ Tren MD Ourense → Sarria reservado: sábado 12/9, 12:32 → 13:47, localizador WGG4YR, €8,40. La conexión en Ourense es de 14 min (AVE llega 12:18) — es la misma estación, andén a andén, pero con la puntualidad de Renfe de este año es frágil y el tren a Sarria no espera. Si se te va, el siguiente es a las 16:22: salí a la parada de taxis y hacé los 100 km hasta Sarria (~€130-160). Detalle en la solapa Madrid.<br><br>🅱️ <strong>Plan B — si el tren se atrasa y no llegás a caminar hoy:</strong> se pierde el día 1 entero, y los ~115km hay que repartirlos en los 3 días que quedan (~38km/día, exigente pero es lo que hay). Domingo Sarria→Eirexe (~40km, dos albergues confirmados ahí), lunes Eirexe→Arzúa (~37km, de largo por Palas de Rei y Melide sin parar), martes Arzúa→Santiago (38,7km) — mismo horario de llegada final, martes 15/9.</div>
+        <div class="dc-nota">✔ Vuelo DUS→MAD reservado: Iberia IB1326, reserva KECBX, pagado US$194,30 (vía iberia.com/us en dólares, evitando la percepción del 30%). El AVE es <strong>tarifa Elige</strong>, o sea que se puede cambiar el mismo día si el vuelo se atrasa — coche 5, plaza 5A.<br><br>🚆 <strong>La conexión en Madrid (09:00 → 10:04, es lo más ajustado del viaje):</strong> el vuelo llega a la <strong>Terminal 4</strong> y la estación está en la <strong>planta −1 de la propia terminal</strong>, al lado de la del Metro: seguí la <strong>“C” roja de Cercanías</strong> y no el rombo del Metro. Tomás la <strong>línea C-1 hasta Chamartín</strong>, que pasa cada ~15 min y tarda 15. <strong>Es la única línea que llega a la T4</strong>, no busques otra: si en la app ves un montón de líneas y horarios cada 3 minutos, te quedó puesto Atocha como origen. <strong>El viaje es gratis:</strong> tu billete del AVE incluye el <em>Combinado Cercanías</em>, válido desde 4 horas antes de la salida. Sacás el ticket en una máquina autoventa o en taquilla con el código <strong>VN8S4</strong>, que es el que figura en tu billete del AVE como <em>CombinadoCercanias</em> (también sirve pasar el código de barras del billete). <strong>Tené el billete del AVE abierto en el celular antes de bajar del avión</strong> — no querés estar buscándolo en la máquina. Si perdés el AVE, hay salidas más tarde a Ourense; el tren a Sarria de las 12:32 es el que no se repite hasta la tarde.<br><br>🪪 <strong>Credencial y bastones en Sarria:</strong> llegás en pleno horario de siesta (~14hs) y lo "oficial" está cerrado (turismo solo lun-vie, iglesias y monasterio cierran 13-16:30/18hs). Lo seguro: <strong>cualquier albergue de la Rúa Maior</strong> vende la credencial (~€2) y da el primer sello, ahí mismo — la estación queda a 5-10 min a pie de esa calle, que ya es el Camino. Bastones en la Peregrinoteca (Benigno Quiroga 16) u otra tienda de la Rúa Maior si están abiertas; si no, se camina sin ellos el día 1 (etapa corta y suave) y se compran con calma al otro día en Portomarín. Para la Compostela hacen falta 2 sellos por día en estos últimos 100 km — bares, albergues e iglesias sellan sin problema.<br><br>✔ Tren MD Ourense → Sarria reservado: sábado 12/9, 12:32 → 13:47, localizador WGG4YR, €8,40. La conexión en Ourense es de 14 min (AVE llega 12:18) — es la misma estación, andén a andén, pero con la puntualidad de Renfe de este año es frágil y el tren a Sarria no espera. Si se te va, el siguiente es a las 16:22: salí a la parada de taxis y hacé los 100 km hasta Sarria (~€130-160). Detalle en la solapa Madrid.<br><br>🅱️ <strong>Plan B — si el tren se atrasa y no llegás a caminar hoy:</strong> se pierde el día 1 entero, y los ~115km hay que repartirlos en los 3 días que quedan (~38km/día, exigente pero es lo que hay). Domingo Sarria→Eirexe (~40km, dos albergues confirmados ahí), lunes Eirexe→Arzúa (~37km, de largo por Palas de Rei y Melide sin parar), martes Arzúa→Santiago (38,7km) — mismo horario de llegada final, martes 15/9.</div>
       </div>
 
       <!-- DÍA 7 -->
@@ -703,7 +697,7 @@
     <div class="mad-steps">
       <div class="ms"><span class="ms-h">09:00</span><div><strong>El avión llega a puerta</strong><span>Sentate adelante: entre la fila 3 y la 20 de un regional hay 5 minutos.</span></div></div>
       <div class="ms"><span class="ms-h">09:08</span><div><strong>Terminás de bajar</strong><span>Sin control de pasaportes. Si te despacharon la mochila en la puerta, pedí que te la devuelvan <strong>en pasarela</strong> y no en la cinta.</span></div></div>
-      <div class="ms"><span class="ms-h">09:18</span><div><strong>Llegás a Cercanías</strong><span>La estación está dentro de la propia T4. Seguí los carteles de <em>Cercanías Renfe</em>.</span></div></div>
+      <div class="ms"><span class="ms-h">09:18</span><div><strong>Bajás a la estación</strong><span>Está dentro de la propia T4, en la <strong>planta −1</strong>: desde llegadas <strong>bajás</strong>, hay escaleras mecánicas y ascensor. <strong>Ojo con el cartel:</strong> abajo están pegadas la estación de Cercanías y la de Metro. Seguí la <strong>“C” roja de Cercanías</strong>, no el rombo del Metro. La T4 es larga, contá 5-10 min de caminata desde la puerta por la que salías.</span></div></div>
       <div class="ms"><span class="ms-h">09:22</span><div><strong>Vas directo al andén</strong><span>Si compraste el billete en la <strong>app Renfe Cercanías</strong> antes de viajar, acá no parás. Si no, el <strong>Combinado Cercanías</strong> es gratis: código <strong>VN8S4</strong> en la máquina autoventa, o pasás el código de barras del billete del AVE. Con cola en la máquina, ya perdiste el 09:24.</span></div></div>
       <div class="ms"><span class="ms-h">09:24</span><div><strong>Sale el C-1</strong><span>Andén dentro de la T4.</span></div></div>
       <div class="ms"><span class="ms-h">09:39</span><div><strong>Llegás a Chamartín</strong><span>Bajás al vestíbulo <strong>Central</strong> (subterráneo) y buscás las escaleras al vestíbulo <strong>Principal</strong>, arriba: el AVE se accede desde ahí, no desde abajo. Te quedan 20 minutos para llegar al control. Alcanzan si no te quedás dando vueltas en el nivel de abajo.</span></div></div>
@@ -1083,16 +1077,30 @@ const LUZ = [
   { amanece: '08:13', anochece: '20:44' }
 ];
 const SAL_DEF = ['14:30', '08:00', '08:00', '08:00'];
-let salidas = (() => { try { return JSON.parse(localStorage.getItem('camino_salidas_v1')) || SAL_DEF.slice(); } catch (e) { return SAL_DEF.slice(); } })();
-let pausas = (() => { try { const v = localStorage.getItem('camino_pausas_v1'); return v === null || isNaN(+v) ? 60 : +v; } catch (e) { return 60; } })();
-const saveHoras = () => { try { localStorage.setItem('camino_salidas_v1', JSON.stringify(salidas)); localStorage.setItem('camino_pausas_v1', pausas); } catch (e) { } };
+const PAU_DEF = [0, 60, 60, 60];
+let salidas = (() => { try { const v = JSON.parse(localStorage.getItem('camino_salidas_v1')); return Array.isArray(v) && v.length === 4 ? v : SAL_DEF.slice(); } catch (e) { return SAL_DEF.slice(); } })();
+let pausas = (() => { try { const v = JSON.parse(localStorage.getItem('camino_pausas_v2')); return Array.isArray(v) && v.length === 4 ? v : PAU_DEF.slice(); } catch (e) { return PAU_DEF.slice(); } })();
+const saveHoras = () => { try { localStorage.setItem('camino_salidas_v1', JSON.stringify(salidas)); localStorage.setItem('camino_pausas_v2', JSON.stringify(pausas)); } catch (e) { } };
 const min2hm = m => String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(Math.round(m % 60)).padStart(2, '0');
 const hm2min = t => { const p = (t || '').split(':'); return (+p[0]) * 60 + (+p[1] || 0); };
 function llegada(i, seg) {
   const sale = hm2min(salidas[i]);
-  const fin = sale + seg.hnum * 60 + pausas;
+  const fin = sale + seg.hnum * 60 + pausas[i];
   const oscurece = hm2min(LUZ[i].anochece);
   return { sale: salidas[i], llega: min2hm(fin), pasado: fin - oscurece, finMin: fin };
+}
+
+function lineaHoraria(i) {
+  const segs = window.__SEGS || [];
+  const seg = segs[i];
+  const L = seg ? llegada(i, seg) : null;
+  const opts = [0, 15, 30, 45, 60, 90, 120].map(v =>
+    `<option value="${v}"${v === pausas[i] ? ' selected' : ''}>${v ? v + ' min' : 'sin pausas'}</option>`).join('');
+  return `<div class="hr-line">
+    <span>sale</span><input type="time" data-sal="${i}" value="${salidas[i]}" step="300">
+    <span>pausas</span><select data-pau="${i}">${opts}</select>
+    ${L ? `<span>llega <span class="eta ${L.pasado > 30 ? 'noche' : L.pasado > -60 ? 'tarde' : 'ok'}">${L.llega}</span></span>` : ''}
+  </div>`;
 }
 
 function renderControls() {
@@ -1104,17 +1112,11 @@ function renderControls() {
     const opts = optionsFor(i).map(s =>
       `<option value="${s.id}"${s.id === nights[i] ? ' selected' : ''}>${s.classic ? '★ ' : ''}${s.name} · ${Math.round(s.km)} km</option>`).join('');
     h += `<div class="night-row"><span class="night-lbl">Noche ${i + 1}<br><span style="font-weight:600;text-transform:none;letter-spacing:0">${DAYS[i]}</span></span>
-      <select data-night="${i}">${opts}</select></div>`;
+      <select data-night="${i}">${opts}</select></div>
+      ${lineaHoraria(i)}`;
   }
-  h += `<div class="night-row"><span class="night-lbl">Meta</span><span class="night-fixed">Santiago · martes</span></div>
-    <div class="hr-box">
-      <h4>A qué hora salís cada día</h4>
-      <p class="hr-sub">Cambiá la hora y abajo ves a qué hora llegarías. Si te da muy tarde, probá mover la parada de esa noche: así vas viendo hasta dónde te conviene llegar. Amanece ~08:08 y anochece ~20:45.</p>
-      <div class="hr-grid">${[0,1,2,3].map(i => `<div class="hr-cell"><label>Día ${i+1}</label><input type="time" data-sal="${i}" value="${salidas[i]}" step="300"></div>`).join('')}</div>
-      <div class="hr-pausa"><span>Pausas por día</span>
-        <select id="sel-pausa">${[30,45,60,90,120].map(v => `<option value="${v}"${v===pausas?' selected':''}>${v} min</option>`).join('')}</select>
-      </div>
-    </div>
+  h += `<div class="night-row"><span class="night-lbl">Meta<br><span style="font-weight:600;text-transform:none;letter-spacing:0">${DAYS[3]}</span></span><span class="night-fixed">Santiago · martes</span></div>
+    ${lineaHoraria(3)}
     <div class="planner-actions">
       <button class="planner-btn primary" id="planner-reset">Volver al plan sugerido</button>
     </div></div>`;
@@ -1131,10 +1133,11 @@ function renderControls() {
       saveHoras(); renderAll();
     });
   });
-  const selP = document.getElementById('sel-pausa');
-  if (selP) selP.addEventListener('change', () => { pausas = +selP.value; saveHoras(); renderAll(); });
+  box.querySelectorAll('select[data-pau]').forEach(sel => {
+    sel.addEventListener('change', () => { pausas[+sel.dataset.pau] = +sel.value; saveHoras(); renderAll(); });
+  });
   document.getElementById('planner-reset').addEventListener('click', () => {
-    nights = C.default_nights.slice(); salidas = SAL_DEF.slice(); pausas = 60;
+    nights = C.default_nights.slice(); salidas = SAL_DEF.slice(); pausas = PAU_DEF.slice();
     saveNights(); saveHoras(); renderAll();
   });
 }
@@ -1226,8 +1229,9 @@ function renderSummary(segs) {
 
 function renderAll() {
   sanitize();
+  window.__SEGS = segments();
   renderControls();
-  const segs = segments();
+  const segs = window.__SEGS;
   renderCards(segs);
   renderMap(segs);
   renderSummary(segs);
