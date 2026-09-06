@@ -106,9 +106,8 @@
   .eta.noche { color: #9c3b1c; }
 
   /* ── CLIMA ── */
-  .wx-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
-  @media (max-width: 620px) { .wx-cards { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 380px) { .wx-cards { grid-template-columns: repeat(2, 1fr); } }
+  .wx-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  @media (max-width: 420px) { .wx-cards { gap: 4px; } .wx-day { padding: 9px 3px; } .wx-t { font-size: 14px; } .wx-rain, .wx-place, .wx-wind { font-size: 9.5px; } }
   .wx-loading { grid-column: 1 / -1; padding: 22px; text-align: center; color: var(--muted); font-size: 13px; }
   .wx-day { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 8px; text-align: center; cursor: pointer; transition: border-color .15s; }
   .wx-day.on { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
@@ -123,10 +122,11 @@
 
   .wx-detail { margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; }
   .wx-dtitle { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 9px; }
-  .wx-hours { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 4px; }
-  .wx-h { flex: 0 0 auto; min-width: 44px; text-align: center; font-size: 10.5px; }
+  .wx-hours { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+  .wx-hours + .wx-hours { margin-top: 5px; }
+  .wx-h { text-align: center; font-size: 10px; padding: 1px 0; min-width: 0; }
   .wx-h .hh { color: var(--muted); font-weight: 700; }
-  .wx-h .ee { font-size: 15px; line-height: 1.5; }
+  .wx-h .ee { font-size: 13px; line-height: 1.45; }
   .wx-h .tt { font-weight: 700; }
   .wx-h .pp { color: #2a6fa8; font-size: 9.5px; }
   .wx-h.walk { background: var(--green-soft); border-radius: 7px; }
@@ -1464,14 +1464,13 @@ window.ALBERGUES = [
 /* ===== Clima · pronóstico en vivo promediando modelos (Open-Meteo) ===== */
 (function () {
   const DIAS = [
-    { f: '2026-09-12', dow: 'sáb 12', lugar: 'Portomarín',  lat: 42.8072, lon: -7.6156, camina: [15, 21] },
-    { f: '2026-09-13', dow: 'dom 13', lugar: 'Melide',      lat: 42.9147, lon: -8.0147, camina: [7, 19] },
-    { f: '2026-09-14', dow: 'lun 14', lugar: 'O Pedrouzo',  lat: 42.9075, lon: -8.3617, camina: [7, 18] },
-    { f: '2026-09-15', dow: 'mar 15', lugar: 'Santiago',    lat: 42.8805, lon: -8.5457, camina: [7, 16] },
-    { f: '2026-09-16', dow: 'mié 16', lugar: 'vuelo 09:15', lat: 42.8805, lon: -8.5457, camina: null }
+    { f: '2026-09-12', dow: 'sáb 12', lugar: 'Portomarín',  lat: 42.8072, lon: -7.6156, camina: [14, 21] },
+    { f: '2026-09-13', dow: 'dom 13', lugar: 'Melide',      lat: 42.9147, lon: -8.0147, camina: [8, 19] },
+    { f: '2026-09-14', dow: 'lun 14', lugar: 'O Pedrouzo',  lat: 42.9075, lon: -8.3617, camina: [8, 18] },
+    { f: '2026-09-15', dow: 'mar 15', lugar: 'Santiago',    lat: 42.8805, lon: -8.5457, camina: [8, 16] }
   ];
   const MODELOS = ['ecmwf_ifs025', 'gfs_seamless', 'icon_seamless', 'meteofrance_seamless', 'ukmo_seamless'];
-  const CACHE = 'camino_wx_v1';
+  const CACHE = 'camino_wx_v2';
   const VIGENCIA = 3 * 3600 * 1000;
 
   const WMO = c =>
@@ -1559,21 +1558,24 @@ window.ALBERGUES = [
         '&hourly=temperature_2m,precipitation_probability,weathercode&timezone=Europe%2FMadrid' +
         '&start_date=' + d.f + '&end_date=' + d.f;
       const h = (await (await fetch(u)).json()).hourly;
-      const desde = d.camina ? d.camina[0] : 6, hasta = d.camina ? d.camina[1] : 12;
-      let cel = '';
-      for (let k = 5; k <= 22; k++) {
+      const desde = d.camina[0], hasta = d.camina[1];
+      const celda = k => {
         const [e] = WMO(h.weathercode[k]);
         const dentro = k >= desde && k <= hasta;
-        cel += `<div class="wx-h${dentro ? ' walk' : ''}">
+        return `<div class="wx-h${dentro ? ' walk' : ''}">
           <div class="hh">${String(k).padStart(2, '0')}</div>
           <div class="ee">${e}</div>
           <div class="tt">${Math.round(h.temperature_2m[k])}°</div>
           <div class="pp">${h.precipitation_probability[k]}%</div></div>`;
-      }
+      };
+      let f1 = '', f2 = '';
+      for (let k = 0; k < 12; k++) f1 += celda(k);
+      for (let k = 12; k < 24; k++) f2 += celda(k);
       box.innerHTML = `<div class="wx-detail">
         <div class="wx-dtitle">${d.dow} · ${d.lugar}</div>
-        <div class="wx-hours">${cel}</div>
-        <div class="wx-note">${d.camina ? 'En verde, tu franja de caminata (' + d.camina[0] + ':00 a ' + d.camina[1] + ':00).' : 'En verde, la mañana del vuelo.'} Hora local española.</div>
+        <div class="wx-hours">${f1}</div>
+        <div class="wx-hours">${f2}</div>
+        <div class="wx-note">En verde, tu franja de caminata (${d.camina[0]}:00 a ${d.camina[1]}:00). Hora local española.</div>
       </div>`;
     } catch (e) {
       box.innerHTML = `<div class="wx-detail"><div class="wx-dtitle">${d.dow} · ${d.lugar}</div><div class="wx-note">No pude traer el detalle por hora. Probá de nuevo con conexión.</div></div>`;
