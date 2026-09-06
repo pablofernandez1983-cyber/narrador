@@ -814,7 +814,7 @@
     <p class="section-note"><strong>El Cercanías no tiene panel en vivo:</strong> Renfe no lo publica en datos abiertos. Lo que sí hay es el horario oficial del día y la app.</p>
     <div class="vivo-row">
       <a class="vivo-btn" style="background:var(--gold);border-color:var(--gold)" href="https://horarios.renfe.com/cer/hjcer310.jsp?nucleo=10&amp;i=s&amp;cp=NO&amp;o=98305&amp;d=17000&amp;df=20260912&amp;ho=07&amp;hd=12&amp;TXTInfo=" target="_blank" rel="noopener">🚈 Horario T4 → Chamartín del sábado</a>
-      <a class="vivo-btn" style="background:var(--gold);border-color:var(--gold)" href="https://play.google.com/store/apps/details?id=com.renfe.renfecercanias" target="_blank" rel="noopener">📱 App Renfe Cercanías</a>
+      <a class="vivo-btn" id="btn-cercanias-app" style="background:var(--gold);border-color:var(--gold)" href="intent://#Intent;package=com.renfe.renfecercanias;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.renfe.renfecercanias;end">📱 Abrir app Cercanías</a>
     </div>
     <p class="mad-warn" style="background:var(--green-soft);border-color:#b8ddc8;border-left-color:#1a6b4a;color:#1a5038"><strong style="color:#1a6b4a">El QR de tu billete del AVE te abre el torno del Cercanías.</strong> No hace falta máquina ni ventanilla: apoyás el billete y pasás. Lleválo también impreso. Si el lector falla, la máquina con el código del Combinado que figura en el billete; y si hay cola, un sencillo desde la app Renfe Cercanías.</p>
   </section>
@@ -1659,6 +1659,17 @@ window.ALBERGUES = [
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+})();
+</script>
+<script>
+/* El link intent:// abre la app si está instalada; fuera de Android no sirve, así que ahí
+   lo cambiamos por la ficha de Play Store. */
+(function () {
+  var a = document.getElementById('btn-cercanias-app');
+  if (a && !/Android/i.test(navigator.userAgent)) {
+    a.href = 'https://play.google.com/store/apps/details?id=com.renfe.renfecercanias';
+    a.target = '_blank'; a.rel = 'noopener';
+  }
 })();
 </script>
 </body>
