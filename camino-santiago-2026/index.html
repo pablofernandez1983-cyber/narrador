@@ -90,9 +90,10 @@
   .vivo-btn { flex: 1 1 30%; text-align: center; padding: 12px 10px; border-radius: 11px; background: var(--green); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none; }
 
   /* ── HORARIOS DE ETAPA ── */
-  .hr-line { grid-column: 2; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin: -4px 0 4px; font-size: 11px; color: var(--muted); }
-  .hr-line input[type=time] { padding: 3px 5px; font: inherit; font-size: 11.5px; font-weight: 700; border: 1.5px solid var(--border); border-radius: 7px; background: #fff; color: var(--ink); }
-  .hr-line select { padding: 3px 20px 3px 6px; font: inherit; font-size: 11.5px; border: 1.5px solid var(--border); border-radius: 7px; background: #fff; color: var(--ink); -webkit-appearance: none; appearance: none; }
+  .hr-line { grid-column: 2; display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: -2px 0 6px; font-size: 13px; color: var(--muted); }
+  .hr-line input[type=time] { padding: 5px 7px; font: inherit; font-size: 15px; font-weight: 800; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; color: var(--ink); }
+  .hr-line select { padding: 5px 22px 5px 8px; font: inherit; font-size: 13px; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; color: var(--ink); -webkit-appearance: none; appearance: none; }
+  .hr-line .eta { font-size: 16px; }
   @media (max-width: 430px) { .hr-line { grid-column: 1 / -1; } }
   .eta { display: inline-block; font-weight: 800; }
   .eta.ok { color: #1a6b4a; }
@@ -553,7 +554,7 @@
         </div>
         <div class="dc-slot s-man"><span class="s-ico">💼</span><div><span class="s-lbl">Todo el día</span><span class="s-txt">Último día de trabajo en Leverkusen</span></div></div>
         <div class="dc-slot s-noc"><span class="s-ico">🚄</span><div><span class="s-lbl">Noche</span><span class="s-txt">Tren a Düsseldorf (~20-25min) → check-in en el ibis Düsseldorf Airport (Wanheimer Strasse 80, ~0,9km/10-12min caminando de la terminal) → <strong>y esta misma noche, antes de las 21:30, dejar la valija grande en el depósito</strong></span></div></div>
-        <div class="dc-nota">🧳 <strong>La valija se deja hoy, no mañana:</strong> el depósito abre 06:00 y tu vuelo del sábado sale 06:20. Car park 3, planta baja, hasta las 21:30, solo tarjeta, €60 por los 6 días. Hacé el traspaso en el ibis apenas llegues: laptop, ropa de oficina y todo lo pesado a la valija grande.</div>
+        <div class="dc-nota">🧳 <strong>Depósito de la valija:</strong> Car park 3, planta baja, cierra 21:30, solo tarjeta, €60 por los 6 días. Antes de bajar, el traspaso en el ibis: laptop, ropa de oficina y todo lo pesado a la valija grande.</div>
         <div class="dc-nota">✔ Hotel reservado: ibis Düsseldorf Airport, €58,08. Hacer el check-in online del vuelo antes de dormir, para ir directo a seguridad al otro día.</div>
       </div>
 
@@ -564,9 +565,9 @@
           <div><div class="dc-title">Düsseldorf → Sarria → Portomarín</div><span class="dc-badge">⭐ Día 1 Camino</span></div>
         </div>
         <div class="dc-slot s-man"><span class="s-ico">🚄</span><div><span class="s-lbl">Mañana</span><span class="s-txt">Caminata desde el ibis a la terminal (~10-12min) — la valija grande ya quedó en el depósito anoche → vuelo Iberia IB1326, 06:20 DUS → 09:00 MAD (solo la mochila de 30 L, sin facturar) → Cercanías a Chamartín → 10:04 AVE Madrid→Ourense</span></div></div>
-        <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">12:18 llegada del AVE a Ourense → 12:32 tren MD Ourense→Sarria → 13:47 llegada a Sarria → comprar credencial del peregrino y bastones → ~14:30 arrancás a caminar Sarria→Portomarín · 22,3km, 5h43 de marcha · llegada cerca de las 20:15 y anochece 20:45, así que la frontal a mano</span></div></div>
+        <div class="dc-slot s-tar"><span class="s-ico">🥾</span><div><span class="s-lbl">Tarde</span><span class="s-txt">12:18 llegada del AVE a Ourense → 12:32 tren MD Ourense→Sarria → 13:47 llegada a Sarria → comprar la credencial → ~14:30 arrancás a caminar Sarria→Portomarín · 22,3km, 5h43 de marcha · llegada cerca de las 20:15 y anochece 20:45, así que la frontal a mano</span></div></div>
         <div class="dc-slot s-noc"><span class="s-ico">🌙</span><div><span class="s-lbl">Noche</span><span class="s-txt">Dormís en Portomarín (o antes, en Vilachá o Mercadoiro, si el ritmo pide cortar)</span></div></div>
-        <div class="dc-nota">🚆 <strong>El cambio en Madrid está entero en la solapa Madrid:</strong> horarios del Cercanías, paso a paso y qué hacer si algo se atrasa. Lo mínimo: la estación está en la planta −1 de la T4, seguí la "C" roja de Cercanías, y el QR de tu billete del AVE te abre el torno.<br><br>🪪 <strong>Credencial y bastones en Sarria:</strong> llegás en pleno horario de siesta (~14hs) y lo "oficial" está cerrado (turismo solo lun-vie, iglesias y monasterio cierran 13-16:30/18hs). Cualquier <strong>albergue de la Rúa Maior</strong> vende la credencial (~€2) y da el primer sello — la estación queda a 5-10 min a pie de esa calle, que ya es el Camino. Bastones en la Peregrinoteca (Benigno Quiroga 16) u otra tienda de la Rúa Maior; si están cerradas, se compran al otro día en Portomarín. Para la Compostela hacen falta <strong>2 sellos por día</strong> en estos últimos 100 km.<br><br>🚉 <strong>La conexión en Ourense son 14 min</strong> (AVE 12:18, tren 12:32) y el tren a Sarria no espera. Si se te va, el siguiente es a las 16:22: salí a la parada de taxis y hacé los 100 km hasta Sarria, ~€130-160.<br><br>🅱️ <strong>Si no llegás a caminar hoy:</strong> los ~115 km se reparten en los 3 días que quedan, ~38 km/día. Domingo Sarria→Eirexe (~40 km), lunes Eirexe→Arzúa (~37 km), martes Arzúa→Santiago (38,7 km) — misma llegada final el martes 15/9.</div>
+        <div class="dc-nota">🚆 <strong>El cambio en Madrid está entero en la solapa Madrid:</strong> horarios del Cercanías, paso a paso y qué hacer si algo se atrasa. Lo mínimo: la estación está en la planta −1 de la T4, seguí la "C" roja de Cercanías, y el QR de tu billete del AVE te abre el torno.<br><br>🪪 <strong>La credencial, en Sarria:</strong> llegás en pleno horario de siesta (~14hs) y lo "oficial" está cerrado (turismo solo lun-vie, iglesias y monasterio cierran 13-16:30/18hs). Cualquier <strong>albergue de la Rúa Maior</strong> vende la credencial (~€2) y da el primer sello — la estación queda a 5-10 min a pie de esa calle, que ya es el Camino. Para la Compostela hacen falta <strong>2 sellos por día</strong> en estos últimos 100 km.<br><br>🚉 <strong>La conexión en Ourense son 14 min</strong> (AVE 12:18, tren 12:32) y el tren a Sarria no espera. Si se te va, el siguiente es a las 16:22: salí a la parada de taxis y hacé los 100 km hasta Sarria, ~€130-160.<br><br>🅱️ <strong>Si no llegás a caminar hoy:</strong> los ~115 km se reparten en los 3 días que quedan, ~38 km/día. Domingo Sarria→Eirexe (~40 km), lunes Eirexe→Arzúa (~37 km), martes Arzúa→Santiago (38,7 km) — misma llegada final el martes 15/9.</div>
       </div>
 
       <!-- DÍA 7 -->
@@ -640,22 +641,18 @@
     <h2>Reservas y logística</h2>
     <p class="section-note">Los PDF de todos los tickets están en <a href="./documentos.html" style="color:var(--teal);font-weight:700">🔐 Papeles</a>. El alojamiento del Camino se resuelve sobre la marcha.</p>
     <div class="reserva-list">
-      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Düsseldorf → Madrid (12/9)</div><div class="ri-sub">✔ Reservado: Iberia IB1326, <strong>operado por Air Nostrum</strong>, 06:20→09:00, llega a Madrid <strong>Terminal 4</strong> · US$194,30 · cambios con penalización de 55€, sin reembolso · Economy: 1 bolso personal (40x30x15) + 1 pieza de hasta 10 kg (56x40x25). Si te toman la mochila en la puerta, en Air Nostrum la devuelven a pie de avión, no por cinta</div></div><span class="rtag rtag-si">Listo</span></div>
-      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Santiago → Düsseldorf (16/9, 09:15)</div><div class="ri-sub">✔ Reservado: Vueling · VY1681 SCQ 09:15 → BCN 10:55 · escala 1h10 · VY1894 BCN 12:05 → DUS 14:25 · €296,71 (incluye €65 de bolso de cabina en los dos tramos). Medidas de Vueling: 1 bolso bajo el asiento (40x30x20) + 1 de cabina de hasta 10 kg y <strong>55x40x20 cm</strong> — la de 30 L tiene que entrar comprimida en esas medidas: si en puerta supera los 55x40x20 el cargo es de <strong>€110-140</strong>, no los €75 del bolso chico. Medila cargada antes de salir</div></div><span class="rtag rtag-si">Listo</span></div>
-      <div class="reserva-item"><span class="ri-ico">🏨</span><div><div class="ri-name">Hotel Düsseldorf Airport (noche del viernes 11/9)</div><div class="ri-sub">✔ Reservado: ibis Düsseldorf Airport, €58,08 · Wanheimer Strasse 80, ~10-12min caminando a la terminal · la valija grande va al depósito oficial <strong>esa misma noche antes de las 21:30</strong> (Car park 3, €10/día × 6 días = €60, solo tarjeta), no al hotel: el depósito abre 06:00 y el sábado no llegás</div></div><span class="rtag rtag-si">Listo</span></div>
-      <div class="reserva-item"><span class="ri-ico">🏛️</span><div><div class="ri-name">Parador de Santiago · Hostal dos Reis Católicos (noche del martes 15/9)</div><div class="ri-sub">✔ Confirmado · check-in 15/9, check-out 16/9 · habitación individual, tarifa Especial Peregrinos · €305,15 · <strong>llevar la Credencial del Peregrino sellada</strong>, es obligatoria para esta tarifa · tasa turística €2,75/noche no incluida</div></div><span class="rtag rtag-si">Listo</span></div>
-      <div class="reserva-item"><span class="ri-ico">🚄</span><div><div class="ri-name">AVE Madrid Chamartín → Ourense (10:04)</div><div class="ri-sub">✔ Reservado: tren AVE 05273, asiento 05A, clase Estándar · llegada 12:18 · €38,15 · <strong>tarifa Elige</strong> (verificado en el PDF del billete), o sea cambiable el mismo día si el vuelo se atrasa · coche 5, plaza 5A</div></div><span class="rtag rtag-si">Listo</span></div>
-      <div class="reserva-item"><span class="ri-ico">🚉</span><div><div class="ri-name">Tren Ourense → Sarria (12:32 → 13:47)</div><div class="ri-sub">✔ Reservado: tren MD, €8,40 · sábado 12/9 · conexión de 14 min con el AVE en Ourense, misma estación. Si se te va: taxi a Sarria, ~€130-160</div></div><span class="rtag rtag-si">Listo</span></div>
-      <div class="reserva-item"><span class="ri-ico">🏨</span><div><div class="ri-name">Alojamiento del Camino (3 noches)</div><div class="ri-sub">Decisión: no se reserva antes — se busca sobre la marcha en cada etapa, según cómo venga el cuerpo y el ritmo. Contactos en la solapa Contactos, plan en la solapa Etapas</div></div><span class="rtag rtag-si">Sobre la marcha</span></div>
-      <div class="reserva-item"><span class="ri-ico">🥢</span><div><div class="ri-name">Bastones de trekking + credencial</div><div class="ri-sub">Se compran en Sarria al llegar — la credencial en cualquier albergue de la Rúa Maior (~€2, con el primer sello); los bastones en la Peregrinoteca (Benigno Quiroga 16) u otra tienda de la Rúa Maior. En Sarria no hay Decathlon (el más cercano está en Lugo). Los bastones no se pueden llevar en cabina; la credencial se sella cada día</div></div><span class="rtag rtag-si">En Sarria</span></div>
-      <div class="reserva-item"><span class="ri-ico">📮</span><div><div class="ri-name">Transporte de mochila (si lo necesitás, se decide allá)</div><div class="ri-sub">Vas con la de 30 L puesta. Si un día pesa: <strong>Jacotrans</strong> etapa a etapa, sobre en el alojamiento antes de las 8:00, entrega 12:00-14:30, coordinador de Galicia <a href="tel:+34606049858">+34 606 049 858</a> · <strong>Correos</strong> etapa a etapa, solo alojamientos privados, destino antes de las 20:00 del día anterior · <strong>Correos directo a Santiago</strong> desde la oficina de Melide (Obispo Varela Fondevila y Verea 20, lun-vie 08:30-14:30, €20,95), se retira en Rúa do Franco 4, 08:30-20:30. Máximo 80 cm de lado. En Contactos, cada albergue tiene su etiqueta</div></div><span class="rtag rtag-no">Se hace ahí</span></div>
-      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Vuelo Buenos Aires ↔ Düsseldorf</div><div class="ri-sub">✔ Emitido y confirmado (BCD Travel / Bayer), clase Ejecutiva. Billete y localizadores en <strong>Papeles</strong>. <strong>Ida:</strong> IB108 EZE 21:40 (7/9) → MAD 14:30 (8/9), asiento 05L · escala 2h10 · IB755 MAD 16:40 → DUS 19:10, asiento 03C. <strong>Vuelta:</strong> IB756 DUS 19:55 (16/9) → MAD 22:35, asiento 03A · escala 1h30 · IB103 MAD 00:05 (17/9) → EZE 07:40, asiento 05L. Incluye 1 valija despachada de 23 kg y 2 piezas de mano de hasta 14 kg</div></div><span class="rtag rtag-si">Listo</span></div>
+      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Buenos Aires ↔ Düsseldorf · Iberia, Ejecutiva</div><div class="ri-sub"><strong>Ida:</strong> IB108 EZE 21:40 (7/9) → MAD 14:30 · IB755 MAD 16:40 → DUS 19:10 · asientos 05L y 03C. <strong>Vuelta:</strong> IB756 DUS 19:55 (16/9) → MAD 22:35 · IB103 MAD 00:05 → EZE 07:40 · asientos 03A y 05L. 1 valija de 23 kg incluida</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Düsseldorf → Madrid · IB1326 (12/9)</div><div class="ri-sub">06:20 → 09:00, llega a <strong>Terminal 4</strong>. Economy: bolso personal 40x30x15 + una pieza de 10 kg de 56x40x25. Si te la toman en la puerta, Air Nostrum la devuelve a pie de avión</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">🚄</span><div><div class="ri-name">AVE Chamartín → Ourense (12/9)</div><div class="ri-sub">10:04 → 12:18 · coche 5, plaza 5A · <strong>tarifa Elige</strong>, cambiable el mismo día</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">🚉</span><div><div class="ri-name">Tren MD Ourense → Sarria (12/9)</div><div class="ri-sub">12:32 → 13:47 · conexión de 14 min con el AVE, misma estación. Si se te va: taxi a Sarria, ~€130-160</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">✈️</span><div><div class="ri-name">Santiago → Düsseldorf · Vueling (16/9)</div><div class="ri-sub">VY1681 SCQ 09:15 → BCN 10:55 · VY1894 BCN 12:05 → DUS 14:25. Cabina: máximo <strong>55x40x20 y 10 kg</strong>; en puerta cobran €110-140 si se pasa</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">🏨</span><div><div class="ri-name">ibis Düsseldorf Airport · vie 11/9</div><div class="ri-sub">Wanheimer Strasse 80, 10-12 min a pie de la terminal. <strong>Esa noche, antes de las 21:30, la valija grande al depósito</strong> (Car park 3, planta baja, solo tarjeta, €60)</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">🏛️</span><div><div class="ri-name">Parador de Santiago · mar 15/9</div><div class="ri-sub">Habitación individual, tarifa Especial Peregrinos: <strong>hay que presentar la credencial sellada</strong> en el check-in · tasa turística €2,75 aparte</div></div></div>
+      <div class="reserva-item"><span class="ri-ico">🏨</span><div><div class="ri-name">Alojamiento del Camino · 3 noches</div><div class="ri-sub">Sin reservar, se busca sobre la marcha. Teléfonos por pueblo en <strong>Contactos</strong></div></div><span class="rtag rtag-no">Sobre la marcha</span></div>
+      <div class="reserva-item"><span class="ri-ico">📮</span><div><div class="ri-name">Transporte de mochila · si un día pesa</div><div class="ri-sub"><strong>Jacotrans</strong>, etapa a etapa: sobre en el alojamiento antes de las 8:00, entrega 12:00-14:30 · <a href="tel:+34606049858">+34 606 049 858</a>. <strong>Correos directo a Santiago</strong>: oficina de Melide, Obispo Varela Fondevila y Verea 20, lun-vie 08:30-14:30, €20,95; se retira en Rúa do Franco 4, 08:30-20:30. Máximo 80 cm de lado</div></div><span class="rtag rtag-no">Se decide allá</span></div>
     </div>
   </section>
 
-  <div class="nota-final">
-    <strong>La clave del viaje:</strong> dormir cerca de la terminal en Düsseldorf (ibis, 10-12min caminando) la noche del viernes 11/9 y dejar la valija grande en el depósito oficial del aeropuerto al otro día. El vuelo DUS-MAD (06:20→09:00, ya reservado) sale justo para llegar con margen ajustado pero viable al AVE de las 10:04 — y el billete es tarifa Elige, así que se puede cambiar el mismo día si el vuelo se atrasa. Viajando solo con equipaje de mano en ese vuelo se evita la espera de valijas en Madrid.
-  </div>
   </div><!-- /tab-viaje -->
 
   <!-- ══════════ SOLAPA MADRID ══════════ -->
@@ -873,7 +870,7 @@ window.LUGARES = [
     { lat:51.2895, lng:6.7668,  e:'✈️', c:'#1d4b86', n:'Aeropuerto Düsseldorf (DUS)',    d:'✔ Vuelo a Madrid 06:20→09:00 (IB1326, 12/9) · vuelo a Buenos Aires 19:55 (16/9) · depósito de valijas en Car park 3' },
     { lat:40.4725, lng:-3.6820, e:'🚄', c:'#1d4b86', n:'Madrid Chamartín',               d:'✔ AVE 05273 reservado · 10:04→12:18 Ourense · asiento 05A · €38,15' },
     { lat:42.3364, lng:-7.8632, e:'🚉', c:'#1d4b86', n:'Ourense',                        d:'✔ Tren MD 12:32→13:47 Sarria reservado · €8,40 · conexión de 14 min con el AVE' },
-    { lat:42.7810, lng:-7.4151, e:'🥾', c:'#b5892b', n:'Sarria',                          d:'Inicio del Camino · llegada 13:47 (12/9) · comprás credencial y bastones · arranca a caminar 15hs' },
+    { lat:42.7810, lng:-7.4151, e:'🥾', c:'#b5892b', n:'Sarria',                          d:'Inicio del Camino · llegada 13:47 (12/9) · comprás credencial y credencial · arranca a caminar ~14:30' },
     { lat:42.8079, lng:-7.6157, e:'🌙', c:'#b5892b', n:'Portomarín',                     d:'Noche 1 · 12/9 · 22,3km desde Sarria · 6 albergues' },
     { lat:42.8737, lng:-7.8688, e:'📍', c:'#c9a876', n:'Palas de Rei',                   d:'De paso, domingo 13/9 — no se duerme acá' },
     { lat:42.9145, lng:-8.0146, e:'🐙', c:'#b5892b', n:'Melide',                         d:'Noche 2 · 13/9 · 35,2km desde Portomarín, el día más largo · pulpo de cena' },
@@ -1149,12 +1146,12 @@ function renderCards(segs) {
   list.innerHTML = '';
   segs.forEach((s, i) => {
     const el = document.createElement('div');
-    el.className = 'etapa' + (i === 0 ? ' open' : '');
+    el.className = 'etapa';
     const L = llegada(i, s);
     const lms = s.landmarks.map(l =>
       `<div class="etapa-lm"><span class="lm-km">${KM(l.km)} km</span><span><b>${l.name}</b> · ${l.ele} m${l.classic ? ' · ★' : ''}</span></div>`).join('');
     el.innerHTML = `
-      <button class="etapa-head" aria-expanded="${i === 0}">
+      <button class="etapa-head" aria-expanded="false">
         <span class="etapa-num">${i + 1}</span>
         <span class="etapa-headmain">
           <span class="etapa-route">${s.from} → ${s.to}</span>
@@ -1478,7 +1475,7 @@ window.ALBERGUES = [
     { f: '2026-09-15', dow: 'mar 15', lugar: 'Santiago',    lat: 42.8805, lon: -8.5457, camina: [8, 16] }
   ];
   const MODELOS = ['ecmwf_ifs025', 'gfs_seamless', 'icon_seamless', 'meteofrance_seamless', 'ukmo_seamless'];
-  const CACHE = 'camino_wx_v2';
+  const CACHE = 'camino_wx_v3';
   const VIGENCIA = 3 * 3600 * 1000;
 
   const WMO = c =>
@@ -1500,24 +1497,44 @@ window.ALBERGUES = [
                   .filter(v => v !== null && v !== undefined);
   }
 
+  // Promedia los modelos hora por hora y saca todo de esa misma serie,
+  // así la máxima de la tarjeta es siempre una hora que figura en el detalle.
+  function serieHoraria(h, campo) {
+    const out = [];
+    for (let k = 0; k < 24; k++) {
+      const v = MODELOS.map(m => h[campo + '_' + m] && h[campo + '_' + m][k])
+                       .filter(x => x !== null && x !== undefined);
+      out.push(v.length ? prom(v) : null);
+    }
+    return out;
+  }
+
   async function pedirDia(d) {
     const u = 'https://api.open-meteo.com/v1/forecast?latitude=' + d.lat + '&longitude=' + d.lon +
-      '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,windspeed_10m_max,weathercode' +
+      '&daily=temperature_2m_max,precipitation_sum,windspeed_10m_max' +
+      '&hourly=temperature_2m,precipitation_probability,weathercode' +
       '&timezone=Europe%2FMadrid&start_date=' + d.f + '&end_date=' + d.f +
       '&models=' + MODELOS.join(',');
     const r = await fetch(u);
     if (!r.ok) throw new Error('open-meteo ' + r.status);
-    const j = (await r.json()).daily;
-    const tmax = valores(j, 'temperature_2m_max'), tmin = valores(j, 'temperature_2m_min');
-    const mm = valores(j, 'precipitation_sum'), pp = valores(j, 'precipitation_probability_max');
-    const vv = valores(j, 'windspeed_10m_max'), cc = valores(j, 'weathercode');
-    if (!tmax.length) throw new Error('sin datos');
+    const j = await r.json();
+    const tmaxMod = valores(j.daily, 'temperature_2m_max');
+    const mm = valores(j.daily, 'precipitation_sum'), vv = valores(j.daily, 'windspeed_10m_max');
+    const temps = serieHoraria(j.hourly, 'temperature_2m');
+    const probs = serieHoraria(j.hourly, 'precipitation_probability');
+    const codes = serieHoraria(j.hourly, 'weathercode');
+    const validas = temps.filter(x => x !== null);
+    if (!validas.length) throw new Error('sin datos');
+    const desde = d.camina[0], hasta = d.camina[1];
+    const enFranja = codes.slice(desde, hasta + 1).filter(x => x !== null);
     return {
-      f: d.f, dow: d.dow, lugar: d.lugar, camina: d.camina, lat: d.lat, lon: d.lon,
-      tmax: prom(tmax), tmin: prom(tmin), mm: prom(mm), pp: prom(pp), viento: prom(vv),
-      code: cc.sort((a, b) => cc.filter(x => x === a).length - cc.filter(x => x === b).length).pop(),
-      modelos: tmax.length,
-      spreadT: Math.max(...tmax) - Math.min(...tmax),
+      f: d.f, dow: d.dow, lugar: d.lugar, camina: d.camina,
+      temps, probs, codes,
+      tmax: Math.max.apply(null, validas), tmin: Math.min.apply(null, validas),
+      mm: prom(mm), pp: Math.max.apply(null, probs.filter(x => x !== null)), viento: prom(vv),
+      code: Math.round(prom(enFranja.length ? enFranja : codes.filter(x => x !== null))),
+      modelos: tmaxMod.length || MODELOS.length,
+      spreadT: tmaxMod.length ? Math.max(...tmaxMod) - Math.min(...tmaxMod) : 0,
       discrepa: mm.some(x => x >= 1) && mm.some(x => x < 0.2)
     };
   }
@@ -1557,39 +1574,29 @@ window.ALBERGUES = [
     detalle(datos[0], 0);
   }
 
-  async function detalle(d, i) {
+  function detalle(d, i) {
     document.querySelectorAll('.wx-day').forEach((el, k) => el.classList.toggle('on', k === i));
-    const box = $('wx-hourly');
-    box.innerHTML = `<div class="wx-detail"><div class="wx-dtitle">${d.dow} · ${d.lugar}</div><div class="wx-note">Cargando las horas…</div></div>`;
-    try {
-      const u = 'https://api.open-meteo.com/v1/forecast?latitude=' + d.lat + '&longitude=' + d.lon +
-        '&hourly=temperature_2m,precipitation_probability,weathercode&timezone=Europe%2FMadrid' +
-        '&start_date=' + d.f + '&end_date=' + d.f;
-      const h = (await (await fetch(u)).json()).hourly;
-      const desde = d.camina[0], hasta = d.camina[1];
-      const celda = k => {
-        const [e] = WMO(h.weathercode[k]);
-        const dentro = k >= desde && k <= hasta;
-        return `<div class="wx-h${dentro ? ' walk' : ''}">
-          <div class="hh">${String(k).padStart(2, '0')}</div>
-          <div class="ee">${e}</div>
-          <div class="tt">${Math.round(h.temperature_2m[k])}°</div>
-          <div class="pp">${h.precipitation_probability[k]}%</div></div>`;
-      };
-      let f1 = '', f2 = '', f3 = '';
-      for (let k = 0; k < 8; k++) f1 += celda(k);
-      for (let k = 8; k < 16; k++) f2 += celda(k);
-      for (let k = 16; k < 24; k++) f3 += celda(k);
-      box.innerHTML = `<div class="wx-detail">
-        <div class="wx-dtitle">${d.dow} · ${d.lugar}</div>
-        <div class="wx-hours">${f1}</div>
-        <div class="wx-hours">${f2}</div>
-        <div class="wx-hours">${f3}</div>
-        <div class="wx-note">En verde, tu franja de caminata (${d.camina[0]}:00 a ${d.camina[1]}:00). Hora local española.</div>
-      </div>`;
-    } catch (e) {
-      box.innerHTML = `<div class="wx-detail"><div class="wx-dtitle">${d.dow} · ${d.lugar}</div><div class="wx-note">No pude traer el detalle por hora. Probá de nuevo con conexión.</div></div>`;
-    }
+    const desde = d.camina[0], hasta = d.camina[1];
+    const celda = k => {
+      const [e] = WMO(Math.round(d.codes[k]));
+      const dentro = k >= desde && k <= hasta;
+      return `<div class="wx-h${dentro ? ' walk' : ''}">
+        <div class="hh">${String(k).padStart(2, '0')}</div>
+        <div class="ee">${e}</div>
+        <div class="tt">${Math.round(d.temps[k])}°</div>
+        <div class="pp">${Math.round(d.probs[k])}%</div></div>`;
+    };
+    let f1 = '', f2 = '', f3 = '';
+    for (let k = 0; k < 8; k++) f1 += celda(k);
+    for (let k = 8; k < 16; k++) f2 += celda(k);
+    for (let k = 16; k < 24; k++) f3 += celda(k);
+    $('wx-hourly').innerHTML = `<div class="wx-detail">
+      <div class="wx-dtitle">${d.dow} · ${d.lugar}</div>
+      <div class="wx-hours">${f1}</div>
+      <div class="wx-hours">${f2}</div>
+      <div class="wx-hours">${f3}</div>
+      <div class="wx-note">En verde, tu franja de caminata (${d.camina[0]}:00 a ${d.camina[1]}:00). Hora local española.</div>
+    </div>`;
   }
 
   function guardar(datos) {
