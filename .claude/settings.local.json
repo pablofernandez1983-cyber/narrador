@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.checklistinsider.com)",
+      "WebFetch(domain:football-sticker-album.fandom.com)",
+      "WebFetch(domain:www.cardzillo.com)",
+      "WebFetch(domain:cartophilic-info-exch.blogspot.com)",
+      "WebFetch(domain:fiestasconideas.com.ar)",
+      "WebFetch(domain:www.footballstickipedia.co.uk)",
+      "WebFetch(domain:www.diamondcardsonline.com)",
+      "WebFetch(domain:www.worldtradingcards.com)",
+      "WebFetch(domain:figuritasmundial2026.com.ar)",
+      "WebFetch(domain:www.beckett.com)",
+      "WebFetch(domain:blog.paniniamerica.net)",
+      "WebFetch(domain:www.paniniamerica.net)",
+      "WebFetch(domain:colombiaone.com)",
+      "WebFetch(domain:www.si.com)",
+      "WebFetch(domain:www.scribd.com)",
+      "WebFetch(domain:es.wikipedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:www.paninigroup.com)",
+      "WebFetch(domain:ai.google.dev)"
+    ]
+  }
+}
