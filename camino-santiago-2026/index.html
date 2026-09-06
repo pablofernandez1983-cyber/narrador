@@ -122,13 +122,13 @@
 
   .wx-detail { margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; }
   .wx-dtitle { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 9px; }
-  .wx-hours { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
-  .wx-hours + .wx-hours { margin-top: 5px; }
-  .wx-h { text-align: center; font-size: 10px; padding: 1px 0; min-width: 0; }
+  .wx-hours { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
+  .wx-hours + .wx-hours { margin-top: 6px; }
+  .wx-h { text-align: center; font-size: 11.5px; padding: 3px 0; min-width: 0; border-radius: 7px; }
   .wx-h .hh { color: var(--muted); font-weight: 700; }
-  .wx-h .ee { font-size: 13px; line-height: 1.45; }
+  .wx-h .ee { font-size: 17px; line-height: 1.5; }
   .wx-h .tt { font-weight: 700; }
-  .wx-h .pp { color: #2a6fa8; font-size: 9.5px; }
+  .wx-h .pp { color: #2a6fa8; font-size: 10.5px; }
   .wx-h.walk { background: var(--green-soft); border-radius: 7px; }
   .wx-note { margin-top: 9px; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
   .wx-foot { margin-top: 10px; font-size: 11px; color: var(--muted); line-height: 1.5; }
@@ -1568,13 +1568,15 @@ window.ALBERGUES = [
           <div class="tt">${Math.round(h.temperature_2m[k])}°</div>
           <div class="pp">${h.precipitation_probability[k]}%</div></div>`;
       };
-      let f1 = '', f2 = '';
-      for (let k = 0; k < 12; k++) f1 += celda(k);
-      for (let k = 12; k < 24; k++) f2 += celda(k);
+      let f1 = '', f2 = '', f3 = '';
+      for (let k = 0; k < 8; k++) f1 += celda(k);
+      for (let k = 8; k < 16; k++) f2 += celda(k);
+      for (let k = 16; k < 24; k++) f3 += celda(k);
       box.innerHTML = `<div class="wx-detail">
         <div class="wx-dtitle">${d.dow} · ${d.lugar}</div>
         <div class="wx-hours">${f1}</div>
         <div class="wx-hours">${f2}</div>
+        <div class="wx-hours">${f3}</div>
         <div class="wx-note">En verde, tu franja de caminata (${d.camina[0]}:00 a ${d.camina[1]}:00). Hora local española.</div>
       </div>`;
     } catch (e) {
