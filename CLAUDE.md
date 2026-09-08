@@ -13,6 +13,7 @@ PWA que convierte texto o prompts en podcasts narrados. El usuario ingresa texto
 
 - `index.html` — UI completa con tabs (IA / Texto / PDF), selector de 24 voces, speed control, cola de jobs
 - `sw.js` — minimal pass-through (sin cache offline real)
+- `camino-santiago-2026/` — subproyecto viaje Camino (index.html + documentos.html cifrados + `sw.js` propio con cache offline, scope de la carpeta)
 - `cataratas-2026/` — subproyecto viaje Cataratas (index.html independiente)
 - `disney-2027/` — subproyecto viaje Disney (index.html independiente)
 
@@ -36,7 +37,7 @@ Polling cada 3s para jobs en progreso.
 
 **Contraseña en localStorage en plaintext** — diseño intencional para uso personal.
 
-**Sin fallback offline** — sw.js no cachea contenido, sin conexión no funciona.
+**Sin fallback offline** — el sw.js de la raíz no cachea contenido, sin conexión no funciona. La excepción es `camino-santiago-2026/`, que tiene su propio service worker: al ser de scope más específico gana sobre el de la raíz y sirve la página, los papeles y las tipografías desde cache. Si se replica en otro viaje, copiar ese sw.js y ajustar `VERSION` y `CORE`.
 
 ## Deploy
 

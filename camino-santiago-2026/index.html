@@ -1662,5 +1662,11 @@ window.ALBERGUES = [
   else init();
 })();
 </script>
+<script>
+/* Guarda esta pagina y los papeles para poder abrirlos sin señal. */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+</script>
 </body>
 </html>
