@@ -2,7 +2,7 @@
    Scope: esta carpeta solamente. El sw.js de la raiz de narrador queda intacto:
    ante dos registros, el navegador usa el de scope mas especifico. */
 
-const VERSION = 'camino-v1';
+const VERSION = 'camino-v2';
 const APP     = VERSION + '-app';
 const TILES   = VERSION + '-tiles';
 const TILES_MAX = 900;
