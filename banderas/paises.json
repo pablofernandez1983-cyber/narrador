@@ -1,0 +1,2264 @@
+[
+ {
+  "code": "ar",
+  "nombre": "Argentina",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bo",
+  "nombre": "Bolivia",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "br",
+  "nombre": "Brasil",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [
+   "brazil"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "cl",
+  "nombre": "Chile",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "co",
+  "nombre": "Colombia",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ec",
+  "nombre": "Ecuador",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gy",
+  "nombre": "Guyana",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "py",
+  "nombre": "Paraguay",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "pe",
+  "nombre": "Perú",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sr",
+  "nombre": "Surinam",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "suriname"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "uy",
+  "nombre": "Uruguay",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ve",
+  "nombre": "Venezuela",
+  "continentes": [
+   "sudamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ca",
+  "nombre": "Canadá",
+  "continentes": [
+   "norteamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "us",
+  "nombre": "Estados Unidos",
+  "continentes": [
+   "norteamerica"
+  ],
+  "nivel": 1,
+  "alias": [
+   "eeuu",
+   "ee uu",
+   "usa",
+   "eua",
+   "estados unidos de america",
+   "norteamerica"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "mx",
+  "nombre": "México",
+  "continentes": [
+   "norteamerica"
+  ],
+  "nivel": 1,
+  "alias": [
+   "mejico"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "bz",
+  "nombre": "Belice",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "belize"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "cr",
+  "nombre": "Costa Rica",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sv",
+  "nombre": "El Salvador",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [
+   "salvador"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "gt",
+  "nombre": "Guatemala",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "hn",
+  "nombre": "Honduras",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ni",
+  "nombre": "Nicaragua",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "pa",
+  "nombre": "Panamá",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cu",
+  "nombre": "Cuba",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "jm",
+  "nombre": "Jamaica",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ht",
+  "nombre": "Haití",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "do",
+  "nombre": "República Dominicana",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [
+   "dominicana",
+   "rep dominicana"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "dm",
+  "nombre": "Dominica",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bs",
+  "nombre": "Bahamas",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bb",
+  "nombre": "Barbados",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tt",
+  "nombre": "Trinidad y Tobago",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "trinidad"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "gd",
+  "nombre": "Granada",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "grenada"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "lc",
+  "nombre": "Santa Lucía",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "saint lucia"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "vc",
+  "nombre": "San Vicente y las Granadinas",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "san vicente"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ag",
+  "nombre": "Antigua y Barbuda",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "antigua"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "kn",
+  "nombre": "San Cristóbal y Nieves",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "san cristobal",
+   "saint kitts y nevis",
+   "saint kitts"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "al",
+  "nombre": "Albania",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ad",
+  "nombre": "Andorra",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "at",
+  "nombre": "Austria",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "by",
+  "nombre": "Bielorrusia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "belarus"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "be",
+  "nombre": "Bélgica",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ba",
+  "nombre": "Bosnia y Herzegovina",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "bosnia",
+   "bosnia herzegovina"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "bg",
+  "nombre": "Bulgaria",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "hr",
+  "nombre": "Croacia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cy",
+  "nombre": "Chipre",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cz",
+  "nombre": "Chequia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [
+   "republica checa",
+   "checa"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "dk",
+  "nombre": "Dinamarca",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ee",
+  "nombre": "Estonia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "fi",
+  "nombre": "Finlandia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "fr",
+  "nombre": "Francia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "de",
+  "nombre": "Alemania",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gr",
+  "nombre": "Grecia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "hu",
+  "nombre": "Hungría",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "is",
+  "nombre": "Islandia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ie",
+  "nombre": "Irlanda",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "it",
+  "nombre": "Italia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "lv",
+  "nombre": "Letonia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "latvia"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "li",
+  "nombre": "Liechtenstein",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "lichtenstein"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "lt",
+  "nombre": "Lituania",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "lu",
+  "nombre": "Luxemburgo",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mt",
+  "nombre": "Malta",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "md",
+  "nombre": "Moldavia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "moldova"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "mc",
+  "nombre": "Mónaco",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "me",
+  "nombre": "Montenegro",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "nl",
+  "nombre": "Países Bajos",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [
+   "holanda"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "mk",
+  "nombre": "Macedonia del Norte",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "macedonia"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "no",
+  "nombre": "Noruega",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "pl",
+  "nombre": "Polonia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "pt",
+  "nombre": "Portugal",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ro",
+  "nombre": "Rumania",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ru",
+  "nombre": "Rusia",
+  "continentes": [
+   "europa",
+   "asia"
+  ],
+  "nivel": 1,
+  "alias": [
+   "federacion rusa"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "sm",
+  "nombre": "San Marino",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "rs",
+  "nombre": "Serbia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sk",
+  "nombre": "Eslovaquia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "si",
+  "nombre": "Eslovenia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "es",
+  "nombre": "España",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "se",
+  "nombre": "Suecia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ch",
+  "nombre": "Suiza",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ua",
+  "nombre": "Ucrania",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gb",
+  "nombre": "Reino Unido",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [
+   "gran bretaña",
+   "uk",
+   "reino unido de gran bretaña"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "va",
+  "nombre": "Vaticano",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [
+   "ciudad del vaticano",
+   "santa sede"
+  ],
+  "tipo": "observador"
+ },
+ {
+  "code": "af",
+  "nombre": "Afganistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sa",
+  "nombre": "Arabia Saudita",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [
+   "arabia saudi",
+   "arabia"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "am",
+  "nombre": "Armenia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "az",
+  "nombre": "Azerbaiyán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bh",
+  "nombre": "Baréin",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "bahrein",
+   "bahrain"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "bd",
+  "nombre": "Bangladés",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "bangladesh"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "mm",
+  "nombre": "Birmania",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "myanmar"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "bt",
+  "nombre": "Bután",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "bhutan"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "bn",
+  "nombre": "Brunéi",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "kh",
+  "nombre": "Camboya",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cn",
+  "nombre": "China",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "kp",
+  "nombre": "Corea del Norte",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "kr",
+  "nombre": "Corea del Sur",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ae",
+  "nombre": "Emiratos Árabes Unidos",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [
+   "emiratos",
+   "emiratos arabes"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ph",
+  "nombre": "Filipinas",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ge",
+  "nombre": "Georgia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "in",
+  "nombre": "India",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "id",
+  "nombre": "Indonesia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "iq",
+  "nombre": "Irak",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [
+   "iraq"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ir",
+  "nombre": "Irán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "il",
+  "nombre": "Israel",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "jp",
+  "nombre": "Japón",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "jo",
+  "nombre": "Jordania",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "kz",
+  "nombre": "Kazajistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "kazajstan",
+   "kazakhstan",
+   "kazakistan"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "kg",
+  "nombre": "Kirguistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "kirguizistan",
+   "kirguizia"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "kw",
+  "nombre": "Kuwait",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "la",
+  "nombre": "Laos",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "lb",
+  "nombre": "Líbano",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "my",
+  "nombre": "Malasia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mv",
+  "nombre": "Maldivas",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mn",
+  "nombre": "Mongolia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "np",
+  "nombre": "Nepal",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "om",
+  "nombre": "Omán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "pk",
+  "nombre": "Pakistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "qa",
+  "nombre": "Catar",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [
+   "qatar"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "sg",
+  "nombre": "Singapur",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sy",
+  "nombre": "Siria",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "lk",
+  "nombre": "Sri Lanka",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tj",
+  "nombre": "Tayikistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "tajikistan"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "th",
+  "nombre": "Tailandia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tl",
+  "nombre": "Timor Oriental",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "timor leste",
+   "timor"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "tm",
+  "nombre": "Turkmenistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tr",
+  "nombre": "Turquía",
+  "continentes": [
+   "asia",
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "uz",
+  "nombre": "Uzbekistán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "vn",
+  "nombre": "Vietnam",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ye",
+  "nombre": "Yemen",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ps",
+  "nombre": "Palestina",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [
+   "estado de palestina"
+  ],
+  "tipo": "observador"
+ },
+ {
+  "code": "dz",
+  "nombre": "Argelia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ao",
+  "nombre": "Angola",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bj",
+  "nombre": "Benín",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bw",
+  "nombre": "Botsuana",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "botswana"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "bf",
+  "nombre": "Burkina Faso",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "bi",
+  "nombre": "Burundi",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cv",
+  "nombre": "Cabo Verde",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cm",
+  "nombre": "Camerún",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "td",
+  "nombre": "Chad",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "km",
+  "nombre": "Comoras",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cg",
+  "nombre": "República del Congo",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "congo",
+   "congo brazzaville"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "cd",
+  "nombre": "República Democrática del Congo",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "congo",
+   "rd congo",
+   "rdc",
+   "congo kinshasa",
+   "zaire",
+   "republica democratica congo"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ci",
+  "nombre": "Costa de Marfil",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "eg",
+  "nombre": "Egipto",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "er",
+  "nombre": "Eritrea",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sz",
+  "nombre": "Esuatini",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "eswatini",
+   "suazilandia",
+   "swazilandia"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "et",
+  "nombre": "Etiopía",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ga",
+  "nombre": "Gabón",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gm",
+  "nombre": "Gambia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gh",
+  "nombre": "Ghana",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gn",
+  "nombre": "Guinea",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "gw",
+  "nombre": "Guinea-Bisáu",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "guinea bissau",
+   "guinea bisau"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "gq",
+  "nombre": "Guinea Ecuatorial",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ke",
+  "nombre": "Kenia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [
+   "kenya"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ls",
+  "nombre": "Lesoto",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "lesotho"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "lr",
+  "nombre": "Liberia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ly",
+  "nombre": "Libia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mg",
+  "nombre": "Madagascar",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mw",
+  "nombre": "Malaui",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "malawi"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ml",
+  "nombre": "Malí",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ma",
+  "nombre": "Marruecos",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mu",
+  "nombre": "Mauricio",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mr",
+  "nombre": "Mauritania",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mz",
+  "nombre": "Mozambique",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "na",
+  "nombre": "Namibia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ne",
+  "nombre": "Níger",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ng",
+  "nombre": "Nigeria",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "cf",
+  "nombre": "República Centroafricana",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "centroafrica"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "rw",
+  "nombre": "Ruanda",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "rwanda"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "st",
+  "nombre": "Santo Tomé y Príncipe",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "santo tome"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "sn",
+  "nombre": "Senegal",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sc",
+  "nombre": "Seychelles",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sl",
+  "nombre": "Sierra Leona",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "so",
+  "nombre": "Somalia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "za",
+  "nombre": "Sudáfrica",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sd",
+  "nombre": "Sudán",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ss",
+  "nombre": "Sudán del Sur",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tz",
+  "nombre": "Tanzania",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tg",
+  "nombre": "Togo",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tn",
+  "nombre": "Túnez",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ug",
+  "nombre": "Uganda",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "dj",
+  "nombre": "Yibuti",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "djibouti"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "zm",
+  "nombre": "Zambia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "zw",
+  "nombre": "Zimbabue",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "zimbabwe"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "au",
+  "nombre": "Australia",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "fj",
+  "nombre": "Fiyi",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [
+   "fiji"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "ki",
+  "nombre": "Kiribati",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "mh",
+  "nombre": "Islas Marshall",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "fm",
+  "nombre": "Micronesia",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "nr",
+  "nombre": "Nauru",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "nz",
+  "nombre": "Nueva Zelanda",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "pw",
+  "nombre": "Palaos",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [
+   "palau"
+  ],
+  "tipo": "onu"
+ },
+ {
+  "code": "pg",
+  "nombre": "Papúa Nueva Guinea",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "ws",
+  "nombre": "Samoa",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "sb",
+  "nombre": "Islas Salomón",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "to",
+  "nombre": "Tonga",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "tv",
+  "nombre": "Tuvalu",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "vu",
+  "nombre": "Vanuatu",
+  "continentes": [
+   "oceania"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "onu"
+ },
+ {
+  "code": "xk",
+  "nombre": "Kosovo",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "tw",
+  "nombre": "Taiwán",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [
+   "republica de china"
+  ],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "eh",
+  "nombre": "Sahara Occidental",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "republica arabe saharaui",
+   "saharaui"
+  ],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "x-somaliland",
+  "nombre": "Somalilandia",
+  "continentes": [
+   "africa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "somaliland"
+  ],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "x-chipre-norte",
+  "nombre": "Chipre del Norte",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [
+   "republica turca del norte de chipre"
+  ],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "x-transnistria",
+  "nombre": "Transnistria",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "x-abjasia",
+  "nombre": "Abjasia",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "abkhazia"
+  ],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "x-osetia",
+  "nombre": "Osetia del Sur",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 3,
+  "alias": [
+   "osetia"
+  ],
+  "tipo": "no_reconocido"
+ },
+ {
+  "code": "gb-eng",
+  "nombre": "Inglaterra",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 1,
+  "alias": [],
+  "tipo": "territorio"
+ },
+ {
+  "code": "gb-sct",
+  "nombre": "Escocia",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "territorio"
+ },
+ {
+  "code": "gb-wls",
+  "nombre": "Gales",
+  "continentes": [
+   "europa"
+  ],
+  "nivel": 2,
+  "alias": [
+   "pais de gales"
+  ],
+  "tipo": "territorio"
+ },
+ {
+  "code": "gl",
+  "nombre": "Groenlandia",
+  "continentes": [
+   "norteamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "territorio"
+ },
+ {
+  "code": "pr",
+  "nombre": "Puerto Rico",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "territorio"
+ },
+ {
+  "code": "hk",
+  "nombre": "Hong Kong",
+  "continentes": [
+   "asia"
+  ],
+  "nivel": 2,
+  "alias": [],
+  "tipo": "territorio"
+ },
+ {
+  "code": "aw",
+  "nombre": "Aruba",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [],
+  "tipo": "territorio"
+ },
+ {
+  "code": "cw",
+  "nombre": "Curazao",
+  "continentes": [
+   "centroamerica"
+  ],
+  "nivel": 3,
+  "alias": [
+   "curacao"
+  ],
+  "tipo": "territorio"
+ }
+]
